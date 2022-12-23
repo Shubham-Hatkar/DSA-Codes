@@ -1,0 +1,11 @@
+// Size of Binary Tree
+// https://practice.geeksforgeeks.org/problems/size-of-binary-tree/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Tree
+{
+	public static int getSize(Node root)
+	{
+    //   if(root == null) return 0;
+       return (root == null) ? 0 : getSize(root.left) + getSize(root.right) + 1;
+    }
+}
