@@ -1,0 +1,14 @@
+// gfg - Sum of Binary Tree
+// https://practice.geeksforgeeks.org/problems/sum-of-binary-tree/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class BinaryTree
+{
+    static int sumBT(Node head)
+    {
+        if(head == null) return 0;
+        return sumBT(head.left) + sumBT(head.right) + head.data;
+        // int leftsum = sumBT(head.left);
+        // int rightsum = sumBT(head.right);
+        // return leftsum + rightsum + head.data;
+    }
+}
