@@ -1,0 +1,58 @@
+// Top View of Binary Tree
+// https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+
+
+class Pair
+{
+    Node node;
+    int scale;
+    Pair(Node node,int scale)
+    {
+        this.node = node;
+        this.scale = scale;
+    }
+}
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root)
+    {
+        ArrayList<Integer> ans = new ArrayList<>();
+        if(root == null) return ans;
+        Map<Integer,Integer> hm = new HashMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root,0));
+        
+        int maxscale = Integer.MIN_VALUE;
+        int minscale = Integer.MAX_VALUE;
+        
+        while(q.size() > 0)
+        {
+            int size = q.size();
+            for(int i=0; i<size; i++)
+            {
+                Pair info = q.remove();
+                Node temp = info.node;
+                int curr_scale = info.scale;
+                maxscale = Math.max(maxscale,curr_scale);
+                minscale = Math.min(minscale,curr_scale);
+                
+                if(!hm.containsKey(curr_scale))
+                {
+                    hm.put(curr_scale,temp.data);
+                }
+                
+                if(temp.left != null) q.add(new Pair(temp.left,curr_scale-1));
+                if(temp.right != null) q.add(new Pair(temp.right,curr_scale+1));
+            }
+        }
+        
+        for(int i=minscale; i<=maxscale; i++)
+        {
+            ans.add(hm.get(i));
+        }
+        
+        return ans;
+    }
+}
