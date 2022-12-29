@@ -1,0 +1,76 @@
+// https://www.codingninjas.com/codestudio/problems/walls-and-gates_1092887?leftPanelTab=1
+// https://www.lintcode.com/problem/663/
+
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+public class Main
+{
+    public static void wallsAndGates(int[][] rooms) 
+    {
+        // write your code here
+        int rows = rooms.length;
+        int cols = rooms[0].length;
+
+        Queue<int[]> gate = new LinkedList<>();
+
+        for(int i=0; i<rows; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                if(rooms[i][j] == 0) gate.add(new int[]{i,j});
+            }
+        }
+
+        int dir[][] = {{0,1},{-1,0},{1,0},{0,-1}};
+        while(gate.size() > 0)
+        {
+            int size = gate.size();
+            for(int i=0; i<size; i++)
+            {
+                int indexes[] = gate.remove();
+                int r = indexes[0];
+                int c = indexes[1];
+
+                for(int j=0; j<4; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr < rows && nc < cols && nc >= 0 && nr >= 0 && rooms[nr][nc] == 2147483647)
+                    {
+                        rooms[nr][nc] = rooms[r][c] + 1;
+                        gate.add(new int[]{nr,nc});
+                    }
+                }
+            }
+        }
+
+        for(int i=0; i<rows; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {                                   
+                System.out.print(rooms[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+	public static void main(String[] args) 
+	{
+	    Scanner sc = new Scanner(System.in);
+	    int rows = sc.nextInt();
+	    int cols = sc.nextInt();
+	    
+	    int rooms[][] = new int[rows][cols];
+		for(int i=0; i<rows; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                rooms[i][j] = sc.nextInt();
+            }
+        }
+        
+        wallsAndGates(rooms);
+	}
+}
