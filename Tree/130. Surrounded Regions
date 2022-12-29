@@ -1,0 +1,69 @@
+// leetcode - 130. Surrounded Regions
+// https://leetcode.com/problems/surrounded-regions/description/
+
+class Solution 
+{
+    public void solve(char[][] arr) 
+    {
+        int n = arr.length;
+        int m = arr[0].length;
+        boolean ans[][] = new boolean[n][m];
+        
+        Queue<int[]> q = new LinkedList<>();
+        
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(arr[0][j] == 'O') q.add(new int[]{0,j});
+                if(arr[i][0] == 'O') q.add(new int[]{i,0});
+                if(arr[n-1][j] == 'O') q.add(new int[]{n-1,j});
+                if(arr[i][m-1] == 'O') q.add(new int[]{i,m-1});
+            }
+        }
+        
+        int dir[][] = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+        while(q.size() > 0)
+        {
+            int size = q.size();
+            for(int i=0; i<size; i++)
+            {
+                int indexes[] = q.remove();
+                int rows = indexes[0];
+                int cols = indexes[1];
+                
+                ans[rows][cols] = true;
+                arr[rows][cols] = 'A';
+                
+                for(int j=0; j<4; j++)
+                {
+                    int nr = rows + dir[j][0];
+                    int nc = cols + dir[j][1];
+                    
+                    if(nr < n && nc < m && nr >= 0 && nc >= 0 && arr[nr][nc] == 'O' && ans[nr][nc] == false)
+                    {
+                        ans[nr][nc] = true;
+                        arr[nr][nc] = 'A';
+                        q.add(new int[]{nr,nc});
+                    }
+                }
+            }
+        }
+         for(int i=0; i<n; i++)
+            {
+                for(int j=0; j<m; j++)
+                {
+                    if(arr[i][j] == 'O' ) arr[i][j] = 'X';
+                }
+            }
+        for(int i=0; i<n; i++)
+            {
+                for(int j=0; j<m; j++)
+                {
+                    if(arr[i][j] == 'A' ) arr[i][j] = 'O';
+                }
+            }
+
+            //return arr;
+    }
+}
