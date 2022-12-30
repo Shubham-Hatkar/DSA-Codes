@@ -1,0 +1,29 @@
+// 1339. Maximum Product of Splitted Binary Tree
+// https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/description/
+
+class Solution 
+{
+    long total(TreeNode root) 
+    {
+        return(root == null) ? 0 : total(root.left) + total(root.right) + root.val;
+    }
+    
+    long solve(TreeNode root, long totalsum, long arr[])
+    {
+        if(root == null) return 0;
+        long curr_sum = 0;
+        long leftsum = solve(root.left,totalsum,arr);
+        long rightsum = solve(root.right,totalsum,arr);
+        curr_sum = (leftsum + rightsum + root.val);
+        long product = (curr_sum * (totalsum - curr_sum));
+        arr[0] = Math.max(arr[0], product);
+        return curr_sum;
+    }
+    public int maxProduct(TreeNode root) 
+    {
+       long totalsum = total(root); 
+       long arr[] = new long[1];
+       solve(root,totalsum,arr);
+       return (int)(arr[0] % 1000000007);
+    }
+}
