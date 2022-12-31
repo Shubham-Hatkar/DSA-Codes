@@ -1,0 +1,27 @@
+// 2273. Find Resultant Array After Removing Anagrams
+// https://leetcode.com/problems/find-resultant-array-after-removing-anagrams/description/
+
+
+class Solution 
+{
+    public String sort(String s)
+    {
+        char arr[] = s.toCharArray();
+        Arrays.sort(arr);
+        return new String(arr);
+    }
+    public List<String> removeAnagrams(String[] words) 
+    {
+        List<String> ans = new ArrayList<>();
+        Stack<String> st = new Stack<>();
+        st.push(sort(words[0]));
+        ans.add(words[0]);
+        for(int i=1; i<words.length; i++)
+        {
+            String sorted = sort(words[i]);
+            if(!st.peek().equals(sort(words[i]))) ans.add(words[i]);
+            st.push(sort(words[i]));
+        }
+        return ans;
+    }
+}
