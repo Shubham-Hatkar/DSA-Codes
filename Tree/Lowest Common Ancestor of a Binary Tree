@@ -1,0 +1,39 @@
+//  Lowest Common Ancestor of a Binary Tree
+// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+
+class Solution 
+{
+    boolean solve(TreeNode root, List<TreeNode> path, TreeNode target)
+    {
+        if(root == null) return false;
+        if(root == target)
+        {
+            path.add(root);
+            return true;
+        }
+        boolean res = solve(root.left,path,target) || solve(root.right,path,target);
+        if(res == true)
+        path.add(root);
+        return res;
+    }
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) 
+    {
+        List<TreeNode> pathp = new ArrayList<>();
+        solve(root,pathp,p);
+
+        List<TreeNode> pathq = new ArrayList<>();
+        solve(root,pathq,q);
+
+        int i = pathp.size()-1;
+        int j = pathq.size()-1;
+        TreeNode ans = null;
+        while(i >= 0 && j>=0)
+        {
+            if(pathp.get(i) != pathq.get(j)) break;
+            ans = pathp.get(i);
+            i--;
+            j--;
+        }
+        return ans;
+    }
+}
