@@ -1,0 +1,80 @@
+// Burning Tree
+// https://practice.geeksforgeeks.org/problems/burning-tree/1
+
+ public static Node AssignParents(Node root, Map<Node,Node> parent, int target)
+    {
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        Node targetNode = null;
+        while(q.size() > 0)
+        {
+            int size = q.size();
+            for(int i=0; i<size; i++)
+            {
+               Node temp = q.remove();
+               if(temp.data == target) targetNode = temp;
+               if(temp.left != null)
+               {
+                   parent.put(temp.left, temp);
+                   q.add(temp.left);
+               }
+               if(temp.right != null)
+               {
+                   parent.put(temp.right, temp);
+                   q.add(temp.right);
+               }
+            }
+        }
+        return targetNode;
+    }
+    public static int minTime(Node root, int target) 
+    {
+        if(root == null || root.left == null && root.right == null) return 0;
+        
+        Map<Node,Node> parent = new HashMap<>();
+        Node targetNode = AssignParents(root,parent,target); //parent assign and returning node address of target
+        
+        Map<Node, Integer> visited = new HashMap<>();
+        
+        Queue<Node> q = new LinkedList<>();
+        q.add(targetNode);
+        
+        int time = 0;
+        while(q.size() > 0)
+        {
+            int size = q.size();
+            boolean burn = false;
+            for(int i=0; i<size; i++)
+            {
+                Node temp = q.remove();
+                
+                if(!visited.containsKey(temp))
+                {
+                    burn = true;
+                    visited.put(temp,1);
+                }
+                if(parent.containsKey(temp) && !visited.containsKey(parent.get(temp)))
+                {
+                    burn = true;
+                    Node papa = parent.get(temp);
+                    visited.put(papa,1);
+                    q.add(parent.get(temp));
+                }
+                if(temp.left != null && !visited.containsKey(temp.left))
+                {
+                    burn = true;
+                    visited.put(temp.left,1);
+                    q.add(temp.left);
+                }
+                if(temp.right != null && !visited.containsKey(temp.right))
+                {
+                    burn = true;
+                    visited.put(temp.right,1);
+                    q.add(temp.right);
+                }
+            }
+            if(burn == true) time++;
+        }
+        return time;
+    }
+}
