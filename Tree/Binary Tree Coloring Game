@@ -1,0 +1,28 @@
+// 1145. Binary Tree Coloring Game
+// https://leetcode.com/problems/binary-tree-coloring-game/description/
+
+class Solution 
+{
+    static int lc, rc;
+    private int count(TreeNode root, int x)
+    {
+        if(root == null) return 0;
+        int left = count(root.left, x);
+        int right = count(root.right, x);
+        if(root.val == x)
+        {
+            lc = left;
+            rc = right;
+        }
+        return left + right + 1;
+    }
+    public boolean btreeGameWinningMove(TreeNode root, int n, int x) 
+    {
+        lc = 0;
+        rc = 0;
+        count(root,x);
+        int firstplayer = n - (lc + rc + 1);
+        int max = Math.max(firstplayer, Math.max(lc,rc));
+        return (max > n/2);
+    }
+}
