@@ -1,0 +1,29 @@
+// Maximum Value
+// https://practice.geeksforgeeks.org/problems/ec277982aea7239b550b28421e00acbb1ea03d2c/1
+
+class Solution 
+{
+    ArrayList<Integer> maximumValue(Node root) 
+    {
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        
+        while(q.size() > 0)
+        {
+            int size = q.size();
+            int max = Integer.MIN_VALUE;
+            for(int i=0; i<size; i++)
+            {
+                Node temp = q.remove();
+                
+                max = Math.max(max, temp.data);
+                
+                if(temp.left != null) q.add(temp.left);
+                if(temp.right != null) q.add(temp.right);
+            }
+            ans.add(max);
+        }
+        return ans;
+    }
+}
