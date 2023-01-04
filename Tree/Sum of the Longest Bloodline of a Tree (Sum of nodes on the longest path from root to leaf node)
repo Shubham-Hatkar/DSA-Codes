@@ -1,0 +1,26 @@
+// Sum of the Longest Bloodline of a Tree (Sum of nodes on the longest path from root to leaf node)
+
+class Solution{
+    static int max;
+    ArrayList<Integer> height(Node root)
+    {
+        if(root == null) 
+        {
+            ArrayList<Integer> ba = new ArrayList<>();
+            return ba;
+        }
+        ArrayList<Integer> left = height(root.left);
+        ArrayList<Integer> right = height(root.right);
+        if(left.size() > right.size()) left.add(root.data);
+        else right.add(root.data);
+        return (left.size() > right.size()) ? left : right;
+    }
+    public int sumOfLongRootToLeafPath(Node root)
+    {
+        ArrayList<Integer> path = height(root);
+        //System.out.println(path);
+        int sum = 0;
+        for(Integer val : path) sum += val;
+        return sum;
+    }
+}
