@@ -1,0 +1,31 @@
+// Mirror of a given node
+// https://practice.geeksforgeeks.org/problems/mirror-of-a-given-node/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution{
+    static int ans = 0;
+    void solve(Node left, Node right, int target)
+    {
+        if(left == null || right == null) return;
+        if(left.data == target)
+        {
+            ans = (right != null) ? right.data : -1;
+            return;
+        }
+        if(right.data == target)
+        {
+            ans = (left != null) ? left.data : -1;
+            return;
+        }
+        solve(left.left, right.right, target) ;
+        solve(left.right, right.left, target);
+        
+    }
+    public int findMirror(Node root,int target)
+    {
+       ans = -1;
+       if(root.data == target) return root.data;
+       if(root == null) return -1;
+       solve(root.left, root.right, target);
+       return ans;
+    }
+}
