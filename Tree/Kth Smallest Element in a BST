@@ -1,2 +1,30 @@
 // 230. Kth Smallest Element in a BST
 // https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+
+
+class Solution 
+{
+    static int count;
+    static int ans;
+    private void inorder(TreeNode root, int k)
+    {
+        if(root == null) return;
+       
+        inorder(root.left, k);
+        count++;
+        if(count == k)
+        {
+            ans = root.val;
+            return;
+        }
+        inorder(root.right, k);
+    }
+    public int kthSmallest(TreeNode root, int k) 
+    {
+        count = 0;
+        ans = 0;
+        inorder(root,k);
+        return ans;
+    }
+}
+
