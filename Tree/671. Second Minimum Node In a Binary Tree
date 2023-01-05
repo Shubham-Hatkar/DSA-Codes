@@ -1,0 +1,26 @@
+// 671. Second Minimum Node In a Binary Tree
+// https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/description/
+
+class Solution 
+{
+    Set<Integer> hs;
+    private void inorder(TreeNode root)
+    {
+        if(root == null) return;
+        hs.add(root.val);
+        inorder(root.left);
+        inorder(root.right);
+    }
+    public int findSecondMinimumValue(TreeNode root) 
+    {
+        hs = new TreeSet<>();
+        inorder(root);
+        int i = 0;
+        for(int key : hs) 
+        {
+            if(i == 1) return key;
+            i++;
+        }
+        return -1;
+    }
+}
