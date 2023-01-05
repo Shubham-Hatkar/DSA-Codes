@@ -1,0 +1,14 @@
+// 700. Search in a Binary Search Tree
+// https://leetcode.com/problems/search-in-a-binary-search-tree/description/
+
+class Solution 
+{
+    public TreeNode searchBST(TreeNode root, int val) 
+    {
+        if(root == null) return null;
+        if(root.val == val) return root;
+        if(val > root.val) root = searchBST(root.right, val);
+        else root = searchBST(root.left, val);
+        return root;
+    }
+}
