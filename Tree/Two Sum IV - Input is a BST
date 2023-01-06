@@ -1,0 +1,28 @@
+// 653. Two Sum IV - Input is a BST
+// https://leetcode.com/problems/binary-search-tree-iterator/description/
+
+class Solution 
+{
+    private void inorder(TreeNode root, ArrayList<Integer> AL)
+    {
+        if(root == null) return;
+        inorder(root.left, AL);
+        AL.add(root.val);
+        inorder(root.right,AL);
+    }
+    public boolean findTarget(TreeNode root, int k) 
+    {
+        ArrayList<Integer> AL = new ArrayList<>();
+        inorder(root,AL);
+        int i = 0;
+        int j = AL.size() - 1;
+        while(i < j)
+        {
+            int sum = AL.get(i) + AL.get(j);
+            if(sum == k) return true;
+            if(sum < k) i++;
+            else j--;
+        }
+        return false;
+    }
+}
