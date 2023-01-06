@@ -1,0 +1,51 @@
+// 99. Recover Binary Search Tree
+// https://leetcode.com/problems/recover-binary-search-tree/description/
+
+
+
+
+
+// 1. we can do it by -> traverse inorder and store the order in array
+ // bcoz the inorder of BST is always be in sorted order and we can make
+ // copy of array and sort it and compare which two elements are not in
+ // sorted order but it will take NlogN so we will use another method
+class Solution 
+{
+    private TreeNode prev, first, middle, last;
+    private void inorder(TreeNode root)
+    {
+        if(root == null) return;
+        inorder(root.left);
+
+        if(prev != null && (root.val < prev.val) )
+        {
+            if(first == null)
+            {
+                first = prev;
+                middle = root;
+            }
+            else last = root;
+        }
+        prev = root;
+        inorder(root.right);
+    }
+    public void recoverTree(TreeNode root) 
+    {
+        prev = first = middle = last = null;
+        inorder(root);
+
+        
+        if(first != null && last != null)
+        {
+            int temp = first.val;
+            first.val = last.val;
+            last.val = temp;
+        }
+        else if(first != null && middle != null)
+        {
+            int temp = first.val;
+            first.val = middle.val;
+            middle.val = temp;
+        }
+    }
+}
