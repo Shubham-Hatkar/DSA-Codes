@@ -1,0 +1,17 @@
+// 235. Lowest Common Ancestor of a Binary Search Tree
+// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+
+
+class Solution 
+{
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) 
+    {
+        if(root == null) return null;
+        // we will check if root.val is greater than both the nodes -> then we will check in left
+        if(root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
+        // otherwise we will check if root.val is smaller than both node -> check in right side
+        if(root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+        // p.val < root.val < q.val
+        return root; 
+    }
+}
