@@ -1,0 +1,22 @@
+// 538. Convert BST to Greater Tree
+// https://leetcode.com/problems/convert-bst-to-greater-tree/description/
+
+
+class Solution 
+{
+    private int sum;
+    private void solve(TreeNode root)
+    {
+        if(root == null) return;
+        solve(root.right);
+        sum += root.val;
+        root.val = sum;
+        solve(root.left);
+    }
+    public TreeNode convertBST(TreeNode root) 
+    {
+        sum = 0;
+        solve(root);
+        return root;
+    }
+}
