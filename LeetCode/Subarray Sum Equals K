@@ -1,0 +1,25 @@
+// leetcode - 560. Subarray Sum Equals K
+// https://leetcode.com/problems/subarray-sum-equals-k/description/
+
+class Solution
+{
+    public int subarraySum(int[] nums, int k) 
+    {
+        Map<Integer,Integer> hm = new HashMap<>();
+        int sum = 0;
+        hm.put(0,1); // sum : count
+        int count = 0;
+
+        for(int i=0; i<nums.length; i++)
+        {
+            sum += nums[i]; // current sum
+
+            if(hm.containsKey(sum-k)) count += hm.get(sum-k);
+
+            int oldval = hm.getOrDefault(sum,0);
+            hm.put(sum,oldval+1);
+        }
+
+        return count;
+    }
+}

@@ -1,0 +1,63 @@
+//LeetCode - 994. Rotting Oranges
+//https://leetcode.com/problems/rotting-oranges/description/
+
+
+class Solution 
+{
+    public int orangesRotting(int[][] grid) 
+    {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        Queue<int[]> rotten = new LinkedList<>(); //array of length 2 with will store i and j of rotten
+        int fresh = 0; // fresh oranges
+
+        // 1. add rotten to queue and count fresh oranges
+        for(int i=0; i<rows; i++)
+        {
+            for(int j=0; j<cols; j++)
+            {
+                if(grid[i][j]==1) fresh++; // 1 means fresh orange
+                else if(grid[i][j]==2) rotten.add(new int[]{i,j}); // 2 is rotten orange
+            }
+        }
+
+        //if there is no fresh orange return 0
+        if(fresh==0) return 0;
+
+
+        int dir[][] = {{0,1},{-1,0},{1,0},{0,-1}}; //this is for direction
+        int time = 0;
+        while(rotten.size()>0)
+        {
+            //iterate over current level and make adjacent rotten
+            int size = rotten.size(); // current size
+
+            for(int i=0; i<size; i++)
+            {
+                int indexes[] = rotten.remove();
+                int r = indexes[0];
+                int c = indexes[1];
+
+                // (r,c+1) (r-1,c) (r+1,c) (r,c-1) four directions [up,down,left,right]
+                for(int j=0; j<4; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr>=0 && nr<rows && nc>=0 && nc<cols && grid[nr][nc]==1)
+                    {
+                        fresh--;
+                        grid[nr][nc] = 2;
+                        rotten.add(new int[]{nr,nc});
+                    }
+                }
+            }
+            //before going to next level update time
+            time++;
+        }
+
+        if(fresh==0) return time-1;
+        return -1;
+    }
+}

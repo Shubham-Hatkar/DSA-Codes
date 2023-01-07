@@ -1,0 +1,53 @@
+// leetcode - 76. Minimum Window Substring
+// https://leetcode.com/problems/minimum-window-substring/description/
+
+class Solution 
+{
+    // isSatisfied function 
+    // if tfreq is greater than dfreq that means it is not satisfied
+    public boolean isSatisfied(int sfreq[], int tfreq[])
+    {
+        for(int i=0; i<123; i++)
+        {
+            if(tfreq[i] > sfreq[i]) return false;
+        }
+        return true;
+    }
+    
+    public String minWindow(String s, String t) 
+    {
+        int n = s.length(); // length of s string
+        int m = t.length(); // length of t string
+
+        // count the freq of each char of t
+        int tfreq[] = new int[123];
+        for(int i=0; i<m; i++) tfreq[t.charAt(i)]++;
+
+        int start = 0;
+        int end = 0;
+        int ansStart = -1;
+        int ansEnd = -1;
+        int ans = Integer.MAX_VALUE;
+        int sfreq[] = new int[123];
+
+        while(end < n)
+        {
+            sfreq[s.charAt(end)]++;
+            end++;
+
+            while(start < end && isSatisfied(sfreq,tfreq))
+            {
+                if(ans > end - start)
+                {
+                    ans = end - start;
+                    ansStart = start;
+                    ansEnd = end;
+                }
+                sfreq[s.charAt(start)]--;
+                start++;
+            }
+        }
+        if(ansStart == -1) return "";
+        return s.substring(ansStart, ansEnd);
+    }
+}

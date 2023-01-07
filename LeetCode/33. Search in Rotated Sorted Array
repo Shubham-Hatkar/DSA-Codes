@@ -1,0 +1,86 @@
+// 33. Search in Rotated Sorted Array
+// https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+
+class Solution 
+{
+    public int search(int[] nums, int target) 
+    {
+        int n = nums.length;
+        int start = 0;
+        int end = n-1;
+
+        while(start <= end)
+        {
+            int mid = (start + end)/2;
+            // if mid is our ans
+            if(nums[mid] == target) return mid;
+            //check in first part
+            else if(nums[start] <= nums[mid]) 
+            {
+                if(nums[start] <= target && nums[mid] >= target) end = mid - 1;
+                else start  = mid + 1;
+            }
+            else // check in second part
+            {
+                if(nums[mid] < target && nums[end] >= target) start = mid + 1;
+                else end = mid - 1;
+            }
+        }
+        return -1;
+    }
+}
+
+
+
+//*********brute force********** */
+// public int search(int[] arr, int target) 
+//     {
+//         for(int i=0;i<arr.length;i++)
+//         {
+//             if(arr[i]==target)
+//             {
+//                 return i;
+//             }
+//         }
+//         return -1;
+//     }
+
+
+//**********optimal approach */
+// class Solution 
+// {
+//     int maxIdx(int arr[])
+//     {
+//         int n = arr.length;
+//         int start = 0;
+//         int end = arr.length - 1;
+
+//         while(start <= end)
+//         {
+//             int mid = (start + end)/2;
+//             if(mid + 1 < n && arr[mid] > arr[mid+1]) return mid;
+//             else if(arr[start] <= arr[mid]) start = mid + 1;
+//             else end = mid - 1;
+//         }
+//         return n-1;
+//     }
+//     int BS(int arr[], int target, int start, int end)
+//     {
+//         while(start <= end)
+//         {
+//             int mid = (start+end)/2;
+//             if(arr[mid] == target) return mid;
+//             else if(arr[mid] < target) start = mid + 1;
+//             else end = mid - 1;
+//         }
+//         return -1;
+//     }
+//     public int search(int[] nums, int target)
+//     {
+//         int n = nums.length;
+//         int maxIndex = maxIdx(nums);
+//         if(nums[maxIndex] == target) return maxIndex;
+//         else if(nums[0] <= target && target < nums[maxIndex]) return BS(nums, target, 0, maxIndex);
+//         else return BS(nums, target, maxIndex+1, n-1);
+//     }
+// }

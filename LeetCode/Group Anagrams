@@ -1,0 +1,50 @@
+// leetxode - 49. Group Anagrams
+// https://leetcode.com/problems/group-anagrams/description/
+
+class Solution 
+{
+    // function for sort string
+    public String sortStr(String s)
+    {
+        // convert string into char array
+        char arr[] = s.toCharArray();
+        // sort char array
+        Arrays.sort(arr);
+        // convert into string 
+        return new String(arr);
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) 
+    {
+        int n = strs.length;
+
+        Map<String, List<String>> hm = new HashMap();
+
+        for(int i=0; i<n; i++)
+        {
+            String original = strs[i];
+            String sorted = sortStr(original);
+            //check is sorted present in hm
+            if(hm.containsKey(sorted))
+            {
+                List<String> oldlist = hm.get(sorted);
+                oldlist.add(original);
+                hm.put(sorted,oldlist);
+            }
+            else
+            {
+                List<String> newlist = new ArrayList<>();
+                newlist.add(original);
+                hm.put(sorted, newlist);
+            }
+        }
+
+        List<List<String>> ans = new ArrayList<>();
+        for(List<String> val : hm.values())
+        {
+            ans.add(val);
+        }
+
+        return ans;
+    }
+}

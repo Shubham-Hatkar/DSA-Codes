@@ -1,0 +1,36 @@
+// Leetcode  - 242. Valid Anagram
+// https://leetcode.com/problems/valid-anagram/
+
+class Solution 
+{
+    public boolean isAnagram(String s, String t) 
+    {
+        if(s.length()!=t.length()) // if length of two string is not same then they cant be anagram
+        {
+            return false;
+        }
+        
+        // converting both strings into char array
+        char str1[] = s.toCharArray(); 
+        char str2[] = t.toCharArray();
+        
+        //sorting both string
+        Arrays.sort(str1);
+        Arrays.sort(str2);
+        
+        //as we sorted both string now just comparing char to char (are they same or not)
+        for(int i=0;i<str1.length;i++)
+        {
+            if(str1[i]!=str2[i]) // char of 1st string is not same as char of 2nd string return false
+            {
+                return false;
+            }
+        }
+        
+        //if above loop ran successfully means both strings are equal so they can be anagram
+        return true; 
+
+
+        
+    }
+}

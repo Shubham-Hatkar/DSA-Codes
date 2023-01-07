@@ -1,0 +1,113 @@
+// Leetcode - 146. LRU Cache
+// https://leetcode.com/problems/lru-cache/description/
+
+class Node 
+    {
+        int appName;
+        int state;
+        Node next;
+        Node prev;
+        Node(int appName, int state)
+        {
+            this.appName = appName;
+            this.state = state;
+            next = prev = null;
+        }
+    }
+class LRUCache 
+{
+    Map<Integer,Node> hm;
+    int size;
+    int capacity;
+    Node front, back;
+
+    public LRUCache(int capacity) 
+    {
+        this.capacity = capacity;
+        size = 0;
+        hm = new HashMap<>();
+        front = back = null;
+    }
+    void moveToFront(Node app)
+    {
+        //if app is at already in front
+        if(app == front) return;
+
+        //if app is at back
+        if(app == back) back = back.next;
+
+        Node nextApp = app.next;
+        Node prevApp = app.prev;
+
+        if(nextApp != null) nextApp.prev = prevApp;
+        if(prevApp != null) prevApp.next = nextApp;
+
+        front.next = app;
+        app.prev = front;
+        app.next = null;
+        front = app;
+    }
+
+    public int get(int appName) 
+    {
+        // see whether it is present in recent apps
+        if(hm.containsKey(appName))
+        {
+            Node app = hm.get(appName);
+            moveToFront(app);
+            return app.state;
+
+        }
+        return -1;
+    }
+    
+    void addAtFront(Node app)
+    {
+        if(front == null)
+        {
+            front = back = app;
+            return;
+        }
+        front.next = app;
+        app.prev = front;
+        app.next = null;
+        front = app;
+    }
+    void removeBack()
+    {
+        back = back.next;
+        back.prev = null;
+    }
+    public void put(int appName, int state) 
+    {
+        // present in hm
+        if(hm.containsKey(appName))
+        {
+            Node app = hm.get(appName);
+            moveToFront(app);
+            app.state = state;
+        }
+        // if not present in hm
+        else
+        {
+            Node newApp = new Node(appName, state);
+            hm.put(appName,newApp);
+            addAtFront(newApp);
+            size++;
+        }
+        //if recent used apps > given capacity (keep a track of size)
+        if(size > capacity)
+        {
+            hm.remove(back.appName);
+            removeBack();
+            size--;
+        }
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
