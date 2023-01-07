@@ -1,0 +1,50 @@
+// Convert Level Order Traversal to BST
+// https://practice.geeksforgeeks.org/problems/convert-level-order-traversal-to-bst/1
+
+class Info
+{
+    Node node;
+    int min;
+    int max;
+    Info(Node node, int min, int max)
+    {
+        this.node = node;
+        this.min = min;
+        this.max = max;
+    }
+}
+class GFG 
+{
+    //Function to construct the BST from its given level order traversal.
+    public Node constructBST(int[] arr)
+    {
+        Queue<Info> q = new LinkedList<>();
+        Node root = new Node(arr[0]);
+        Info left = new Info(root, Integer.MIN_VALUE, arr[0]);
+        Info right = new Info(root, arr[0], Integer.MAX_VALUE);
+        q.add(left);
+        q.add(right);
+        
+        int i = 1;
+        while(i < arr.length)
+        {
+            Info previnfo = q.remove();
+            Node node = previnfo.node;
+            int min = previnfo.min;
+            int max = previnfo.max;
+            
+            if(arr[i] > min && arr[i] < max)
+            {
+                Node nn = new Node(arr[i]);
+                if(arr[i] < node.data) node.left = nn;
+                else node.right = nn;
+                Info l = new Info(nn, min, nn.data);
+                Info r = new Info(nn, nn.data, max);
+                q.add(l);
+                q.add(r);
+                i++;
+            }
+        }
+        return root;
+    }
+}
