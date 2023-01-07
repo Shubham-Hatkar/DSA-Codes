@@ -1,0 +1,43 @@
+// Print Anagrams Together
+
+class Solution 
+{
+    public String sorted(String s)
+    {
+        char arr[] = s.toCharArray();
+        
+        Arrays.sort(arr);
+        
+        return new String(arr);
+    }
+    public List<List<String>> Anagrams(String[] str) 
+    {
+        // Code is here
+        int n = str.length;
+        HashMap<String,List<String>> hm = new HashMap<>();
+        
+        for(int i=0; i<n; i++)
+        {
+            String original = str[i];
+            String sorted = sorted(original);
+            
+            if(hm.containsKey(sorted))
+            {
+                List<String> old = hm.get(sorted);
+                old.add(original);
+                hm.put(sorted, old);
+            }
+            else
+            {
+                ArrayList<String> AL = new ArrayList<>();
+                AL.add(original);
+                hm.put(sorted, AL);
+            }
+        }
+        
+        List<List<String>> ans = new ArrayList<>();
+        for(String key : hm.keySet()) ans.add(hm.get(key));
+        
+        return ans;
+    }
+}

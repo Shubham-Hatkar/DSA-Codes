@@ -1,0 +1,23 @@
+// Longest subsequence-1
+
+https://practice.geeksforgeeks.org/problems/longest-subsequence-such-that-difference-between-adjacents-is-one4724/1
+
+class Solution{
+    static int longestSubsequence(int n, int arr[])
+    {
+        Map<Integer,Integer> hm = new HashMap<>();
+        int ans = 1;
+        
+        for(int i=0; i<n; i++)
+        {
+            int len = 1;
+            
+            if(hm.containsKey(arr[i]+1)) len = hm.get(arr[i]+1)+1;
+            if(hm.containsKey(arr[i]-1)) len = Math.max(len,hm.get(arr[i]-1)+1);
+            
+            hm.put(arr[i],len);
+            ans = Math.max(len,ans);
+        }
+        return ans;
+    }
+}

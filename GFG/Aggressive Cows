@@ -1,0 +1,42 @@
+// Aggressive Cows
+
+class Solution 
+{
+    public static boolean canPlaceCows(int arr[], int cows, int distance)
+    {
+        int n = arr.length;
+        int curr_placed = arr[0];
+        int count = 1; //count of cows placed till current
+        
+        for(int i=1; i<n; i++)
+        {
+            int req = arr[i] - curr_placed;
+            if(req >= distance) 
+            {
+                count++;
+                curr_placed = arr[i];
+            }
+            if(count == cows) return true;
+        }
+        return false;
+    }
+    public static int solve(int n, int k, int[] stalls) 
+    {
+        Arrays.sort(stalls);
+        
+        int start = 1;
+        int end = stalls[n-1] - stalls[0];
+        int ans = 0;
+        while(start <= end)
+        {
+            int mid = (start + end) / 2;
+            if(canPlaceCows(stalls, k, mid))
+            {
+                ans = mid;
+                start = mid + 1;
+            }
+            else end = mid - 1;
+        }
+        return ans;
+    }
+}

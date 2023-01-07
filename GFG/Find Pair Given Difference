@@ -1,0 +1,19 @@
+// Find Pair Given Difference
+
+class Solution
+{
+    public boolean findPair(int arr[], int size, int n)
+    {
+        Map<Integer,Integer> hm = new HashMap<>();
+        
+        for(int i = 0; i < size; i++)
+        {
+            if(hm.containsKey(arr[i] - n) || hm.containsKey(n + arr[i]))
+            {
+                return true;
+            }
+            else hm.put(arr[i], 1);
+        }
+        return false;
+    }
+}

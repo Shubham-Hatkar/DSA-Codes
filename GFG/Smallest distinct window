@@ -1,0 +1,34 @@
+// Smallest distinct window
+
+class Solution 
+{
+    int distinct(String s)
+    {
+        int count = 0;
+        int freq[] = new int[123];
+        for(int i=0; i<s.length(); i++)
+        {
+            freq[s.charAt(i)]++;
+            if(freq[s.charAt(i)]==1) count++;
+        }
+        return count;
+    }
+    public int findSubString( String s) 
+    {
+        int distinct = distinct(s);
+        int start = 0, end = 0, unique = 0, ans = Integer.MAX_VALUE, n = s.length(); 
+        int freq[] = new int[123];
+        
+        while(end < n)
+        {
+            if((++freq[s.charAt(end++)]) == 1) unique++;
+            
+            while(start < end && unique >= distinct)
+            {
+                if(unique == distinct) ans = Math.min(ans, end-start);
+                if((--freq[s.charAt(start++)]) == 0) unique--;
+            }
+        }
+        return ans;
+    }
+}

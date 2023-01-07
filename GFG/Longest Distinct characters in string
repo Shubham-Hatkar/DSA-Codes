@@ -1,0 +1,27 @@
+// Longest Distinct characters in string
+
+class Solution
+{
+    static int longestSubstrDistinctChars(String s)
+    {
+        int n = s.length();
+        int freq[] = new int[256];
+        int start = 0;
+        int end = 0;
+        int ans = Integer.MIN_VALUE;
+        
+        while(end < n)
+        {
+            freq[s.charAt(end)]++;
+            while(start < end && freq[s.charAt(end)] > 1)
+            {
+                freq[s.charAt(start)]--;
+                start++;
+            }
+            end++;
+            ans = Math.max(ans, end-start);
+        }
+        return ans;
+        
+    }
+}

@@ -1,0 +1,27 @@
+// Largest subarray with 0 sum
+
+class GfG
+{
+    int maxLen(int arr[], int n)
+    {
+        Map<Integer,Integer> hm = new HashMap<>();
+        hm.put(0,-1);
+        
+        int maxlen = 0;
+        int sum = 0;
+        
+        for(int i=0; i<n; i++)
+        {
+            //update the sum
+            sum += arr[i];
+            
+            //check if sum is available in hm
+            if(hm.containsKey(sum)) maxlen = Math.max(maxlen, i - hm.get(sum));
+            
+            //else add sum and index in hm
+            else hm.put(sum, i);
+        }
+        
+        return maxlen;
+    }
+}

@@ -1,0 +1,50 @@
+// Square root of a number
+
+
+
+class Solution
+{
+     long floorSqrt(long x)
+	 {
+		long start = 0;
+		long end = x;
+		long ans = -1;
+		
+		while(start <= end)
+		{
+		    long mid = start + (end - start)/2;
+		    if(mid*mid == x) return mid;
+		    else if(mid*mid > x) end = mid - 1;
+		    else 
+		    {
+		        start = mid + 1;
+		        ans = mid;
+		    }
+		}
+		return ans;
+	 }
+}
+
+//****** Brute Force *******
+// long floorSqrt(long x)
+// 	 {
+// 		// Your code here
+// 		long tmp = 0;
+// 		for(long i=1;i<=x;i++)
+// 		{
+// 		    long sq = i*i;
+// 		    if(sq==x)
+// 		    {
+// 		        return i;
+// 		    }
+// 		    else if(sq<x)
+// 		    {
+// 		        tmp = i;
+// 		    }
+// 		    else
+// 		    {
+// 		        break;
+// 		    }
+// 		}
+// 		return tmp;
+// 	 }

@@ -1,0 +1,35 @@
+// Count distinct pairs with difference k
+//https://practice.geeksforgeeks.org/problems/count-distinct-pairs-with-difference-k1233/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+
+
+class Solution
+{
+    public int TotalPairs(int[] A, int k)
+    {
+        int n = A.length;
+        Map<Integer,Integer> hm = new HashMap<>();
+        
+        for(int i=0; i<n; i++)
+		   {
+			   hm.put(A[i],hm.getOrDefault(A[i],0)+1);
+		   }
+
+    		int count = 0;
+    		if(k == 0)
+    		{
+    			for(Integer key : hm.keySet())
+    				{
+    					if(hm.get(key) > 1) count++;
+    				}
+    		}
+    		else
+    		{
+    			for(Integer key : hm.keySet())
+    				{
+    					if(hm.containsKey(key + k)) count++;
+    				}
+    		}
+		return count;
+    }
+}
