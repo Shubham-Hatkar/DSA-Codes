@@ -1,0 +1,57 @@
+// 449. Serialize and Deserialize BST
+// https://leetcode.com/problems/serialize-and-deserialize-bst/description/
+
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) 
+    {
+        if(root == null) return "";
+
+        String ans = "";
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        while(q.size() > 0)
+        {
+            TreeNode temp = q.remove();
+            if(temp == null)
+            {
+                ans += "null ";
+                continue;
+            }
+            ans += temp.val + " ";
+            q.add(temp.left);
+            q.add(temp.right);
+        }
+        return ans;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) 
+    {
+        if(data.equals("")) return null;
+        String arr[] = data.split(" ");
+        Queue<TreeNode> q = new LinkedList<>();
+        TreeNode root = new TreeNode(Integer.valueOf(arr[0]));
+        q.add(root);
+
+        for(int i=1; i<arr.length; i++)
+        {
+            TreeNode temp = q.remove();
+            if(!arr[i].equals("null"))
+            {
+                TreeNode left = new TreeNode(Integer.valueOf(arr[i]));
+                temp.left = left;
+                q.add(left);
+            }
+            if(!arr[++i].equals("null"))
+            {
+                TreeNode right = new TreeNode(Integer.valueOf(arr[i]));
+                temp.right = right;
+                q.add(right);
+            }
+        }
+        return root;
+    }
+}
