@@ -1,0 +1,30 @@
+// 173. Binary Search Tree Iterator
+// https://leetcode.com/problems/binary-search-tree-iterator/
+
+class BSTIterator {
+    private Stack<TreeNode> st = new Stack<>();
+    private void pushAll(TreeNode root)
+    {
+        while(root != null)
+        {
+            st.push(root);
+            root = root.left;
+        }
+    }
+    public BSTIterator(TreeNode root) 
+    {
+        pushAll(root);
+    }
+    
+    public int next() 
+    {
+        TreeNode temp = st.pop();
+        pushAll(temp.right);
+        return temp.val;
+    }
+    
+    public boolean hasNext() 
+    {
+        return !st.isEmpty();
+    }
+}
