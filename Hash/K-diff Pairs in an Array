@@ -1,0 +1,32 @@
+// 532. K-diff Pairs in an Array
+// https://leetcode.com/problems/k-diff-pairs-in-an-array/description/
+
+class Solution 
+{
+    public int findPairs(int[] nums, int k) 
+    {
+        Map<Integer,Integer> hm = new HashMap<>(); // pair = no. & freq.
+        for(int i = 0; i < nums.length; i++)
+        {
+            hm.put(nums[i], hm.getOrDefault(nums[i], 0) + 1);
+        }
+
+        int count = 0;
+        if(k == 0)
+        {
+            for(Integer key : hm.keySet())
+            {
+                // if numbers freq is greater than 1 means diff => 0 ex. 2,2 diff = 0. 
+                if(hm.get(key) > 1) count++;
+            }
+        }
+        else
+        {
+            for(Integer key : hm.keySet())
+            {
+                if(hm.containsKey(key + k)) count++;
+            }
+        }
+        return count;
+    }
+}
