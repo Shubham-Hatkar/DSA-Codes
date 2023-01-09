@@ -1,0 +1,31 @@
+// 1590. Make Sum Divisible by P
+// https://leetcode.com/problems/make-sum-divisible-by-p/description/
+
+class Solution 
+{
+    public int minSubarray(int[] nums, int p) 
+    {
+        long total = 0;
+        for(int i = 0; i < nums.length; i++) total += nums[i];
+
+        long reminder = total % p;
+        if(reminder == 0) return 0;
+        
+
+        else // now i need to find length of subarray sum == reminder
+        {
+            HashMap<Long,Integer> hm = new HashMap<>();
+            hm.put(0l,-1);
+            int min = nums.length;
+            long sum = 0;
+            for(int i = 0; i < nums.length; i++)
+            {
+                sum =  (sum + nums[i] + p)%p;
+                if(hm.containsKey( (sum + p - (int)reminder)%p)) 
+                min = Math.min(min, i - hm.get( (sum + p - (int)reminder)%p));
+                hm.put(sum, i);
+            }
+            return (min == nums.length) ? -1 : min;
+        }
+    }
+}
