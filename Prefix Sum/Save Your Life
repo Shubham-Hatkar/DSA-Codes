@@ -1,0 +1,42 @@
+// Save Your Life
+// https://practice.geeksforgeeks.org/problems/save-your-life4601/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution
+{
+    static String maxSum(String w,char x[],int b[], int n)
+    {
+        Map<Character,Integer> hm = new HashMap<>();
+        for(int i = 0; i < n; i++) hm.put(x[i], b[i]);
+        
+        int arr[] = new int[w.length()];
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(!hm.containsKey(w.charAt(i))) arr[i] = (int)w.charAt(i);
+            else arr[i] = hm.get(w.charAt(i));
+        }
+        
+        int sum = 0;
+        int maxSum = Integer.MIN_VALUE;
+        int start = 0;
+        int end = 0;
+        String ans = "";
+        String temp = "";
+        for(int i = 0; i < arr.length; i++)
+        {
+            sum += arr[i];
+            temp += w.charAt(i) + "";
+            
+            if(sum > maxSum)
+            {
+                ans = temp;
+                maxSum = sum;
+            }
+            if(sum < 0)
+            {
+                temp = "";
+                sum = 0;
+            }
+        }
+        return ans;
+    }
+}
