@@ -1,0 +1,39 @@
+// 53. Maximum Subarray
+// https://leetcode.com/problems/maximum-subarray/description/
+
+class Solution 
+{
+    public int maxSubArray(int[] nums) 
+    {
+        // Kadane's algo
+        int n = nums.length;
+        int maxSum = Integer.MIN_VALUE;
+        int currSum = 0;
+        for(int i = 0; i < n; i++)
+        {
+            currSum += nums[i];
+            maxSum = Math.max(maxSum, currSum);
+            if(currSum < 0) currSum = 0;
+        }
+        return maxSum;
+    }
+}
+// class Solution 
+// {
+//     public int maxSubArray(int[] arr) 
+//     {
+//         int n = arr.length;
+//         int current_sum = 0;
+//         int max_sum = Integer.MIN_VALUE;
+//         int i = 0;
+//         while(i<n)
+//         {
+//             int first_option = arr[i];
+//             int second_option = arr[i] + current_sum;
+//             current_sum = Math.max(first_option, second_option);
+//             max_sum = Math.max(max_sum, current_sum);
+//             i++;
+//         }
+//         return max_sum;
+//     }
+// }
