@@ -1,0 +1,29 @@
+// 918. Maximum Sum Circular Subarray
+// https://leetcode.com/problems/maximum-sum-circular-subarray/description/
+
+class Solution 
+{
+    public int maxSubarraySumCircular(int[] nums) 
+    {
+        int total = 0;
+        int maxSumSoFar = 0;
+        int maxSum = Integer.MIN_VALUE;
+        int minSumSoFar = 0;
+        int minSum = Integer.MAX_VALUE;
+
+        for(int i = 0; i < nums.length; i++)
+        {
+            total += nums[i];
+
+            maxSumSoFar += nums[i];
+            maxSum = Math.max(maxSum, maxSumSoFar);
+            if(maxSumSoFar < 0) maxSumSoFar = 0;
+
+            minSumSoFar += nums[i];
+            minSum = Math.min(minSum, minSumSoFar);
+            if(minSumSoFar > 0) minSumSoFar = 0;
+        }
+        maxSum = (maxSum > 0) ? Math.max(maxSum, total - minSum) : maxSum;
+        return maxSum;
+    }
+}
