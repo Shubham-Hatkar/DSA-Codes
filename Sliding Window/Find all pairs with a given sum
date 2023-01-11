@@ -1,0 +1,35 @@
+// Find all pairs with a given sum
+// https://practice.geeksforgeeks.org/problems/find-all-pairs-whose-sum-is-x5808/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution {
+    public pair[] allPairs( long A[], long B[], long n, long m, long X) 
+    {
+        Arrays.sort(A);
+        Arrays.sort(B);
+        Map<Long,Long> hm = new HashMap<>();
+        for(int i = 0; i < m; i++) hm.put(B[i],1l);
+        
+        ArrayList<Long> ans = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(hm.containsKey(X - A[i]) && hm.get(X - A[i]) > 0)
+            {
+                ans.add(A[i]);
+                ans.add(X - A[i]);
+                hm.put(X - A[i], 0l);
+            }
+        }
+        int size = ans.size();
+        int arrsize = size / 2;
+        pair arrpair[] = new pair[arrsize];
+        int i = 0;
+        int j = 0;
+        while(i < size)
+        {
+            int copyI = i;
+            pair np = new pair(ans.get(i++),ans.get(i++));
+            arrpair[j++] = np;
+        }
+        return arrpair;
+    }
+}
