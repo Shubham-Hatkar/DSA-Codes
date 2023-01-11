@@ -1,0 +1,53 @@
+// 796. Rotate String
+// https://leetcode.com/problems/rotate-string/description/
+
+class Solution 
+{
+    private int[] calculatelps(String s)
+    {
+        int lps[] = new int[s.length()];
+        lps[0] = 0;
+        int i = 1;
+        int len = 0;
+        while(i < s.length())
+        {
+            if(s.charAt(i) == s.charAt(len))
+            {
+                len++;
+                lps[i++] = len;
+            }
+            else
+            {
+                if(len != 0) len = lps[len-1];
+                else i++;
+            }
+        }
+        return lps;
+    }
+    public boolean rotateString(String s, String goal) 
+    {
+        if(s.length() > goal.length()) return false;
+        int lps[] = calculatelps(s);
+        goal = goal + goal;
+        
+
+        int i = 0;
+        int j = 0;
+        boolean ans = false;
+        while(i < goal.length())
+        {
+            if(goal.charAt(i) == s.charAt(j))
+            {
+                i++;
+                j++;
+            }
+            if(j == s.length()) return true;
+            else if(i < goal.length() && goal.charAt(i) != s.charAt(j))
+            {
+                if(j != 0) j = lps[j-1];
+                else i++;
+            }
+        }
+        return false;
+    }
+}
