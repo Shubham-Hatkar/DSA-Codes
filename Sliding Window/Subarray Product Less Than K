@@ -1,0 +1,31 @@
+// 713. Subarray Product Less Than K
+// https://leetcode.com/problems/subarray-product-less-than-k/description/
+
+class Solution 
+{
+    public int numSubarrayProductLessThanK(int[] nums, int k) 
+    {
+        int start = 0;
+        int end = 0;
+        int count = 0;
+        int multi = 1;
+        int lenOfArr = nums.length;
+        while(end < lenOfArr)
+        {
+            // 1. expansion
+            multi = multi * nums[end];
+            end++;
+
+            // 2. contraction
+            while(start < end && multi >= k)
+            {
+                multi = multi / nums[start];
+                start++;
+            }
+
+            // 3. calculation
+            count = count + (end - start);
+        }
+        return count;
+    }
+}
