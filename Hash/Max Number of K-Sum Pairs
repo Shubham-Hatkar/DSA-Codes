@@ -1,0 +1,21 @@
+// 1679. Max Number of K-Sum Pairs
+// https://leetcode.com/problems/max-number-of-k-sum-pairs/description/
+
+class Solution {
+    public int maxOperations(int[] nums, int k) 
+    {
+        Map<Integer,Integer> hm = new HashMap<>();
+        int count = 0;
+        for(int i = 0; i < nums.length; i++)
+        {
+            int required = k - nums[i];
+            if(hm.containsKey(required) && hm.get(required) > 0)
+            {
+                count++;
+                hm.put(required,hm.get(required)-1);
+            }
+            else hm.put(nums[i],hm.getOrDefault(nums[i],0)+1);
+        }
+        return count;
+    }
+}
