@@ -1,0 +1,57 @@
+// 395. Longest Substring with At Least K Repeating Characters
+// https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/description/
+
+class Solution {
+    private int CheckXUnique(String s, int x, int k)
+    {
+        int start = 0;
+        int end = 0;
+        int ans = 0;
+        int unique = 0;
+        int atleastK = 0;
+        int freq[] = new int[123];
+        int n = s.length();
+        while(end < n)
+        {
+            freq[s.charAt(end)]++;
+            if(freq[s.charAt(end)] == 1) unique++;
+            if(freq[s.charAt(end)] == k) atleastK++;
+            end++;
+
+            while(start < end && unique > x)
+            {
+                freq[s.charAt(start)]--;
+                if(freq[s.charAt(start)] == 0) unique--;
+                if(freq[s.charAt(start)] == k-1) atleastK--;
+                start++;
+            }
+
+            if(unique == x && atleastK == x)
+            {
+                ans = Math.max(ans, end - start);
+            }
+        }
+        return ans;
+    }
+    public int longestSubstring(String s, int k) 
+    {
+        int lenOfStr = s.length();
+
+        // Find the total unique characters
+        int totalUnique = 0;
+        int freq[] = new int[123];
+        for(int i = 0; i < lenOfStr; i++)
+        {
+            freq[s.charAt(i)]++;
+            if(freq[s.charAt(i)] == 1) totalUnique++;
+        }
+
+        // Check for each no of unique char. which is repeating atleast k times
+        int ans = 0;
+        for(int i = 1; i <= totalUnique; i++)
+        {
+            ans = Math.max(ans, CheckXUnique(s, i, k));
+        }
+        return ans;
+    }
+}
