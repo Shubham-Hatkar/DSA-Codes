@@ -1,0 +1,43 @@
+// 567. Permutation in String
+// https://leetcode.com/problems/permutation-in-string/description/
+
+class Solution 
+{
+    private boolean isSatisfied(int s1freq[], int s2freq[])
+    {
+        for(int i = 0; i < 123; i++)
+        {
+            if(s1freq[i] > s2freq[i]) return false;
+        }
+        return true;
+    }
+    public boolean checkInclusion(String s1, String s2) 
+    {
+        int lenOfs1 = s1.length();
+        int lenOfs2 = s2.length();
+
+        int s1freq[] = new int[123];
+        for(int i = 0; i < lenOfs1; i++) s1freq[s1.charAt(i)]++;
+
+        int start = 0;
+        int end = 0;
+        int s2freq[] = new int[123];
+        int len = 0;
+        while(end < lenOfs2)
+        {
+            // 1. Expansion
+            s2freq[s2.charAt(end)]++;
+            end++;
+
+            // 2. Contraction & Calculation
+            while(start < end && isSatisfied(s1freq, s2freq))
+            {
+                len = end - start;
+                if(len == lenOfs1) return true;
+                s2freq[s2.charAt(start)]--;
+                start++;
+            }
+        }
+        return false;
+    }
+}
