@@ -1,0 +1,37 @@
+// 993. Cousins in Binary Tree
+// https://leetcode.com/problems/cousins-in-binary-tree/description/
+
+class Solution 
+{
+    private void preorder(TreeNode root, int x, int y, int curr_level, int parents[], int levels[])
+    {
+        if(root == null) return;
+
+        if(root.left != null && root.left.val == x || root.right != null && root.right.val == x)
+        {
+            parents[0] = root.val;
+            levels[0] = curr_level + 1;
+        }
+        if(root.left != null && root.left.val == y || root.right != null && root.right.val == y)
+        {
+            parents[1] = root.val;
+            levels[1] = curr_level + 1;
+        }
+        
+        curr_level++;
+        preorder(root.left,x,y,curr_level,parents,levels);
+        preorder(root.right,x,y,curr_level,parents,levels);
+    }
+    public boolean isCousins(TreeNode root, int x, int y) 
+    {
+        int parents[] = {-1,-1};
+        int levels[] = {-1,-1};
+
+        preorder(root, x, y, 0, parents, levels);
+
+        if(parents[0] == -1 && parents[1] == -1) return false;
+
+        if(parents[0]!=parents[1] && levels[0] == levels[1]) return true;
+        return false;
+    }
+}
