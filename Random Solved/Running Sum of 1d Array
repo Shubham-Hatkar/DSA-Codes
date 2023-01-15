@@ -1,0 +1,14 @@
+// 1480. Running Sum of 1d Array
+// https://leetcode.com/problems/running-sum-of-1d-array/description/
+
+class Solution 
+{
+    public int[] runningSum(int[] nums) 
+    {
+        int n = nums.length;
+        int prefix[] = new int[n];
+        prefix[0] = nums[0];
+        for(int i = 1; i < n; i++) prefix[i] = nums[i] + prefix[i-1];
+        return prefix;
+    }
+}
