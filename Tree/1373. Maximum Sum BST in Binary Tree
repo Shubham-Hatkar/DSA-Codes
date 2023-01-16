@@ -1,0 +1,56 @@
+// Maximum Sum BST in Binary Tree
+// https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/description/
+
+class Info
+{
+    int max;
+    int min;
+    int sum;
+    boolean isBST;
+    Info(){}
+    Info(int max, int min, int sum, boolean isBST)
+    {
+        this.max = max;
+        this.min = min;
+        this.sum = sum;
+        this.isBST = isBST;
+    }
+}
+class Solution 
+{
+    int maxSum = 0;
+    Info solve(TreeNode root)
+    {
+        if(root == null)
+           return new Info(Integer.MIN_VALUE, Integer.MAX_VALUE, 0, true);
+
+        Info lInfo = solve(root.left);
+        Info rInfo = solve(root.right);
+        Info mInfo = new Info();
+
+        int lmax = lInfo.max;
+        int rmax = rInfo.max;
+        mInfo.max = Math.max(root.val, Math.max(lmax,rmax));
+
+        int lmin = lInfo.min;
+        int rmin = rInfo.min;
+        mInfo.min = Math.min(root.val, Math.min(lmin,rmin));
+
+        int lsum = lInfo.sum;
+        int rsum = rInfo.sum;
+        mInfo.sum = rsum + lsum + root.val;
+
+        boolean lBST = lInfo.isBST;
+        boolean rBST = rInfo.isBST;
+        mInfo.isBST = lBST && rBST && (lmax < root.val) && (rmin > root.val);
+
+        if(mInfo.isBST) maxSum = Math.max(maxSum,mInfo.sum);
+
+        return mInfo; 
+    }
+    public int maxSumBST(TreeNode root) 
+    {
+        solve(root);
+        return maxSum;
+    }
+}
