@@ -1,0 +1,40 @@
+// 797. All Paths From Source to Target
+// https://leetcode.com/problems/all-paths-from-source-to-target/description/
+
+class Solution 
+{
+    private void DFS(int src, int dest, int[][] graph, List<Integer> path, List<List<Integer>> ans, boolean vis[])
+    {
+        if(src == dest)
+        {
+            List<Integer> temp = new ArrayList<>(path);
+            ans.add(temp);
+            return;
+        }
+
+        vis[src] = true;
+
+        for(int nbr : graph[src])
+        {
+            if(vis[nbr] == false)
+            {
+                path.add(nbr);
+                DFS(nbr, dest, graph, path, ans, vis);
+                path.remove(path.size()-1);
+            }
+        }
+        vis[src] = false;
+    }
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) 
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+
+        int v = graph.length;
+        boolean vis[] = new boolean[v];
+
+        path.add(0);
+        DFS(0, v-1, graph, path, ans, vis);
+        return ans;
+    }
+}
