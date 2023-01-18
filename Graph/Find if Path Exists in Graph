@@ -1,0 +1,49 @@
+// 1971. Find if Path Exists in Graph
+// https://leetcode.com/problems/find-if-path-exists-in-graph/description/
+
+
+class Solution {
+
+    private boolean DFS(int source, int destination, ArrayList<Integer>[] graph, boolean visited[])
+    {
+        if(source == destination)
+        {
+            return true;
+        }
+
+        visited[source] = true;
+
+        for(int i = 0; i < graph[source].size(); i++)
+        {
+            if(visited[graph[source].get(i)] == false)
+            {
+                boolean check = DFS(graph[source].get(i), destination, graph, visited);
+                if(check == true) return true;
+            }
+        }
+
+        return false;
+    }
+    public boolean validPath(int n, int[][] edges, int source, int destination) 
+    {
+        // 1. Create Graph
+        ArrayList<Integer>[] graph = new ArrayList[n];
+        for(int i = 0; i < n; i ++)
+        {
+            graph[i] = new ArrayList<>();
+        }
+
+        for(int i = 0; i < edges.length; i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+
+        // 2. Take visited array and perform DFS to find path
+        boolean visited[] = new boolean[n];
+        return DFS(source, destination, graph, visited);
+    }
+}
