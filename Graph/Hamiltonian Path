@@ -1,0 +1,46 @@
+// Hamiltonian Path
+// https://practice.geeksforgeeks.org/problems/hamiltonian-path2522/1
+
+class Solution 
+{ 
+    boolean DFS(int src, int cnt, ArrayList<Integer>[] graph, boolean vis[], int n)
+    {
+        if(cnt == n-1) return true;
+        
+        vis[src] = true;
+        cnt++;
+        
+        for(int nbr : graph[src])
+        {
+           if(vis[nbr] == false)
+            {
+                if(DFS(nbr, cnt, graph, vis, n)) return true;
+            } 
+        }
+        vis[src] = false;
+        return false;
+    }
+    boolean check(int N, int M, ArrayList<ArrayList<Integer>> Edges) 
+    { 
+        // 1. Create a graph
+        ArrayList<Integer>[] graph = new ArrayList[N+1];
+        for(int i = 0; i <= N; i++)
+        {
+            graph[i] = new ArrayList<>();
+        }
+        for(int i = 0; i < M; i++)
+        {
+            int u = Edges.get(i).get(0);
+            int v = Edges.get(i).get(1);
+            
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+        boolean vis[] = new boolean[N+1];
+        for(int i = 1; i <= N; i++)
+        {
+            if(DFS(i, 0, graph, vis, N)) return true;
+        }
+        return false;
+    }
+} 
