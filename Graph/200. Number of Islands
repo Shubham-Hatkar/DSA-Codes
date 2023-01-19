@@ -1,0 +1,97 @@
+// 200. Number of Islands
+// https://leetcode.com/problems/number-of-islands/description/
+
+class Solution 
+{
+    private int dir[][] = {{0,-1}, {-1,0}, {0,1}, {1,0}};
+
+    private void BFS(int sr, int sc, char grid[][], boolean vis[][])
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{sr, sc});
+        vis[sr][sc] = true;
+
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int[] temp = q.remove();
+                int r = temp[0];
+                int c = temp[1];
+
+                for(int j = 0; j < 4; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr >= n || nc >= m || nr < 0 || nc < 0) continue;
+                    if(vis[nr][nc] == false && grid[nr][nc] == '1')
+                    {
+                        q.add(new int[]{nr,nc});
+                        vis[nr][nc] = true;
+                    }
+                }
+            }
+        }
+    }
+    private void DFS(int sr, int sc, char grid[][], boolean vis[][])
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        vis[sr][sc] = true;
+
+        for(int i = 0; i < 4; i++)
+        {
+            int nr = sr + dir[i][0];
+            int nc = sc + dir[i][1];
+
+            if(nr >= n || nc >= m || nr < 0 || nc < 0) continue;
+
+            if(vis[nr][nc] == false && grid[nr][nc] == '1')
+            {
+                DFS(nr, nc, grid, vis);
+            }
+        }
+    }
+    public int numIslands(char[][] grid) 
+    {
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        boolean vis[][] = new boolean[rows][cols]; // Visited Matrix
+        int count = 0;
+
+        // Using BFS :
+
+        // for(int i = 0; i < rows; i++)
+        // {
+        //     for(int j = 0; j < cols; j++)
+        //     {
+        //         if(vis[i][j] == false && grid[i][j] == '1')
+        //         {
+        //             BFS(i, j, grid, vis);
+        //             count++;
+        //         }
+        //     }
+        // }
+
+        // Using DFS :
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                if(vis[i][j] == false && grid[i][j] == '1')
+                {
+                    DFS(i, j, grid, vis);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
