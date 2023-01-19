@@ -1,0 +1,98 @@
+// 733. Flood Fill
+// https://leetcode.com/problems/flood-fill/description/
+
+class Solution 
+{
+
+    private int dir[][] = {{0,-1}, {-1,0}, {0,1}, {1,0}};
+
+    private void BFS(int sr, int sc, int grid[][], int new_color, boolean vis[][])
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{sr, sc});
+
+        vis[sr][sc] = true;
+        int prev_color = grid[sr][sc];
+        grid[sr][sc] = new_color;
+
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int[] info = q.remove();
+                int r = info[0];
+                int c = info[1];
+
+                for(int j = 0; j < 4; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr >= n || nc >= m || nr < 0 || nc < 0) continue;
+
+                    if(vis[nr][nc] == false && grid[nr][nc] == prev_color)
+                    {
+                        q.add(new int[]{nr, nc});
+                        vis[nr][nc] = true;
+                        grid[nr][nc] = new_color;
+                    }
+                }
+            }
+        }
+    }
+
+    private void DFS(int sr, int sc, int grid[][], int new_color, boolean vis[][])
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        vis[sr][sc] = true;
+        int mycolor = grid[sr][sc];
+        grid[sr][sc] = new_color;
+
+        for(int i = 0; i < 4; i++)
+        {
+            int nr = sr + dir[i][0];
+            int nc = sc + dir[i][1];
+
+            if(nr >= n || nc >= m || nr < 0 || nc < 0) continue;
+
+            if(vis[nr][nc] == false && grid[nr][nc] == mycolor)
+            {
+                DFS(nr, nc, grid, new_color, vis);
+            }
+        }
+        
+    }
+    public int[][] floodFill(int[][] grid, int sr, int sc, int color) 
+    {
+        int r = grid.length;
+        int c = grid[0].length;
+
+        boolean vis[][] = new boolean[r][c];
+        // Using BFS
+        // for(int i = 0; i < r; i++)
+        // {
+        //     for(int j = 0; j < c; j++)
+        //     {
+        //         if(vis[i][j] == false)
+        //         BFS(sr, sc, grid, color, vis);
+        //     }
+        // }
+
+        // Using DFS
+        for(int i = 0; i < r; i++)
+        {
+            for(int j = 0; j < c; j++)
+            {
+                if(vis[i][j] == false)
+                DFS(sr, sc, grid, color, vis);
+            }
+        }
+        return grid;
+    }
+}
