@@ -1,0 +1,80 @@
+// 785. Is Graph Bipartite?
+// https://leetcode.com/problems/is-graph-bipartite/description/
+
+class Solution 
+{
+    private boolean BFS(int src, int graph[][], boolean vis[], int color[])
+    {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(src);
+
+        // Mark visited and color it
+        vis[src] = true;
+        color[src] = 0;
+
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int temp = q.remove();
+
+                for(int nbr : graph[temp])
+                {
+                    if(vis[nbr] == false)
+                    {
+                        q.add(nbr);
+                        vis[nbr] = true;
+                        color[nbr] = (color[temp] == 0) ? 1 : 0;
+                    }
+                    // if nbr is visited and nbr has same color then this is not bipartite.
+                    else if(vis[nbr] == true && color[nbr] == color[temp]) return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean DFS(int src, int graph[][], boolean vis[], int color[], int c)
+    {
+        vis[src] = true;
+        color[src] = c;
+
+        for(int nbr : graph[src])
+        {
+            if(vis[nbr] == false)
+            {
+                int opposite_color = (c == 0) ? 1 : 0;
+                if(DFS(nbr, graph, vis, color, opposite_color) == false) return false;
+            }
+            else if(vis[nbr] == true && color[src] == color[nbr]) return false;
+        }
+        return true;
+    }
+    public boolean isBipartite(int[][] graph) 
+    {
+        int vertices = graph.length;
+
+        boolean vis[] = new boolean[vertices];
+        int color[] = new int[vertices];
+
+        // Check Using BFS
+        // for(int i = 0; i < vertices; i++)
+        // {
+        //     if(vis[i] == false)
+        //     {
+        //         if(BFS(i, graph, vis, color) == false) return false;
+        //     }
+        // }
+
+        // Check Using DFS
+        for(int i = 0; i < vertices; i++)
+        {
+            if(vis[i] == false)
+            {
+                if(DFS(i, graph, vis, color, 0) == false) return false;
+            }
+        }
+        return true;
+    }
+}
