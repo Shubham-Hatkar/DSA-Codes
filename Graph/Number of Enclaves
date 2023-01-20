@@ -1,0 +1,60 @@
+// 1020. Number of Enclaves
+// https://leetcode.com/problems/number-of-enclaves/description/
+
+class Solution 
+{
+    public int numEnclaves(int[][] grid) 
+    {
+        int n = grid.length;
+		int m = grid[0].length;
+
+	    Queue<int[]> q = new LinkedList<>();
+		boolean vis[][] = new boolean[n][m];
+		for(int i = 0; i < m; i++)
+        {
+            if(grid[0][i] == 1) q.add(new int[]{0,i});
+            if(grid[n-1][i] == 1) q.add(new int[]{n-1,i});
+        }
+
+	   for(int j = 0; j < n; j++)
+        {
+            if(grid[j][0] == 1) q.add(new int[]{j,0});
+            if(grid[j][m-1] == 1) q.add(new int[]{j,m-1});
+        }
+
+		int dir[][] = {{0,-1}, {-1,0}, {0,1}, {1,0}};
+		while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+                {
+                    int temp[] = q.remove();
+                    int r = temp[0];
+                    int c = temp[1];
+                    vis[r][c] = true;
+                    
+                    for(int j = 0; j < 4; j++)
+                        {
+                            int nr = r + dir[j][0];
+                            int nc = c + dir[j][1];
+                            if(nr >= n || nc >= m || nr < 0 || nc < 0) continue;
+                            if(vis[nr][nc] == false && grid[nr][nc] == 1)
+                            {
+                                q.add(new int[]{nr,nc});
+                                vis[nr][nc] = true;
+                            }
+                        }
+                }
+        }
+
+	  int count = 0;
+	  for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(grid[i][j] == 1 && vis[i][j] == false) count++;
+            }
+        }
+	  return count;
+    }
+}
