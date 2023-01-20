@@ -1,0 +1,69 @@
+// 1345. Jump Game IV
+// https://leetcode.com/problems/jump-game-iv/description/
+
+class Solution 
+{
+    public int minJumps(int[] arr) 
+    {
+        int n = arr.length;
+
+        Map<Integer,List<Integer>> hm = new HashMap<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(hm.containsKey(arr[i]))
+            {
+                List<Integer> oldlist = hm.get(arr[i]);
+                oldlist.add(i);
+                hm.put(arr[i],oldlist);
+            }
+            else
+            {
+                List<Integer> newlist = new ArrayList<>();
+                newlist.add(i);
+                hm.put(arr[i],newlist);
+            }
+        }
+
+        boolean visited[] = new boolean[n];
+        Queue<Integer> q = new LinkedList<>();
+        q.add(0);
+        visited[0] = true;
+
+        int level = 0;
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int index = q.remove();
+                
+                if(index == n-1) return level; // If we reached at last index return from here only
+
+                if(index - 1 >= 0 && visited[index-1] == false) // check for previous element
+                {
+                    q.add(index - 1);
+                    visited[index - 1] = true;
+                }
+                if(index + 1 < n && visited[index + 1] == false) // check for next element
+                {
+                    q.add(index + 1);
+                    visited[index + 1] = true;
+                }
+                if(hm.containsKey(arr[index]))
+                {
+                    for(int nbr : hm.get(arr[index]))
+                    {
+                        if(visited[nbr] == false)
+                        {
+                            q.add(nbr);
+                            visited[nbr] = true;
+                        }
+                    }
+                    hm.remove(arr[index]);
+                }
+            }
+            level++;
+        }
+        return -1;
+    }
+}
