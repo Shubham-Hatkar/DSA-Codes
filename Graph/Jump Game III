@@ -1,0 +1,33 @@
+// 1306. Jump Game III
+// https://leetcode.com/problems/jump-game-iii/description/
+
+class Solution 
+{
+    public boolean canReach(int[] arr, int start) 
+    {
+       int n = arr.length; 
+
+       boolean vis[] = new boolean[n];
+       Queue<Integer> q = new LinkedList<>();
+       q.add(start);
+       vis[start] = true;
+
+       while(!q.isEmpty())
+       {
+           int idx = q.remove();
+           if(arr[idx] == 0) return true;
+
+           if(idx + arr[idx] < n && vis[idx + arr[idx]] == false)
+           {
+               q.add(idx + arr[idx]);
+               vis[idx + arr[idx]] = true;
+           }
+           if(idx - arr[idx] >= 0 && vis[idx - arr[idx]] == false)
+           {
+               q.add(idx - arr[idx]);
+               vis[idx - arr[idx]] = true;
+           }
+       } 
+       return false;
+    }
+}
