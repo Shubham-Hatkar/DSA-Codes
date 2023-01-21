@@ -1,0 +1,80 @@
+// 210. Course Schedule II
+// https://leetcode.com/problems/course-schedule-ii/description/
+
+class Solution 
+{
+    private boolean DFS(int src, ArrayList<Integer>[] graph, boolean vis[], boolean path[])
+    {
+        vis[src] = true;
+        path[src] = true;
+
+        for(int nbr : graph[src])
+        {
+            if(vis[nbr] == false)
+            {
+                if(DFS(nbr, graph, vis, path)) return true;
+            }
+            else if(vis[nbr] == true && path[nbr] == true) return true;
+        }
+        path[src] = false;
+        return false;
+    }
+    private boolean isCycle(int v, ArrayList<Integer>[] graph)
+    {
+        boolean vis[] = new boolean[v];
+        boolean path[] = new boolean[v];
+        for(int i = 0; i < v; i++)
+        {
+            if(vis[i] == false)
+            {
+                if(DFS(i,graph, vis, path)) return true;
+            }
+        }
+        return false;
+    }
+    private void complete(int src, ArrayList<Integer>[] graph, boolean vis[], ArrayList<Integer> order)
+    {
+        vis[src] = true;
+
+        for(int nbr : graph[src])
+        {
+            if(vis[nbr] == false)
+            {
+                complete(nbr, graph, vis, order);
+            }
+        }
+        order.add(src);
+    }
+    public int[] findOrder(int numCourses, int[][] prerequisites) 
+    {
+        int v = numCourses;
+        ArrayList<Integer>[] graph = new ArrayList[v];
+        for(int i = 0; i < v; i++) graph[i] = new ArrayList<>();
+
+        for(int[] e : prerequisites)
+        {
+            int u = e[0];
+            int w = e[1];
+            graph[u].add(w);
+        }
+
+        boolean cycle = isCycle(v, graph); 
+        if(cycle == true) return new int[]{};
+
+        boolean vis[] = new boolean[v];
+        ArrayList<Integer> order = new ArrayList<>();
+        for(int i = 0; i < v; i++)
+        {
+            if(vis[i] == false)
+            {
+                complete(i, graph, vis, order);
+            }
+        } 
+        int ans[] = new int[v];
+        for(int i = 0; i < v; i++)
+        {
+            ans[i] = order.get(i);
+        }
+        return ans;
+    }
+}
