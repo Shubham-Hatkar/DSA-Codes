@@ -1,0 +1,23 @@
+// Sorting the Sentence
+// https://leetcode.com/problems/sorting-the-sentence/description/
+
+class Solution 
+{
+    public String sortSentence(String s) 
+    {
+        String temp[] = s.split(" ");
+        String ans[] = new String[temp.length];
+        for(int i = 0; i < temp.length; i++)
+        {
+            String str = temp[i];
+            int idx = (str.charAt(str.length()-1) - '0') - 1;
+            ans[idx] = str.substring(0,str.length()-1);
+        }
+        String res = "";
+        for(int i = 0; i < ans.length; i++)
+        {
+            res += ans[i] + " ";
+        }
+        return res.substring(0,res.length()-1);
+    }
+}
