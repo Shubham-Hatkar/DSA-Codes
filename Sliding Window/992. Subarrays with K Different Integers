@@ -1,0 +1,35 @@
+// 992. Subarrays with K Different Integers
+// https://leetcode.com/problems/subarrays-with-k-different-integers/description/
+
+class Solution 
+{
+    private int AtmostK(int arr[], int k)
+    {
+        int n = arr.length;
+        int start = 0;
+        int end = 0;
+        int unique = 0;
+        int ans = 0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+
+        while(end< n)
+        {
+            hm.put(arr[end],hm.getOrDefault(arr[end],0)+1);
+            if(hm.get(arr[end])==1) unique++;
+            end++;
+
+            while(start < end && unique > k)
+            {
+                hm.put(arr[start],hm.get(arr[start])-1);
+                if(hm.get(arr[start]) == 0) unique--;
+                start++;
+            }
+              ans += end - start;
+        }  
+        return ans;  
+    }
+    public int subarraysWithKDistinct(int[] arr, int k) 
+    {
+        return AtmostK(arr, k) - AtmostK(arr, k-1);
+    }
+}
