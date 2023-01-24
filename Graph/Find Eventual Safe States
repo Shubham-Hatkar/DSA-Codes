@@ -1,0 +1,41 @@
+// 802. Find Eventual Safe States
+// https://leetcode.com/problems/find-eventual-safe-states/description/
+
+class Solution 
+{
+    private boolean DFS(int src, int graph[][], boolean vis[], boolean safe[], boolean path[])
+    {
+        vis[src] = true;
+        path[src] = true;
+        for(int nbr : graph[src])
+        {
+            if(vis[nbr] == false)
+            {
+                if(DFS(nbr, graph, vis, safe, path)) return true;
+            }
+            else if(vis[nbr] == true && path[nbr] == true) return true;
+        }
+        path[src] = false;
+        safe[src] = true;
+        return false;
+    }
+    public List<Integer> eventualSafeNodes(int[][] graph) 
+    {
+        int n = graph.length;
+
+        boolean vis[] = new boolean[n];
+        boolean safe[] = new boolean[n];
+        boolean path[] = new boolean[n];
+        for(int i = 0; i < n; i++)
+        {
+            if(vis[i] == false)
+            DFS(i, graph, vis, safe, path);
+        }
+        ArrayList<Integer> ans = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(safe[i] == true) ans.add(i);
+        }
+        return ans;
+    }
+}
