@@ -1,0 +1,48 @@
+// Steps by Knight
+// https://practice.geeksforgeeks.org/problems/steps-by-knight5927/1
+
+class Solution
+{
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        int dr[] = { -2, -1, 1, 2, -2, -1, 1, 2 };
+        int dc[] = { -1, -2, -2, -1, 1, 2, 2, 1 };
+        
+        boolean vis[][] = new boolean[N+1][N+1];
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{KnightPos[0], KnightPos[1]});
+        
+        vis[KnightPos[0]][KnightPos[1]] = true;
+        
+        int level = 0;
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int temp[] = q.remove();
+                int r = temp[0];
+                int c = temp[1];
+                
+                if(r == TargetPos[0] && c == TargetPos[1]) return level;
+                
+                for(int j = 0; j < 8; j++)
+                {
+                    int nr = r + dr[j];
+                    int nc = c + dc[j];
+                    if(nr > N || nc > N || nr < 1 || nc < 1) continue;
+                    
+                    if(vis[nr][nc] == false)
+                    {
+                        q.add(new int[]{nr,nc});
+                        vis[nr][nc] = true;
+                    }
+                }
+            }
+            level++;
+        }
+        return -1;
+    }
+}
