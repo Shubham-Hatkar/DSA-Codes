@@ -1,0 +1,29 @@
+// Length of the longest substring
+// https://practice.geeksforgeeks.org/problems/length-of-the-longest-substring3036/1
+
+class Solution
+{
+    int longestUniqueSubsttr(String s)
+    {
+        int n = s.length();
+        int start = 0;
+        int end = 0;
+        int len = Integer.MIN_VALUE;
+        int freq[] = new int[123];
+        
+        while(end < n)
+        {
+            freq[s.charAt(end)-'0']++;
+            
+            while(start < end && freq[s.charAt(end)-'0'] > 1)
+            {
+                freq[s.charAt(start)-'0']--;
+                start++;
+            }
+            end++;
+            
+            len = Math.max(len,end - start);
+        }
+        return len;
+    }
+}
