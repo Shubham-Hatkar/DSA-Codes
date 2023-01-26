@@ -1,0 +1,35 @@
+// Subarrays with K Different Integers
+// https://practice.geeksforgeeks.org/problems/subarrays-with-k-different-integers/1
+
+class Solution 
+{
+    static int AtMostK(int arr[], int k)
+    {
+        int n = arr.length;
+        int start = 0;
+        int end = 0;
+        int unique = 0;
+        int ans = 0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        
+        while(end < n)
+        {
+            hm.put(arr[end],hm.getOrDefault(arr[end],0)+1);
+            if(hm.get(arr[end]) == 1) unique++;
+            end++;
+            
+            while(start < end && unique > k)
+            {
+                hm.put(arr[start],hm.get(arr[start])-1);
+                if(hm.get(arr[start]) == 0) unique--;
+                start++;
+            }
+            ans += end - start;
+        }
+        return ans;
+    }
+    static int subarrayCount(int arr[], int N, int k) 
+    {
+       return AtMostK(arr,k) - AtMostK(arr,k-1);
+    }
+}
