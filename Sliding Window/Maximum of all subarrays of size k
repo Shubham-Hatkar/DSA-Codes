@@ -1,0 +1,41 @@
+// Maximum of all subarrays of size k
+// https://practice.geeksforgeeks.org/problems/maximum-of-all-subarrays-of-size-k3101/1
+
+class Solution
+{
+    static int[] NGER(int arr[])
+    {
+        int n = arr.length;
+        Stack<Integer> st = new Stack<>();
+        int ans[] = new int[n];
+        
+        for(int i = 0; i < n; i++)
+        {
+            while(!st.isEmpty() && arr[i] > arr[st.peek()])
+                ans[st.pop()] = i;
+            
+            st.push(i);
+        }
+        while(!st.isEmpty()) ans[st.pop()] = n;
+        return ans;
+    }
+    static ArrayList <Integer> max_of_subarrays(int arr[], int n, int k)
+    {
+        int NGE[] = NGER(arr);
+        
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        int j = 0;
+        for(int i = 0; i <= n-k; i++)
+        {
+            if(j < i) j = i;
+            
+            while(NGE[j] < i + k)
+            {
+                j = NGE[j];
+            }
+            ans.add(arr[j]);
+        }
+        return ans;
+    }
+}
