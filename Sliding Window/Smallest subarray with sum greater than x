@@ -1,0 +1,27 @@
+// Smallest subarray with sum greater than x
+// https://practice.geeksforgeeks.org/problems/smallest-subarray-with-sum-greater-than-x5651/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution {
+
+    public static int smallestSubWithSum(int arr[], int n, int x) 
+    {
+        int start = 0;
+        int end = 0;
+        int len = Integer.MAX_VALUE;;
+        int sum = 0;
+        
+        while(end < n)
+        {
+            sum += arr[end];
+            end++;
+            
+            while(start < end && sum > x)
+            {
+                len = Math.min(len, end-start);
+                sum -= arr[start];
+                start++;
+            }
+        }
+        return len;
+    }
+}
