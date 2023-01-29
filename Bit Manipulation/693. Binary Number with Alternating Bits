@@ -1,0 +1,18 @@
+// 693. Binary Number with Alternating Bits
+// https://leetcode.com/problems/binary-number-with-alternating-bits/description/
+
+class Solution {
+    public boolean hasAlternatingBits(int n) 
+    {
+        int flag = 0;
+        int copy_of_flag = ((n & 1) == 1) ? 0 : 1;
+        while(n != 0)
+        {
+            flag = (n & 1);
+            if(flag == copy_of_flag) return false;
+            n = n >> 1;
+            copy_of_flag = flag;
+        }
+        return true;
+    }
+}
