@@ -1,0 +1,15 @@
+// Swap two numbers
+// https://practice.geeksforgeeks.org/problems/swap-two-numbers3844/1
+
+class Solution{
+    static List<Integer> get(int a,int b)
+    {
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
+        ArrayList<Integer> ans = new ArrayList<>();
+        ans.add(a);
+        ans.add(b);
+        return ans;
+    }
+}
