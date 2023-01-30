@@ -1,0 +1,28 @@
+// 1004. Max Consecutive Ones III
+// https://leetcode.com/problems/max-consecutive-ones-iii/description/
+
+class Solution 
+{
+    public int longestOnes(int[] nums, int k) 
+    {
+        int n = nums.length;
+        int flips = 0;
+        int start = 0;
+        int end = 0;
+        int ans = 0;
+
+        while(end < n)
+        {
+            if(nums[end] == 0) flips++;
+            end++;
+
+            while(start < end && flips > k)
+            {
+                if(nums[start] == 0) flips--;
+                start++;
+            }
+            ans = Math.max(ans, end - start);
+        }
+        return ans;
+    }
+}
