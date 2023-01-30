@@ -1,0 +1,21 @@
+// Max and min element in Binary Tree
+// https://practice.geeksforgeeks.org/problems/max-and-min-element-in-binary-tree/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution{
+    public static int findMax(Node root){
+        while(root != null)
+        {
+            if(root.right != null) root = root.right;
+            else break;
+        }
+        return root.data;
+    }
+    public static int findMin(Node root){
+        while(root != null)
+        {
+            if(root.left != null) root = root.left;
+            else break;
+        }
+        return root.data;
+    }
+}
