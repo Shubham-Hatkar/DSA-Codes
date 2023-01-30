@@ -1,0 +1,28 @@
+// 485. Max Consecutive Ones
+// https://leetcode.com/problems/max-consecutive-ones/description/
+
+
+class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) 
+    {
+        int n = nums.length;
+        int start = 0;
+        int end = 0;
+        int ans = 0;
+        int zeros = 0;
+
+        while(end < n)
+        {
+            if(nums[end] == 0) zeros++;
+            end++;
+
+            while(start < end && zeros > 0)
+            {
+                if(nums[start] == 0) zeros--;
+                start++;
+            }
+            ans = Math.max(ans,end - start);
+        }
+        return ans;
+    }
+}
