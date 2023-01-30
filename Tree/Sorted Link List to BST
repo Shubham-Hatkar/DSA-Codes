@@ -1,0 +1,30 @@
+// Sorted Link List to BST
+// https://practice.geeksforgeeks.org/problems/sorted-list-to-bst/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution
+{
+    private void ConvertIntoArr(LNode head, List<Integer> arr)
+    {
+        LNode curr = head;
+        while(curr != null)
+        {
+            arr.add(curr.data);
+            curr = curr.next;
+        }
+    }
+    private TNode CreateBST(List<Integer> arr, int start, int end)
+    {
+        if(start > end) return null;
+        int mid = (start + end + 1) / 2;
+        TNode nn = new TNode(arr.get(mid));
+        nn.left = CreateBST(arr, start, mid-1);
+        nn.right = CreateBST(arr, mid+1, end);
+        return nn;
+    }
+    public TNode sortedListToBST(LNode head)
+    {
+        List<Integer> arr = new ArrayList<>();
+        ConvertIntoArr(head, arr);
+        return CreateBST(arr, 0, arr.size()-1);
+    }
+}
