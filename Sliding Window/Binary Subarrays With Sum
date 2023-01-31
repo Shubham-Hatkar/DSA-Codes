@@ -1,0 +1,32 @@
+//  930. Binary Subarrays With Sum
+// https://leetcode.com/problems/binary-subarrays-with-sum/description/
+
+class Solution 
+{
+    private int AtMostK(int arr[], int k)
+    {
+        int start = 0;
+        int end = 0;
+        int sum = 0;
+        int n = arr.length;
+        int count = 0;
+
+        while(end < n)
+        {
+            sum += arr[end];
+            end++;
+
+            while(start < end && sum > k)
+            {
+                sum -= arr[start];
+                start++;
+            }
+            count += (end - start);
+        }
+        return count;
+    }
+    public int numSubarraysWithSum(int[] nums, int goal) 
+    {
+        return AtMostK(nums, goal) - AtMostK(nums, goal - 1);
+    }
+}
