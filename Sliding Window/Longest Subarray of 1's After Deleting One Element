@@ -1,0 +1,29 @@
+// Longest Subarray of 1's After Deleting One Element
+// https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/description/
+
+class Solution 
+{
+    public int longestSubarray(int[] nums) 
+    {
+        int start = 0;
+        int end = 0;
+        int n = nums.length;
+        int delete = 0;
+        int ans = 0;
+
+        while(end < n)
+        {
+            if(nums[end] == 0) delete++;
+
+            while(start < end && delete > 1)
+            {
+                if(nums[start] == 0) delete--;
+                start++;
+            }
+            
+            ans = Math.max(ans, end - start);
+            end++;
+        }
+        return ans;
+    }
+}
