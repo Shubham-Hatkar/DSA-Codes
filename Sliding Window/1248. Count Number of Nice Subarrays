@@ -1,0 +1,32 @@
+// 1248. Count Number of Nice Subarrays
+// https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+
+class Solution 
+{
+    private int AtMostK(int nums[], int k)
+    {
+        int start = 0;
+        int end = 0;
+        int odd = 0;
+        int n = nums.length;
+        int count = 0;
+
+        while(end < n)
+        {
+            if(nums[end] % 2 == 1) odd++;
+            end++;
+
+            while(start < end && odd > k)
+            {
+                if(nums[start] % 2 == 1) odd--;
+                start++;
+            }
+            count += (end - start);
+        }
+        return count;
+    }
+    public int numberOfSubarrays(int[] nums, int k) 
+    {
+        return AtMostK(nums,k) - AtMostK(nums,k-1);
+    }
+}
