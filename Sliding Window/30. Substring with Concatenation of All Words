@@ -1,0 +1,56 @@
+// 30. Substring with Concatenation of All Words
+// https://leetcode.com/problems/substring-with-concatenation-of-all-words/description/
+
+class Solution 
+{
+    private boolean checkExess(HashMap<String,Integer> thm, HashMap<String,Integer> shm)
+    {
+        for(String s : shm.keySet())
+        {
+            if(!thm.containsKey(s)) return true;
+            if(shm.get(s) > thm.get(s)) return true;
+        }
+        return false;
+    }
+    public List<Integer> findSubstring(String s, String[] words) 
+    {
+        int totalWords = words.length; // Size of words array.
+        int lenOfWord = words[0].length(); // Length of single word.
+
+        // Take a HashMap and store all the array strings.
+        HashMap<String,Integer> thm = new HashMap<>();
+        for(int i = 0; i < totalWords; i++)
+        {
+            thm.put(words[i], thm.getOrDefault(words[i], 0) + 1);
+        }
+
+        int n = s.length();
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0; i < lenOfWord; i++)
+        {
+            int start = i;
+            int end = i;
+            HashMap<String,Integer> shm = new HashMap<>();
+            while(end + lenOfWord <= n)
+            {
+                // 1. Expansion
+                String temp = s.substring(end, end + lenOfWord);
+                shm.put(temp, shm.getOrDefault(temp, 0) + 1);
+                end = end + lenOfWord;
+
+                // 2. Contraction (Remove excess words)
+                while(start < end && checkExess(thm, shm))
+                {
+                    String str = s.substring(start, start + lenOfWord);
+                    shm.put(str, shm.get(str) - 1);
+                    if(shm.get(str) == 0) shm.remove(str);
+                    start = start + lenOfWord;
+                }
+
+                // 3. Calculations
+                if(shm.equals(thm)) ans.add(start);
+            }
+        }
+        return ans;
+    }
+}
