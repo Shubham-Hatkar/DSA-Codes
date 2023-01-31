@@ -1,0 +1,31 @@
+// 1297. Maximum Number of Occurrences of a Substring
+// https://leetcode.com/problems/maximum-number-of-occurrences-of-a-substring/description/
+
+class Solution 
+{
+    private boolean isValid(String s, int limit)
+    {
+        HashSet<Character> set = new HashSet<>();
+        for(int i = 0; i < s.length(); i++) set.add(s.charAt(i));
+        return (set.size() <= limit);
+    }
+    public int maxFreq(String s, int maxLetters, int minSize, int maxSize) 
+    {
+        HashMap<String,Integer> hm = new HashMap<>();
+        int ans = 0;
+        int n = s.length();
+
+        int i = 0;
+        while(i + minSize <= n)
+        {
+            String curr = s.substring(i, i + minSize);
+            if(isValid(curr, maxLetters))
+            {
+                hm.put(curr, hm.getOrDefault(curr, 0) + 1);
+                ans = Math.max(ans, hm.get(curr));
+            }
+            i++;
+        }
+        return ans;
+    }
+}
