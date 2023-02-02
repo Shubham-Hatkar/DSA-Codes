@@ -1,0 +1,45 @@
+// 1091. Shortest Path in Binary Matrix
+// https://leetcode.com/problems/shortest-path-in-binary-matrix/description/
+
+class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) 
+    {
+        int n = grid.length;
+
+        boolean vis[][] = new boolean[n][n];
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{0,0});
+        if(grid[0][0] == 1) return -1;
+        vis[0][0] = true;
+
+        int dir[][] = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+        int level = 0;
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int idx[] = q.remove();
+                int r = idx[0];
+                int c = idx[1];
+                if(r == n - 1 && c == n - 1) return level + 1;
+
+                for(int j = 0; j < 8; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr >= n || nc >= n || nr < 0 || nc < 0) continue;
+                    
+                    if(vis[nr][nc] == false && grid[nr][nc] == 0)
+                    {
+                        q.add(new int[]{nr,nc});
+                        vis[nr][nc] = true;
+                    }
+                }
+            }
+            level++;
+        }
+        return -1;
+    }
+}
