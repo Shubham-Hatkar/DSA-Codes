@@ -1,0 +1,40 @@
+// 1588. Sum of All Odd Length Subarrays
+// https://leetcode.com/problems/sum-of-all-odd-length-subarrays/description/
+
+class Solution {
+    private int CountSub(int arr[], int k)
+    {
+        int count = 0;
+        int start = 0;
+        int end = 0;
+        int n = arr.length;
+        
+        int sum = 0;
+        while(end < n)
+        {
+            sum += arr[end];
+            end++;
+
+            while(start < end && end - start > k) 
+            {
+                sum -= arr[start];
+                start++;
+            }
+            
+            if(end - start == k) count += sum;
+        }
+        return count;
+    }
+    public int sumOddLengthSubarrays(int[] arr) 
+    {
+        int total = 0;
+        int n = arr.length;
+        int i = 1;
+        while(i <= n)
+        {
+            total = total + CountSub(arr,i);
+            i = i + 2;
+        }   
+        return total;
+    }
+}
