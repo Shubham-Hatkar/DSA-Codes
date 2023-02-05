@@ -1,0 +1,40 @@
+// Negative weight cycle
+// https://practice.geeksforgeeks.org/problems/negative-weight-cycle3504/1
+
+class Solution
+{
+    public int isNegativeWeightCycle(int n, int[][] edges)
+    {
+        int distance[] = new int[n];
+        Arrays.fill(distance,Integer.MAX_VALUE);
+        
+        distance[0] = 0;
+        for(int i = 0; i < n-1; i++)
+        {
+            for(int[] e : edges)
+            {
+                int u = e[0];
+                int v = e[1];
+                int wt = e[2];
+                
+                if(distance[u] != Integer.MAX_VALUE && distance[u] + wt < distance[v])
+                {
+                    distance[v] = distance[u] + wt;
+                }
+            }
+        }
+        
+        for(int[] e : edges)
+            {
+                int u = e[0];
+                int v = e[1];
+                int wt = e[2];
+                
+                if(distance[u] != Integer.MAX_VALUE && distance[u] + wt < distance[v])
+                {
+                    return 1;
+                }
+            }
+        return 0;
+    }
+}
