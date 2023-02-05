@@ -1,0 +1,43 @@
+// 438. Find All Anagrams in a String
+// https://leetcode.com/problems/find-all-anagrams-in-a-string/description/
+
+class Solution 
+{
+    private boolean isSatisfied(int sfreq[], int pfreq[])
+    {
+        for(int i = 0; i < 123; i++)
+        {
+            if(pfreq[i] > sfreq[i]) return false;
+        }
+        return true;
+    }
+    public List<Integer> findAnagrams(String s, String p) 
+    {
+        int start = 0;
+        int end = 0;
+        int slen = s.length();
+        int plen = p.length();
+        int pfreq[] = new int[123];
+        int sfreq[] = new int[123];
+
+        List<Integer> ans = new ArrayList<>();
+        if(slen < plen) return ans; // If s string is smaller than p then that cant be anagram.
+
+        for(int i = 0; i < plen; i++)
+        {
+            pfreq[p.charAt(i)]++;
+            sfreq[s.charAt(i)]++;
+        }
+
+        if(isSatisfied(sfreq,pfreq)) ans.add(0);
+        
+        // One char add and prev character remove frequency.
+        for(int i = plen; i < slen; i++)
+        {
+            sfreq[s.charAt(i)]++;
+            sfreq[s.charAt(i-plen)]--;
+            if(isSatisfied(sfreq,pfreq)) ans.add(i - plen + 1);
+        }
+        return ans;
+    }
+}
