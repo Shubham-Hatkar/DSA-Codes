@@ -1,0 +1,28 @@
+// 1021. Remove Outermost Parentheses
+// https://leetcode.com/problems/remove-outermost-parentheses/description/
+
+
+class Solution 
+{
+    public String removeOuterParentheses(String s) 
+    {
+        String ans = "";
+        int count = 0;
+        int start = 0;
+        for(int i=0; i<s.length(); i++)
+        {
+            char ch = s.charAt(i); //current char
+
+            if(ch=='(') count++;
+            else count--;
+
+            //when your count is 0 you should add string from start+1 to i-1th index into ans ans update start
+            if(count==0)
+            {
+                ans += s.substring(start+1, i);
+                start = i + 1;
+            }
+        }
+        return ans;
+    }
+}
