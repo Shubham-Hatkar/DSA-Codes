@@ -1,0 +1,42 @@
+// Print Anagrams Together
+// https://practice.geeksforgeeks.org/problems/print-anagrams-together/1
+
+class Solution 
+{
+    private String sort(String s)
+    {
+        char str[] = s.toCharArray();
+        Arrays.sort(str);
+        return new String(str);
+    }
+    public List<List<String>> Anagrams(String[] str) 
+    {
+        HashMap<String,List<String>> hm = new HashMap<>();
+        
+        for(int i = 0; i < str.length; i++)
+        {
+            String original = str[i];
+            String sorted = sort(original);
+            
+            if(hm.containsKey(sorted))
+            {
+                List<String> old = hm.get(sorted);
+                old.add(original);
+                hm.put(sorted,old);
+            }
+            else
+            {
+                List<String> newlist = new ArrayList<>();
+                newlist.add(original);
+                hm.put(sorted,newlist);
+            }
+        }
+        
+        List<List<String>> ans = new ArrayList<>();
+        for(String key : hm.keySet())
+        {
+            ans.add(hm.get(key));
+        }
+        return ans;
+    }
+}
