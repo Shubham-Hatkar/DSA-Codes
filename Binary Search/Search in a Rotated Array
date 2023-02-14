@@ -1,0 +1,44 @@
+// Search in a Rotated Array
+// https://practice.geeksforgeeks.org/problems/search-in-a-rotated-array4618/1
+
+class Solution
+{
+    int FindMax(int arr[])
+    {
+        int n = arr.length;
+        int start = 0;
+        int end = arr.length-1;
+        
+        while(start <= end)
+        {
+            int mid = (start + end) / 2;
+            if(mid + 1 < n && arr[mid] > arr[mid+1]) return mid;
+            else if(arr[start] <= arr[mid]) start = mid + 1;
+            else end = mid - 1;
+        }
+        return n-1;
+    }
+    int BS(int arr[], int start, int end, int key)
+    {
+        int n = arr.length;
+        
+        while(start <= end)
+        {
+            int mid = (start+end)/2;
+            if(arr[mid] == key) return mid;
+            else if(arr[mid] < key) start = mid + 1;
+            else end = mid - 1;
+        }
+        return -1;
+    }
+    int search(int arr[], int l, int h, int key)
+    {
+        int n = arr.length;
+        int maxIndex = FindMax(arr);
+       //System.out.println(maxIndex);
+        if(arr[maxIndex] == key)return maxIndex;
+        //if(maxIndex == n) return BS(arr,0, n-1, key);
+        if(arr[0] <= key && key < arr[maxIndex]) return BS(arr, 0, maxIndex, key);
+        else return BS(arr, maxIndex + 1, n-1, key); 
+    }
+}
