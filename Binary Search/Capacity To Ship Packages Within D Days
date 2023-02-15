@@ -1,0 +1,49 @@
+// Capacity To Ship Packages Within D Days
+// https://practice.geeksforgeeks.org/problems/capacity-to-ship-packages-within-d-days/1
+
+class Solution 
+{
+    static boolean isPossible(int arr[], int maxWeight, int days)
+    {
+        int currDays = 1;
+        int currWeight = 0;
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            currWeight += arr[i];
+            if(currWeight > maxWeight)
+            {
+                currDays++;
+                currWeight = arr[i];
+            }
+        }
+        return (currDays <= days);
+    }
+    static int leastWeightCapacity(int[] arr, int N, int D) 
+    {
+        int maxWeight = 0;
+        int totalWeights = 0;
+        
+        for(int i = 0; i < N; i++)
+        {
+            totalWeights += arr[i];
+            maxWeight = Math.max(maxWeight,arr[i]);
+        }
+        
+        
+        int start = maxWeight;
+        int end = totalWeights;
+        int ans = 0;
+        while(start <= end)
+        {
+            int mid = (start + end) / 2;
+            if(isPossible(arr, mid, D))
+            {
+                ans = mid;
+                end = mid - 1;
+            }
+            else start = mid + 1;
+        }
+        return ans;
+    }
+};
