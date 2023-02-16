@@ -1,0 +1,51 @@
+// 1377. Frog Position After T Seconds
+// https://leetcode.com/problems/frog-position-after-t-seconds/description/
+
+class Solution 
+{
+    public double frogPosition(int n, int[][] edges, int t, int target) 
+    {
+        ArrayList<Integer>[] graph = new ArrayList[n+1];
+        for(int i = 0; i <= n; i++) graph[i] = new ArrayList<>();
+
+        for(int[] e : edges)
+        {
+            int u = e[0];
+            int v = e[1];
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+
+        boolean vis[] = new boolean[n+1];
+        Queue<Integer> q = new LinkedList<>();
+        q.add(1);
+        vis[1] = true;
+
+        double prob[] = new double[n+1];
+        prob[1] = 1; 
+        while(!q.isEmpty())
+        {
+            if(t == 0) break;
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int temp = q.remove();
+                int NumberOfVerticesAtNextLevel = 0;
+                for(int nbr : graph[temp]) 
+                    if(!vis[nbr]) NumberOfVerticesAtNextLevel++;
+                for(int nbr : graph[temp])
+                {
+                    if(vis[nbr] == false)
+                    {
+                        vis[nbr] = true;
+                        q.add(nbr);
+                        prob[nbr] = prob[temp] / NumberOfVerticesAtNextLevel;
+                    }
+                }
+                if(NumberOfVerticesAtNextLevel > 0) prob[temp] = 0;
+            }
+            t--;
+        }
+        return prob[target];
+    }
+}
