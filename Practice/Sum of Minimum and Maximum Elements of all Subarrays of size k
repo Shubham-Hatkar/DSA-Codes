@@ -1,0 +1,148 @@
+// Sum of Minimum and Maximum Elements of all Subarrays of size k
+// https://course.acciojob.com/idle?question=e3c0aa66-fa4c-45dc-879e-ddb89e2e5a55
+
+You are given a 0-indexed array of integers nums of length n and a positive integer k, find the sum of minimum and maximum elements of all the sub-arrays of size k.
+
+Note: Your task is to complete the function sumOfMaxAndMin() which takes the array nums, its size n and an integer k as inputs and returns the sum of minimum and maximum elements of all the sub-arrays of size k.
+
+Input Format
+The first line contains an integer n denoting the size of the array nums. The next line contains n space separated integers forming the array arr. The last line contains the window size k.
+
+Output Format
+Print the sum of minimum and maximum elements of all the sub-arrays of size k.
+
+Example 1
+Input
+
+9
+-10 20 -30 -40 50 60 -70 80 90
+3
+Output
+
+20
+Explanation
+
+The windows of size 3 with sum of max and min are:-
+[-10, 20, -30] => 20 - 30 = -10 
+[20, -30, -40] => 20 - 40 = -20 
+[-30, -40, 50] => 50 - 40 = 10 
+[-40, 50, 60] => 60 - 40 = 20
+[50, 60, -70] => 60 -70 = -10 
+[60, -70, 80] => 80 -70 = 10
+[-70, 80, 90] => 90 - 70 = 20
+Hence the total sum is :- 
+-10 -20 +10 +20 -10 +10 +20 = 20 
+Example 2
+Input
+
+5
+-1 2 3 -4 5
+2
+Output
+
+6
+Explanation
+
+The windows of size 2 with sum of max and min are:- 
+[-1, 2] => 2 - 1 = 1
+[2, 3] => 3 + 2 = 5
+[3, -4] => 3 - 4 = -1 
+[-4, 5] => 5 - 4 = 1
+Hence the total sum is :-
+1 + 5 - 1 + 1 = 6 
+Constraints
+1 <= n <= 105
+
+10-5 <= arr[i] <= 105
+
+1 <= k <= n
+
+*********************************************************************************************************************************************
+
+
+import java.util.*;
+class Solution
+{
+	private static int[] NGE(int arr[])
+	{
+		int n = arr.length;
+		int ans[] = new int[n];
+		Stack<Integer> st = new Stack<>();
+
+		for(int i = 0; i < n; i++)
+			{
+				while(st.size() > 0 && arr[i] > arr[st.peek()])
+				{
+					ans[st.pop()] = i;
+				}
+				st.push(i);
+			}
+		while(st.size() > 0) ans[st.pop()] = n;
+		return ans;
+	}
+	private static int[] NSE(int arr[])
+	{
+		int n = arr.length;
+		int ans[] = new int[n];
+		Stack<Integer> st = new Stack<>();
+
+		for(int i = n - 1; i >= 0; i--)
+			{
+				while(st.size() > 0 && arr[i] < arr[st.peek()])
+						ans[st.pop()] = i;
+
+				st.push(i);
+			}
+		while(!st.isEmpty()) ans[st.peek()] = st.pop();
+		return ans;
+	}
+    public static long sumOfMaxAndMin(int arr[], int n, int k)
+    {
+         int NGE[] = NGE(arr);
+		 int NSE[] = NSE(arr);
+
+		 long sum = 0;
+		 int j = 0;
+		 for(int i = 0; i <= n - k; i++)
+			 {
+				 if(j < i) j = i;
+				 while(NGE[j] < i + k)
+					 {
+						 j = NGE[j];
+					 }
+				 int max = arr[j];
+
+				 int minIdx = i + k - 1;
+				 int prev = -1;
+				 while(NSE[minIdx] >= i)
+					 {
+						 if(prev == minIdx) break;
+						 prev = minIdx;
+						 minIdx = NSE[minIdx];
+					 }
+				 int min = arr[minIdx];
+
+				 sum += ((long)max + (long)min);
+			 }
+		return sum;
+    }
+}
+public class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n] ; 
+        for(int i = 0 ; i < n ; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int k = sc.nextInt();
+         System.out.print(Solution.sumOfMaxAndMin(arr, n , k ));
+        
+    }
+}
+
+
+
+
+
+
