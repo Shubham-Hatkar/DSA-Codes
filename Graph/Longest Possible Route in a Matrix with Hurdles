@@ -1,0 +1,116 @@
+// Longest Possible Route in a Matrix with Hurdles
+// https://course.acciojob.com/idle?question=07f64edb-63a1-49c7-9929-042ad7eda233
+
+*/ 
+Longest Possible Route in a Matrix with Hurdles
+Given an R X C matrix, with a few hurdles arbitrarily placed, calculate the length of the longest possible route possible from (0, 0) to a destination int the matrix. We are allowed to move to only adjacent cells which are not hurdles. The route cannot contain any diagonal moves and a location once visited in a particular path cannot be visited again.
+
+Input Format
+First line consists of the number of rows R and columns C of the matrix mat
+
+The next R lines contains C integers each, either 0(obstacle) or 1(free)
+
+The next line consists of the row number dest_x and column number dest_y of the final destination
+
+Output Format
+Print the maximum length of the longest possible route possible from (0, 0) to (dest_x, dest_y).
+
+If the destination isn't reachable, print -1.
+
+Example 1
+Input
+
+3 10
+1 1 1 1 1 1 1 1 1 1
+1 1 0 1 1 0 1 1 0 1
+1 1 1 1 1 1 1 1 1 1
+1 7
+Output
+
+24
+Explanation
+
+
+Example 2
+Input
+
+3 3
+1 1 1
+0 0 0
+1 1 1
+2 2
+Output
+
+-1
+Explanation
+
+Destination isn't reachable because of the obstacles
+
+Constraints
+1 <= R, C <= 10
+
+Matrix consists of only 0 or 1
+*/
+
+
+
+
+
+
+import java.util.*;
+class Pair
+	{
+		int val;
+		boolean found;
+		Pair(int val, boolean found)
+		{
+			this.val = val;
+			this.found = found;
+		}
+	}
+public class Main 
+{
+  static int dir[][] = {{1,0}, {0,1}, {-1,0}, {0,-1}};
+  static Pair DFS(int mat[][], int sr, int sc, int dr, int dc, boolean vis[][])
+	{
+		int n = mat.length;
+		int m = mat[0].length;
+		
+		if(sr == dr && sc == dc) return new Pair(0,true);
+		vis[sr][sc] = true;
+		int res = Integer.MIN_VALUE;
+		for(int i = 0; i < 4; i++)
+			{
+				int nr = sr + dir[i][0];
+				int nc = sc + dir[i][1];
+				if(nr >= n || nc >= m || nr < 0 || nc < 0 || vis[nr][nc] == true || mat[nr][nc] == 0) continue;
+				Pair check = DFS(mat, nr, nc, dr, dc, vis);
+				if(check.found == true) res = Math.max(res,check.val);
+			}
+		vis[sr][sc] = false;
+		if(res != Integer.MIN_VALUE) return new Pair(res+1, true);
+		return new Pair(Integer.MAX_VALUE, false);
+	}
+  static int findLongestPath(int mat[][], int i, int j, int x, int y, int R, int C) 
+  {
+      boolean vis[][] = new boolean[R][C];
+	  Pair ans = DFS(mat, i, j, x, y, vis);
+	  if(ans.val != Integer.MAX_VALUE) return ans.val;
+	  else return -1;
+  }
+
+  // Driver Code
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int R = sc.nextInt(), C = sc.nextInt();
+    int[][] mat = new int[R][C];
+    for (int i = 0; i < R; i++) {
+      for (int j = 0; j < C; j++) {
+        mat[i][j] = sc.nextInt();
+      }
+    }
+    int dest_x = sc.nextInt(), dest_y = sc.nextInt();
+    sc.close();
+    System.out.println(findLongestPath(mat, 0, 0, dest_x, dest_y, R, C));
+  }
+}
