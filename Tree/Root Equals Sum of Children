@@ -1,0 +1,12 @@
+// Root Equals Sum of Children
+// https://leetcode.com/problems/root-equals-sum-of-children/description/
+
+class Solution 
+{
+    public boolean checkTree(TreeNode root) 
+    {
+        int left = root.left.val;
+        int right = root.right.val;
+        return (root.val == left + right);
+    }
+}
