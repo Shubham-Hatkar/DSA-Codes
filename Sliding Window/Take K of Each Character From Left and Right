@@ -1,0 +1,43 @@
+// Take K of Each Character From Left and Right
+// https://leetcode.com/problems/take-k-of-each-character-from-left-and-right/description/
+
+class Solution 
+{
+    public int takeCharacters(String s, int k) 
+    {
+        int n = s.length();
+        int freq[] = new int[26];
+
+        // Calculate the freq of each char.
+        for(int i = 0; i < n; i++) 
+            freq[s.charAt(i) - 'a']++;
+
+        // If freq of a,b,c is lesser than k return -1 from here only.
+        if(freq['a'-'a'] < k || freq['b'-'a'] < k || freq['c'-'a'] < k) return -1;  
+
+        // Find out what will be the size of maximum window we can exclude.
+        int start = 0;
+        int end = 0;
+        int window = 0;
+        int ans = -1;
+        while(end < n)
+        {
+            // Expansion of Window
+            char ch = s.charAt(end);
+            freq[ch - 'a']--;
+            end++;
+
+            // If freq of curr char become < k then shrink the window
+            while(freq[ch - 'a'] < k)
+            {
+                freq[s.charAt(start) - 'a']++;
+                start++;
+            }
+            // Calculation
+            ans = Math.max(ans, end - start); // Maximum Window we can exclude
+        }
+
+        // Subtract size of max window which we can exclude.
+        return n - ans;
+    }
+}
