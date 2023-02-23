@@ -1,0 +1,43 @@
+// IPO
+// https://leetcode.com/problems/ipo/description/
+
+
+class Solution 
+{
+    class compare implements Comparator<int[]>
+    {
+        public int compare(int[] a, int[] b)
+        {
+            if(a[0] == b[0]) return 0;
+            else if(a[0] > b[0]) return 1;
+            else return -1;
+        }
+    }
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) 
+    {
+        int n = profits.length;
+
+        ArrayList<int[]> projects = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+            projects.add(new int[]{capital[i], profits[i]});
+
+
+        Collections.sort(projects, new compare());
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int i = 0;
+        while(k-- > 0)
+        {
+            while(i < n && projects.get(i)[0] <= w)
+            {
+                pq.add(projects.get(i)[1]);
+                i++;
+            }
+
+            if(pq.isEmpty()) break;
+
+            w += pq.remove();
+        }
+        return w;
+    }
+}
