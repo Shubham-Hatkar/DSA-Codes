@@ -1,0 +1,21 @@
+// 1791. Find Center of Star Graph
+// https://leetcode.com/problems/find-center-of-star-graph/description/
+
+class Solution 
+{
+    public int findCenter(int[][] edges) 
+    {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int e[] : edges)
+        {
+            hm.put(e[0], hm.getOrDefault(e[0],0) + 1);
+            hm.put(e[1], hm.getOrDefault(e[1],0) + 1);
+        }
+
+        for(Integer key : hm.keySet())
+        {
+            if(hm.get(key) == hm.size() - 1) return key;
+        }
+        return -1;
+    }
+}
