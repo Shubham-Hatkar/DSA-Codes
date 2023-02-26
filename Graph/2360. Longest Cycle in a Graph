@@ -1,0 +1,41 @@
+// 2360. Longest Cycle in a Graph
+// https://leetcode.com/problems/longest-cycle-in-a-graph/description/
+
+class Solution 
+{
+    int ans;
+    private void DFS(int src, int d, int edges[], int distance[], boolean vis[], boolean extra[])
+    {
+        if(src != -1)
+        {
+            if(vis[src] == false)
+            {
+                vis[src] = true;
+                extra[src] = true;
+                distance[src] = d;
+                DFS(edges[src], d+1, edges, distance, vis, extra);
+            }
+            else if(extra[src] == true)
+            {
+                ans = Math.max(ans, d - distance[src]);
+                System.out.println(ans);
+            }
+            extra[src] = false;
+        }
+    }
+    public int longestCycle(int[] edges) 
+    {
+        ans = -1;
+        int n = edges.length;
+        int distance[] = new int[n];
+        Arrays.fill(distance, -1);
+        boolean vis[] = new boolean[n];
+        boolean extra[] = new boolean[n];
+        for(int i = 0; i < n; i++)
+        {
+           if(vis[i] == false)
+            DFS(i, 0, edges, distance, vis, extra);
+        }
+        return ans;
+    }
+}
