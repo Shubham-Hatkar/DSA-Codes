@@ -1,0 +1,81 @@
+// 987. Vertical Order Traversal of a Binary Tree
+// https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
+
+
+class Pair {
+    int row;
+    int col;
+    TreeNode root;
+    Pair(TreeNode root, int row, int col) {
+        this.row = row;
+        this.col = col;
+        this.root = root;
+    }
+}
+class Solution {
+    static class cmp implements Comparator<Pair> {
+        @Override
+        public int compare(Pair a, Pair b) {
+            if(a.col == b.col) {
+                if(a.row == b.row) {
+                    return a.root.val - b.root.val;
+                }
+                return a.row-b.row;
+            }
+ 
+            return a.col - b.col;
+        }
+    }
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+		if(root == null) return ans;
+ 
+		Map<Integer, List<Pair>> map = new HashMap<>();
+		Queue<Pair> q = new LinkedList<>();
+ 
+		int minScale = Integer.MAX_VALUE;
+		int maxScale = Integer.MIN_VALUE;
+ 
+		q.add(new Pair(root, 0, 0));
+ 
+		while(q.size() > 0) {
+			int size = q.size();
+			for(int i=0; i<size; i++) {
+				Pair info = q.remove();
+				TreeNode temp = info.root;
+				int col = info.col;
+                int row = info.row;
+ 
+				minScale = Math.min(minScale, col);
+				maxScale = Math.max(maxScale, col);
+ 
+				if(map.containsKey(col)) {
+					List<Pair> oldList = map.get(col);
+                    oldList.add(info);
+					map.put(col, oldList);
+				}
+				else {
+					List<Pair> newList = new ArrayList<>();
+                    newList.add(info);
+					map.put(col, newList);
+				}
+ 
+				if(temp.left != null) q.add(new Pair(temp.left, row + 1, col - 1));
+				if(temp.right != null) q.add(new Pair(temp.right, row + 1, col + 1));
+			}
+		}
+        
+		for(int i=minScale; i<=maxScale; i++) {
+			List<Pair> temp = map.get(i);
+            Collections.sort(temp, new cmp());
+ 
+            ArrayList curr = new ArrayList<>();
+            for(int j=0; j<temp.size(); j++) {
+                curr.add(temp.get(j).root.val);
+            }
+			ans.add(curr);
+		}
+		return ans;
+    }
+}
+
