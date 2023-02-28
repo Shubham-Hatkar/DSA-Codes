@@ -1,0 +1,23 @@
+// 652. Find Duplicate Subtrees
+// https://leetcode.com/problems/find-duplicate-subtrees/description/
+
+class Solution 
+{
+    private String preorder(TreeNode root, HashMap<String,Integer> hm, List<TreeNode> ans)
+    {
+        if(root == null) return "";
+        String left = preorder(root.left, hm, ans);
+        String right = preorder(root.right, hm, ans);
+        String res = root.val + "*" + left + "*" + right;
+        hm.put(res,hm.getOrDefault(res,0) + 1);
+        if(hm.get(res) == 2) ans.add(root);
+        return res;
+    }
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) 
+    {
+        HashMap<String,Integer> hm = new HashMap<>();
+        List<TreeNode> ans = new ArrayList<>();
+        preorder(root, hm, ans);
+        return ans;
+    }
+}
