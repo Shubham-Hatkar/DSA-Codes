@@ -1,0 +1,44 @@
+// 2187. Minimum Time to Complete Trips
+// https://leetcode.com/problems/minimum-time-to-complete-trips/description/
+
+class Solution 
+{
+    private boolean IsPossible(int arr[], long time, int totaltrips)
+    {
+        int currentTrips = 0;
+
+        for(int i = 0; i < arr.length; i++)
+        {
+            long count = time / (long)arr[i]; 
+            currentTrips += count;
+            if(currentTrips >= totaltrips) return true;
+        }
+        return false;
+    }
+    public long minimumTime(int[] time, int totalTrips) 
+    {
+        long min = Long.MAX_VALUE;
+        for(int i = 0; i < time.length; i++)
+        {
+            min = Math.min(min,(long)time[i]);
+        }
+
+        // we need min time atleast to complete trip
+        long start = min;
+        // In worst case minimum time will complete all trips
+        long end = min * totalTrips; 
+
+        long ans = totalTrips;
+        while(start <= end)
+        {
+            long mid = start + ((end - start) / 2);
+            if(IsPossible(time, mid, totalTrips))
+            {
+                ans = mid;
+                end = mid - 1;
+            }
+            else start = mid + 1;
+        }
+        return ans;
+    }
+}
