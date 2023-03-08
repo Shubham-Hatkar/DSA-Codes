@@ -1,0 +1,70 @@
+// Nth Fibonacci Number
+// https://practice.geeksforgeeks.org/problems/nth-fibonacci-number1335/1
+
+
+
+// Brute Force :
+    TC -> 2N
+    SC -> 2N
+
+class Solution 
+{
+    static long fibo(long n)
+    {
+        if(n <= 1) return n;
+        return fibo(n-1) + fibo(n-2);
+    }
+    static long nthFibonacci(long n)
+    {
+        // code here
+        return fibo(n);
+    }
+}
+
+
+DP TC optimized: 
+    TC - > O(N)
+    SC - > O(N)
+
+class Solution 
+{
+    static long m = 1000000007;
+    static long fibo(long n, long dp[])
+    {
+        if(n <= 1) return n;
+        if(dp[(int)n] != -1) return dp[(int)n];
+        dp[(int)n] = fibo((n % m) - 1, dp) % m + fibo((n % m) - 2, dp) % m;
+        return dp[(int)n] % m;
+    }
+    static long nthFibonacci(long n)
+    {
+        // code here
+        long dp[] = new long[(int)n+1];
+        Arrays.fill(dp, -1);
+        return fibo(n, dp);
+    }
+}
+
+
+// Dynamic Programming with Space Optimization
+    TC - > O(N)
+    SC - > O(1)
+    
+class Solution 
+{
+    static long nthFibonacci(long n)
+    {
+        // code here
+        long m = 1000000007;
+        long secondPrevious = 0;
+        long previous = 1;
+        long curr = 0;
+        for(int i = 2; i <= n; i++)
+        {
+            curr = ((secondPrevious % m) + (previous % m)) % m;
+            secondPrevious = previous % m;
+            previous = curr % m;
+        }
+        return previous % m;
+    }
+}
