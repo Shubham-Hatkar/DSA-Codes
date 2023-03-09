@@ -1,0 +1,79 @@
+// Frog Jump
+// https://www.codingninjas.com/codestudio/problems/frog-jump_3621012?leftPanelTab=0
+
+######################## Recursive Approach with DP Memoization ################################
+
+import java.util.* ;
+import java.io.*; 
+public class Solution 
+{
+    private static int solve(int idx, int heights[], int dp[])
+    {
+        if(idx == 0) return 0;
+
+        if(dp[idx] != -1) return dp[idx];
+
+        int left = solve(idx - 1, heights, dp) + Math.abs(heights[idx] - heights[idx-1]);
+        int right = Integer.MAX_VALUE;
+        if(idx > 1) right = solve(idx - 2, heights, dp) + Math.abs(heights[idx] - heights[idx-2]);
+        dp[idx] = Math.min(left, right);
+        return dp[idx];
+    }
+    public static int frogJump(int n, int heights[]) 
+    {
+        int dp[] = new int[n+1];
+        Arrays.fill(dp,-1);
+        return solve(n-1, heights, dp);
+    }
+}
+
+
+##################### DP Tabulation Approach ###################################################
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int frogJump(int n, int heights[]) 
+    {
+        int dp[] = new int[n+1];
+        Arrays.fill(dp,-1);
+        dp[0] = 0;
+        for(int i = 1; i < n; i++)
+        {
+            int firstStep = dp[i-1] + Math.abs(heights[i] - heights[i-1]);
+            int secondStep = Integer.MAX_VALUE;
+            if(i > 1) 
+            secondStep = dp[i-2] + Math.abs(heights[i] - heights[i-2]);
+            dp[i] = Math.min(firstStep,secondStep);
+        }
+        return dp[n-1];
+    }
+
+}
+
+
+################ DP Space Optimized #######################################
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int frogJump(int n, int heights[]) 
+    {
+        int dp[] = new int[n+1];
+        Arrays.fill(dp,-1);
+        int prev = 0;
+        int prevOfPrev = 0;
+        for(int i = 1; i < n; i++)
+        {
+            int firstStep = prev + Math.abs(heights[i] - heights[i-1]);
+            int secondStep = Integer.MAX_VALUE;
+            if(i > 1) 
+            secondStep = prevOfPrev + Math.abs(heights[i] - heights[i-2]);
+            int curr = Math.min(firstStep,secondStep);
+            prevOfPrev = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+
+}
