@@ -1,0 +1,60 @@
+// 31. Next Permutation
+// https://leetcode.com/problems/next-permutation/description/
+
+class Solution 
+{
+    private void reverse(int nums[], int i, int j)
+    {
+        while(i <= j)
+        {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+    }
+    public void nextPermutation(int[] nums) 
+    {
+        int n = nums.length;
+
+        int idx1 = -1;
+        // Traverse from the last and find a[i] < a[i+1]
+        for(int i = n - 2; i >= 0; i--)
+        {
+            if(nums[i] < nums[i+1]) 
+            {
+                idx1 = i;
+                break;
+            }
+        }
+
+        if(idx1 == -1)
+        {
+            reverse(nums, 0, n - 1);
+            return;
+        }
+
+        // Find the index which value is lesser than idx1 from back/last
+        int idx2 = -1;
+        for(int i = n - 1; i >= 0; i--)
+        {
+            if(nums[idx1] < nums[i])
+            {
+                idx2 = i;
+                break;
+            }
+        }
+
+        // Swap the values of idx1 and idx2
+        if(idx1 != -1 && idx2 != -1)
+        {
+            int temp = nums[idx1];
+            nums[idx1] = nums[idx2];
+            nums[idx2] = temp;
+        }
+
+        // Reverse the array from idx1 + 1 to end
+        reverse(nums, idx1 + 1, n - 1);
+    }
+}
