@@ -1,0 +1,33 @@
+// Smallest number
+// https://practice.geeksforgeeks.org/problems/smallest-number5829/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution
+{
+    static String smallestNumber(int s, int d)
+    {
+        String ans = "";
+        
+        if(d * 9 < s) return "-1";
+        
+        for(int i = d - 1; i >= 0; i--)
+        {
+            if(s > 9)
+            {
+                ans = '9' + ans;
+                s -= 9;
+            }
+            else
+            {
+                if(i == 0) ans = String.valueOf(s) + ans;
+                else
+                {
+                    ans = String.valueOf(s-1) + ans;
+                    i--;
+                    while(i-- > 0) ans = '0' + ans;
+                    ans = '1' + ans;
+                }
+            }
+        }
+        return ans;
+    }
+}
