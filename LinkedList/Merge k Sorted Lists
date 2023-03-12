@@ -1,0 +1,34 @@
+// 23. Merge k Sorted Lists
+// https://leetcode.com/problems/merge-k-sorted-lists/description/
+
+class Solution 
+{
+    public ListNode mergeKLists(ListNode[] lists) 
+    {
+        ListNode dummy = new ListNode(-1);
+        ListNode CopyOfDummy = dummy;
+
+        // Min PQ
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b) -> Integer.compare(a.val,b.val));
+        
+        // Add head of each List in min pq.
+        for(ListNode node : lists) 
+        {
+            if(node != null) pq.add(node);
+        }
+
+        // Get min val node and attach to ans list and move pointer to the next if next is not null.
+        while(!pq.isEmpty())
+        {
+            ListNode min = pq.remove();
+            dummy.next = min;
+            dummy = dummy.next;
+            if(min.next != null) 
+            {
+                min = min.next;
+                pq.add(min);
+            }
+        }
+        return CopyOfDummy.next;
+    }
+}
