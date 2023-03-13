@@ -1,0 +1,27 @@
+// 658. Find K Closest Elements
+// https://leetcode.com/problems/find-k-closest-elements/
+
+class Solution 
+{
+    public List<Integer> findClosestElements(int[] arr, int k, int x) 
+    {
+        List<Integer> ans = new ArrayList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int n = arr.length;
+        if(n == 0 || k == 0) return ans;
+
+        pq.add(arr[0]);
+        for(int i = 1; i < n; i++)
+        {
+            if(pq.size() >= k && Math.abs(x - pq.peek()) > Math.abs(x - arr[i])) 
+            {
+                pq.remove();
+                pq.add(arr[i]);
+            }
+            else if(pq.size() < k) pq.add(arr[i]);
+        }
+
+        while(pq.size() > 0) ans.add(pq.remove());
+        return ans;
+    }
+}
