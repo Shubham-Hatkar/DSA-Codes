@@ -1,0 +1,39 @@
+// 129. Sum Root to Leaf Numbers
+// https://leetcode.com/problems/sum-root-to-leaf-numbers/description/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution 
+{
+    int total;
+    private void solve(TreeNode root, int num)
+    {
+        if(root == null) return;
+        if(root.left == null && root.right == null) 
+        {
+            total += (num * 10 + root.val);
+            return;
+        }
+        solve(root.left, num * 10 + root.val);
+        solve(root.right, num * 10 + root.val);
+    }
+    public int sumNumbers(TreeNode root) 
+    {
+        total = 0;
+        solve(root, 0);
+        return total;
+    }
+}
