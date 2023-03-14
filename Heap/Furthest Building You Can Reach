@@ -1,0 +1,31 @@
+// 1642. Furthest Building You Can Reach
+// https://leetcode.com/problems/furthest-building-you-can-reach/description/
+
+class Solution 
+{
+    public int furthestBuilding(int[] heights, int bricks, int ladders) 
+    {
+        // take ladder at highest distance between two buildings
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        for(int i = 1; i < heights.length; i++)
+        {
+           // check diff so we can decide how we can reach to next
+           int diff = heights[i] - heights[i-1]; 
+           
+           // if diff is - ve means next building height is lesser than curr building 
+           // we not needed bricks or ladder we can jump without any help
+           if(diff < 0) continue; 
+
+           pq.add(diff);
+           // Use ladders for maximum diff 
+           if(pq.size() > ladders)
+           {
+               bricks = bricks - pq.remove(); // use bricks for smaller diff
+           }
+
+           if(bricks < 0) return i - 1; // if we dont have bricks.
+        }
+        return heights.length - 1; // if we can reach at the end.
+    }
+}
