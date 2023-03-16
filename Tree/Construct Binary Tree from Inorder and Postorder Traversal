@@ -1,0 +1,50 @@
+// 106. Construct Binary Tree from Inorder and Postorder Traversal
+// https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/description/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution 
+{
+    private TreeNode solve(int inorder[], int inStart, int inEnd, int postorder[], int postStart, int postEnd)
+    {
+        if(inStart > inEnd || postStart > postEnd) return null;
+
+        TreeNode nn = new TreeNode(postorder[postEnd]);
+
+        int indexInInorder = 0;
+        for(int i = inStart; i <= inEnd; i++)
+        {
+            if(inorder[i] == postorder[postEnd])
+            {
+                indexInInorder = i;
+                break;
+            }
+        }
+
+        int leftsize = indexInInorder - inStart;
+        int rightsize = inEnd - indexInInorder;
+        nn.left = solve(inorder, inStart, indexInInorder - 1, postorder, postStart, postStart + leftsize - 1);
+        nn.right = solve(inorder, indexInInorder + 1, inEnd, postorder, postEnd - rightsize, postEnd - 1);
+        return nn;
+    }
+    public TreeNode buildTree(int[] inorder, int[] postorder) 
+    {
+        return solve(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
+    }
+}
+
+
+
