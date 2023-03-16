@@ -1,0 +1,31 @@
+// 78. Subsets
+// https://leetcode.com/problems/subsets/description/
+
+
+class Solution 
+{
+    private void solve(int i, int nums[], List<Integer> path, List<List<Integer>> ans)
+    {
+        if(i >= nums.length)
+        {
+            if(i == nums.length)
+            {
+                List<Integer> temp = new ArrayList<>(path);
+                ans.add(temp);
+            }
+            return;
+        }
+
+        path.add(nums[i]);
+        solve(i + 1, nums, path, ans);
+        path.remove(path.size() - 1);
+        solve(i + 1, nums, path, ans);
+    }
+    public List<List<Integer>> subsets(int[] nums) 
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        solve(0, nums, path, ans);
+        return ans;
+    }
+}
