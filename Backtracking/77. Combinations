@@ -1,0 +1,33 @@
+// 77. Combinations
+// https://leetcode.com/problems/combinations/description/
+
+class Solution 
+{
+    private void solve(int num, int n, int k, List<List<Integer>> ans, List<Integer> path)
+    {
+        if(path.size() > k) return;
+        
+        if(num == n + 1)
+        {
+            if(path.size() == k)
+            {
+                List<Integer> temp = new ArrayList<>(path);
+                ans.add(temp);
+            }
+            return;
+        }
+
+        path.add(num);
+        solve(num + 1, n, k, ans, path);
+
+        path.remove(path.size() - 1);
+        solve(num + 1, n, k, ans, path);
+    }
+    public List<List<Integer>> combine(int n, int k) 
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        solve(1, n, k, ans, path);
+        return ans;
+    }
+}
