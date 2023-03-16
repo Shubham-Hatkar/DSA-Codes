@@ -1,0 +1,33 @@
+// 39. Combination Sum
+// https://leetcode.com/problems/combination-sum/description/
+
+class Solution 
+{
+    private void solve(int arr[], int idx, List<List<Integer>> ans, List<Integer> path, int csum, int target)
+    {
+        if(csum > target) return;
+    
+        if(idx == arr.length)
+        {
+            if(csum == target)
+            {
+                List<Integer> temp = new ArrayList<>(path);
+                ans.add(temp);
+            }
+            return;
+        }
+        // take
+        path.add(arr[idx]);
+        solve(arr, idx, ans, path, csum + arr[idx], target); 
+        // not take
+        path.remove(path.size() - 1);
+        solve(arr, idx + 1, ans, path, csum, target); 
+    }
+    public List<List<Integer>> combinationSum(int[] arr, int target) 
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        solve(arr, 0, ans, path, 0, target);
+        return ans;
+    }
+}
