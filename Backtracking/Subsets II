@@ -1,0 +1,38 @@
+// 90. Subsets II
+// https://leetcode.com/problems/subsets-ii/description/
+
+class Solution 
+{
+    private void solve(int i, int nums[], Set<List<Integer>> set, List<Integer> path)
+    {
+        if(i >= nums.length)
+        {
+            if(i == nums.length)
+            {
+                List<Integer> temp = new ArrayList<>(path);
+                Collections.sort(temp);
+                set.add(temp);
+            }
+            return;
+        }
+
+        path.add(nums[i]);
+        solve(i + 1, nums, set, path);
+        path.remove(path.size()-1);
+        solve(i + 1, nums, set, path);
+    }
+    public List<List<Integer>> subsetsWithDup(int[] nums) 
+    {
+        Set<List<Integer>> set = new HashSet<>();
+        List<Integer> path = new ArrayList<>();
+        solve(0, nums, set, path);
+
+
+        List<List<Integer>> ans = new ArrayList<>();
+        for(List<Integer> list : set)
+        {
+            ans.add(list);
+        }
+        return ans;
+    }
+}
