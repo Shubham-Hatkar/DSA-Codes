@@ -1,0 +1,42 @@
+// 40. Combination Sum II
+// https://leetcode.com/problems/combination-sum-ii/description/
+
+class Solution 
+{
+    private void solve(int idx, int arr[], int csum, int target, Set<List<Integer>> set, List<Integer> path)
+    {
+        if(csum > target) return;
+
+        if(idx >= arr.length)
+        {
+            if(csum == target)
+            {
+                List<Integer> temp = new ArrayList<>(path);
+                Collections.sort(temp);
+                set.add(temp);
+            }
+            return;
+        }
+
+        path.add(arr[idx]);
+        solve(idx + 1, arr, csum + arr[idx], target, set, path);
+
+        // Excluding duplicates -
+        while(idx < arr.length - 1 && arr[idx] == arr[idx+1]) idx++;
+
+        path.remove(path.size() - 1);
+        solve(idx + 1, arr, csum, target, set, path);
+    }
+    public List<List<Integer>> combinationSum2(int[] arr, int target) 
+    {
+        Set<List<Integer>> set = new HashSet<>();
+        List<Integer> path = new ArrayList<>();
+        solve(0, arr, 0, target, set, path);
+        List<List<Integer>> ans = new ArrayList<>();
+        for(List<Integer> list : set)
+        {
+            ans.add(list);
+        }
+        return ans;
+    }
+}
