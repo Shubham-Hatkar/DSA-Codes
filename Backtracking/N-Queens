@@ -1,0 +1,58 @@
+// 51. N-Queens
+// https://leetcode.com/problems/n-queens/
+
+class Solution 
+{
+    private int dirs[][] = {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
+    private boolean isQueenSafe(int row, int col, char board[][])
+    {
+        int n = board.length;
+        for(int radius = 0; radius < n; radius++)
+        {
+            for(int dir[] : dirs)
+            {
+                int r = row + radius * dir[0];
+                int c = col + radius * dir[1];
+
+                if(r < n && c < n && r >= 0 && c >= 0 && board[r][c] == 'Q') return false;
+            }
+        }
+        return true;
+    }
+    private void solve(int row, int n, char board[][], List<List<String>> ans)
+    {
+        if(row >= n)
+        {
+            List<String> valid = new ArrayList<>();
+            for(int i = 0; i < board.length; i++)
+            {
+                valid.add(new String(board[i]));
+            }
+            ans.add(valid);
+            return;
+        }
+
+
+        for(int col = 0; col < n; col++)
+        {
+            if(isQueenSafe(row, col, board))
+            {
+                board[row][col] = 'Q';
+                solve(row + 1, n, board, ans);
+                board[row][col] = '.';
+            }
+        }
+    }
+    public List<List<String>> solveNQueens(int n) 
+    {
+        List<List<String>> ans = new ArrayList<>();
+        char board[][] = new char[n][n];
+        for(char[] row : board)
+        {
+            Arrays.fill(row, '.');
+        }
+
+        solve(0, n, board, ans);
+        return ans;
+    }
+}
