@@ -1,0 +1,35 @@
+// 448. Find All Numbers Disappeared in an Array
+// https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/description/
+
+
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) 
+    {
+        List<Integer> ans = new ArrayList<>();
+
+        int i = 0;
+        int n = nums.length;
+        while(i < n)
+        {
+            // we are just placing num at its correct position.
+            int curr = nums[i];
+            if(curr >= 1 && curr <= n)
+            {
+                if(nums[i] != nums[curr-1])
+                {
+                    int temp = nums[i];
+                    nums[i] = nums[curr-1];
+                    nums[curr-1] = temp;
+                }
+                else i++;
+            }
+            else i++;
+        }
+
+        for(int j = 0; j < n; j++)
+        {
+            if(nums[j] != j + 1) ans.add(j + 1);
+        }
+        return ans;
+    }
+}
