@@ -1,0 +1,46 @@
+// 47. Permutations II
+// https://leetcode.com/problems/permutations-ii/description/
+
+class Solution 
+{
+
+    private void solve(int arr[], List<Integer> path, Set<List<Integer>> ans, boolean vis[])
+    {
+        if(path.size() == arr.length)
+        {
+            List<Integer> temp = new ArrayList<>(path);
+            ans.add(temp);
+            return;
+        }
+
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(vis[i] == false)
+            {
+                vis[i] = true;
+                path.add(arr[i]);
+                solve(arr, path, ans, vis);
+                vis[i] = false;
+                path.remove(path.size()-1);
+            }
+        }
+
+    }
+
+    public List<List<Integer>> permuteUnique(int[] nums) 
+    {
+        int n = nums.length;
+        boolean vis[] = new boolean[n];
+
+        Set<List<Integer>> ans = new HashSet<>();
+        List<Integer> path = new ArrayList<>();
+        solve(nums, path, ans, vis);
+
+        List<List<Integer>> res = new ArrayList<>();
+        for(List<Integer> list : ans)
+        {
+            res.add(list);
+        }
+        return res;
+    }
+}
