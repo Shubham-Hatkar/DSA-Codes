@@ -1,0 +1,25 @@
+// 2554. Maximum Number of Integers to Choose From a Range I
+// https://leetcode.com/problems/maximum-number-of-integers-to-choose-from-a-range-i/description/
+
+class Solution 
+{
+    public int maxCount(int[] banned, int n, int maxSum) 
+    {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int i = 0; i < banned.length; i++) 
+            hm.put(banned[i],1);
+
+        int count = 0;
+        int sum = 0;
+        for(int i = 1; i <= n; i++)
+        {
+            if(!hm.containsKey(i))
+            {
+                sum += i;
+                if(sum > maxSum) break;
+                else count++;
+            }
+        }
+        return count;
+    }
+}
