@@ -1,0 +1,63 @@
+// 1472. Design Browser History
+// https://leetcode.com/problems/design-browser-history/description/
+
+
+class Node 
+{
+    String val;
+    Node next;
+    Node prev;
+    Node(String val)
+    {
+        this.val = val;
+        next = prev = null;
+    }
+}
+class BrowserHistory 
+{
+    Node root;
+    public BrowserHistory(String homepage) 
+    {
+        root = new Node(homepage);
+    }
+    
+    public void visit(String url) 
+    {
+        Node nn = new Node(url);
+        root.next = nn;
+        nn.prev = root;
+        root = root.next;
+    }
+    
+    public String back(int steps) 
+    {
+        Node curr = root;
+        while(steps > 0 && curr.prev != null)
+        {
+            curr = curr.prev;
+            steps--;
+        }
+        root = curr;
+        return root.val;
+    }
+    
+    public String forward(int steps) 
+    {
+        Node curr = root;
+        while(steps > 0 && curr.next != null)
+        {
+            curr = curr.next;
+            steps--;
+        }
+        root = curr;
+        return root.val;
+    }
+}
+
+/**
+ * Your BrowserHistory object will be instantiated and called as such:
+ * BrowserHistory obj = new BrowserHistory(homepage);
+ * obj.visit(url);
+ * String param_2 = obj.back(steps);
+ * String param_3 = obj.forward(steps);
+ */
