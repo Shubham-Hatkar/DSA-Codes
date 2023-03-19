@@ -1,0 +1,39 @@
+// 79.Word Search
+// https://leetcode.com/problems/word-search/description/
+
+
+class Solution 
+{
+    private int dir[][] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    private boolean solve(int row, int col, char[][] board, String word, int idx,  boolean vis[][])
+    {
+        
+        if(idx >= word.length()) return true;
+
+        if(row < 0 || col < 0 || row >= board.length || col >= board[0].length || board[row][col] != word.charAt(idx) || vis[row][col] == true)
+         return false;;
+
+        vis[row][col] = true;
+        for(int i = 0; i < 4; i++)
+        {
+            int r = row + dir[i][0];
+            int c = col + dir[i][1];
+            if(solve(r, c, board, word, idx + 1, vis)) return true;
+        }
+        vis[row][col] = false;
+        return false;
+    }
+    public boolean exist(char[][] board, String word) 
+    {
+        char ch = word.charAt(0);
+        boolean vis[][] = new boolean[board.length][board[0].length];
+        for(int i = 0; i < board.length; i++)
+        {
+            for(int j = 0; j < board[0].length; j++)
+            {
+                if(board[i][j] == ch && solve(i, j, board, word, 0, vis)) return true;
+            }
+        }
+        return false;
+    }
+}
