@@ -1,0 +1,43 @@
+// 1926. Nearest Exit from Entrance in Maze
+// https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/description/
+
+class Solution 
+{
+    public int nearestExit(char[][] maze, int[] entrance) 
+    {
+        int dir[][] = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        int n = maze.length;
+        int m = maze[0].length;
+        boolean vis[][] = new boolean[n][m];
+        Queue<int[]> q = new LinkedList<>();
+        q.add(entrance);
+
+        vis[entrance[0]][entrance[1]] = true;
+
+        int level = 0;
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int index[] = q.remove();
+                int r = index[0];
+                int c = index[1];
+                if(level != 0 && (r == 0 || c == 0 || r == n - 1 || c == m - 1)) return level;
+                for(int j = 0; j < 4; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr >= n || nc >= m || nr < 0 || nc < 0 || maze[nr][nc] == '+' || vis[nr][nc] == true) continue;
+
+                    vis[nr][nc] = true;
+                    q.add(new int[]{nr,nc});
+                }
+            }
+            level++;
+        }
+        return -1;
+    }
+}
