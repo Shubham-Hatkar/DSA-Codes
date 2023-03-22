@@ -1,0 +1,44 @@
+// 2492. Minimum Score of a Path Between Two Cities
+// https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/description/
+
+class Solution 
+{
+    public int minScore(int n, int[][] roads) 
+    {
+        ArrayList<int[]>[] graph = new ArrayList[n+1];
+        for(int i = 0; i <= n; i++) graph[i] = new ArrayList<>();
+
+        for(int[] e : roads)
+        {
+            int u = e[0];
+            int v = e[1];
+            int wt = e[2];
+            graph[u].add(new int[]{v, wt});
+            graph[v].add(new int[]{u, wt});
+        }
+
+        boolean vis[] = new boolean[n+1];
+        Queue<Integer> q = new LinkedList<>();
+        q.add(1);
+        vis[1] = true;
+
+        int ans = Integer.MAX_VALUE;
+        while(!q.isEmpty())
+        {
+            int node = q.remove();
+
+            for(int[] nbr : graph[node])
+            {
+                int nbr_node = nbr[0];
+                int distance = nbr[1];
+                ans = Math.min(ans, distance);
+                if(vis[nbr_node] == false)
+                {
+                    vis[nbr_node] = true;
+                    q.add(nbr_node);
+                }
+            }
+        }
+        return ans;
+    }
+}
