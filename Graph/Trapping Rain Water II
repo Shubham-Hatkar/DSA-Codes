@@ -1,0 +1,53 @@
+// 407. Trapping Rain Water II
+// https://leetcode.com/problems/trapping-rain-water-ii/description/
+
+class Solution 
+{
+    public int trapRainWater(int[][] arr) 
+    {
+        int n = arr.length;
+        int m = arr[0].length;
+        boolean vis[][] = new boolean[n][m];
+        // we will store [height, row, col]
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> Integer.compare(a[0],b[0]));
+
+        // Store border elements
+        for(int i = 0; i < n; i++)
+        {
+            vis[i][0] = true;
+            vis[i][m-1] = true;
+            pq.add(new int[]{arr[i][0], i, 0});
+            pq.add(new int[]{arr[i][m-1], i, m-1});
+        }
+
+        for(int i = 0; i < m; i++)
+        {
+            vis[0][i] = true;
+            vis[n-1][i] = true;
+            pq.add(new int[]{arr[0][i], 0, i});
+            pq.add(new int[]{arr[n-1][i], n-1, i});
+        }
+
+        int ans = 0;
+        int dir[][] = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+        while(!pq.isEmpty())
+        {
+            int info[] = pq.remove();
+            int height = info[0];
+            int r = info[1];
+            int c = info[2];
+
+            for(int i = 0; i < 4; i++)
+            {
+                int nr = r + dir[i][0];
+                int nc = c + dir[i][1];
+                if(nr < 0 || nc < 0 || nr >= n || nc >= m || vis[nr][nc] == true) continue;
+                vis[nr][nc] = true;
+                int diff = Math.max(0, height - arr[nr][nc]);
+                ans += diff;
+                pq.add(new int[]{Math.max(height,arr[nr][nc]), nr, nc});
+            }
+        }
+        return ans;
+    }
+}
