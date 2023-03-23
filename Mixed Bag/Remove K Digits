@@ -1,0 +1,30 @@
+// Remove K Digits
+// https://leetcode.com/problems/remove-k-digits/description/
+
+class Solution 
+{
+    public String removeKdigits(String num, int k) 
+    {
+        if(k == num.length()) return "0";
+        Stack<Integer> st = new Stack<>();
+
+        for(int i = 0; i < num.length(); i++)
+        {
+            while(k > 0 && !st.isEmpty() && st.peek() > (num.charAt(i) - '0'))
+            {
+                st.pop();
+                k--;
+            }
+            st.push(num.charAt(i) - '0');
+        }
+        while(k > 0)
+        {
+            st.pop();
+            k--;
+        }
+        String ans = "";
+        while(!st.isEmpty()) ans = (Integer)(st.pop()) + ans;
+        while(ans.length() > 1 && ans.charAt(0) == '0') ans = ans.substring(1);
+        return ans;
+    }
+}
