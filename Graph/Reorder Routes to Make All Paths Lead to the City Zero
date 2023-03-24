@@ -1,0 +1,42 @@
+// Reorder Routes to Make All Paths Lead to the City Zero
+// https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/
+
+class Solution 
+{
+    private int count;
+    private void DFS(int src, ArrayList<Integer> graph[], boolean vis[])
+    {
+        vis[src] = true;
+        for(int nbr : graph[src])
+        {
+            if(vis[Math.abs(nbr)] == false)
+            {
+                DFS(Math.abs(nbr), graph, vis);
+                if(nbr > 0) count++;
+            }
+        }
+    }
+    public int minReorder(int n, int[][] connections) 
+    {
+        count = 0;
+
+        ArrayList<Integer> graph[] = new ArrayList[n];
+        for(int i = 0; i < n; i++) graph[i] = new ArrayList<>();
+
+        for(int e[] : connections)
+        {
+            int u = e[0];
+            int v = e[1];
+            graph[u].add(v);
+            graph[v].add(-u);
+        }
+
+        boolean vis[] = new boolean[n];
+        for(int i = 0; i < n; i++)
+        {
+            if(vis[i] == false)
+                DFS(i, graph, vis);
+        }
+        return count;
+    }
+}
