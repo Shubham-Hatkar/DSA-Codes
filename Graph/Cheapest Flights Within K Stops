@@ -1,0 +1,49 @@
+// 787. Cheapest Flights Within K Stops
+// https://leetcode.com/problems/cheapest-flights-within-k-stops/description/
+
+class Solution 
+{
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) 
+    {
+        ArrayList<int[]>[] graph = new ArrayList[n];
+        for(int i = 0; i < n; i++) graph[i] = new ArrayList<>();
+
+        for(int e[] : flights)
+        {
+            int u = e[0];
+            int v = e[1];
+            int wt = e[2];
+            graph[u].add(new int[]{v,wt});
+        }
+
+        int distance[] = new int[n];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[src] = 0;
+
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{0,src,0}); // Stops, node, distance
+
+        while(!q.isEmpty())
+        {
+            int info[] = q.remove();
+            int stops = info[0];
+            int node = info[1];
+            int dist = info[2];
+
+            if(stops > k) continue;
+
+            for(int e[] : graph[node])
+            {
+                int nbr = e[0];
+                int wt = e[1];
+                if(distance[nbr] > dist + wt && stops <= k)
+                {
+                    distance[nbr] = dist + wt;
+                    q.add(new int[]{stops + 1, nbr, distance[nbr]});
+                }
+            }
+        }
+        if(distance[dst] == Integer.MAX_VALUE) return -1;
+        return distance[dst];
+    }
+}
