@@ -1,0 +1,47 @@
+// 1631. Path With Minimum Effort
+// https://leetcode.com/problems/path-with-minimum-effort/description/
+
+class Solution 
+{
+    public int minimumEffortPath(int[][] heights) 
+    {
+        int n = heights.length;
+        int m = heights[0].length;
+
+        // Effort, row, col
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> Integer.compare(a[0], b[0]));
+        pq.add(new int[]{0,0,0});
+
+        int distance[][] = new int[n][m];
+        for(int[] row : distance)
+        {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
+        distance[0][0] = 0;
+
+        int dir[][] = {{-1,0}, {1,0}, {0,1}, {0,-1}};
+        while(!pq.isEmpty())
+        {
+            int info[] = pq.remove();
+            int effort = info[0];
+            int row = info[1];
+            int col = info[2];
+
+            if(row == n - 1 && col == m - 1) return effort;
+
+            for(int i = 0; i < 4; i++)
+            {
+                int nr = row + dir[i][0];
+                int nc = col + dir[i][1];
+                if(nr >= n || nc >= m || nr < 0 || nc < 0) continue;
+                int newEffort = Math.max(Math.abs(heights[row][col] - heights[nr][nc]), effort);
+                if(newEffort < distance[nr][nc])
+                {
+                    distance[nr][nc] = newEffort;
+                    pq.add(new int[]{newEffort, nr, nc});
+                }
+            }
+        }
+        return 0;
+    }
+}
