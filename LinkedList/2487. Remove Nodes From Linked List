@@ -1,0 +1,69 @@
+// 2487. Remove Nodes From Linked List
+// https://leetcode.com/problems/remove-nodes-from-linked-list/description/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution 
+{
+    private ListNode reverse(ListNode head)
+    {
+        ListNode prev = null;
+        ListNode curr = head;
+
+        while(curr != null)
+        {
+            ListNode nextOfCurr = curr.next;
+
+            curr.next = prev;
+
+            prev = curr;
+            curr = nextOfCurr;
+        }
+        return prev;
+    }
+    public ListNode removeNodes(ListNode head) 
+    {
+        Stack<Integer> st = new Stack<>();
+        ListNode curr = head;
+
+        while(curr != null)
+        {
+            while(st.size() > 0 && curr.val > st.peek())
+            {
+                st.pop();
+            }
+            st.push(curr.val);
+            curr = curr.next;
+        }
+
+        if(st.size() == 0) return head;
+        ListNode dummy = new ListNode(-1);
+        ListNode copyOfDummy = dummy;
+        while(st.size() > 0)
+        {
+            ListNode temp = new ListNode(st.pop());
+            dummy.next = temp;
+            dummy = dummy.next;
+        }
+        return reverse(copyOfDummy.next);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
