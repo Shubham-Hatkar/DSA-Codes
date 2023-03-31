@@ -1,0 +1,71 @@
+// 2130. Maximum Twin Sum of a Linked List
+// https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/description/
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution 
+{
+    private int getSize(ListNode head)
+    {
+        int len = 0;
+        ListNode curr = head;
+        while(curr != null)
+        {
+            curr = curr.next;
+            len++;
+        }
+        return len;
+    }
+    private ListNode getMiddle(ListNode head)
+    {
+        ListNode curr = head;
+        int size = getSize(head);
+        for(int i = 1; i < size / 2; i++)
+        {
+            curr = curr.next;
+        }
+        return curr;
+    }
+    private ListNode reverse(ListNode head)
+    {
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null)
+        {
+            ListNode nextOfCurr = curr.next;
+
+            curr.next = prev;
+            prev = curr;
+            curr = nextOfCurr;
+        }
+        return prev;
+    }
+    public int pairSum(ListNode head) 
+    {
+        ListNode middle = getMiddle(head);
+        ListNode nextOfMiddle = middle.next;
+
+        ListNode h2 = reverse(nextOfMiddle);
+        ListNode h1 = head;
+
+        int ans = 0;
+        while(h1 != null && h2 != null)
+        {
+            int sum = h1.val + h2.val;
+            ans = Math.max(ans, sum);
+
+            h1 = h1.next;
+            h2 = h2.next;
+        }
+        return ans;
+    }
+}
