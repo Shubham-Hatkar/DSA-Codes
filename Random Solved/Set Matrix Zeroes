@@ -1,0 +1,131 @@
+// 73. Set Matrix Zeroes
+// https://leetcode.com/problems/set-matrix-zeroes/description/
+
+
+************ Brute Force TC - O(N*M * N) == O(N3) ***************
+class Solution 
+{
+    public void setZeroes(int[][] matrix) 
+    {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        boolean vis[][] = new boolean[n][m];
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    for(int k = 0; k < n; k++) vis[k][j] = true;
+                    for(int k = 0; k < m; k++) vis[i][k] = true;
+                }
+            }
+        }
+
+         for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(vis[i][j] == true)
+                {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+}
+
+***************** better, TC -> O(N * M), SC -> (N+M) ****************
+class Solution 
+{
+    public void setZeroes(int[][] matrix) 
+    {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        boolean row[] = new boolean[n];
+        boolean col[] = new boolean[m];
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    row[i] = true;
+                    col[j] = true;
+                }
+            }
+        }
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(row[i] == true || col[j] == true)
+                {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+}
+
+*************** Optimal , TC -> O(N*M) , SC -> O(1)************
+class Solution 
+{
+    public void setZeroes(int[][] matrix) 
+    {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        int col0 = 1;
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    // set row
+                    matrix[i][0] = 0;
+                    // col
+                    if(j != 0)
+                        matrix[0][j] = 0;
+                    else col0 = 0;
+                }
+            }
+        }
+
+
+        for(int i = 1; i < n; i++)
+        {
+            for(int j = 1; j < m; j++)
+            {
+                if(matrix[i][j] != 0)
+                {
+                    if(matrix[0][j] == 0 || matrix[i][0] == 0)
+                        matrix[i][j] = 0;
+                }
+            }
+        }
+
+
+        if(matrix[0][0] == 0)
+        {
+            for(int i = 0; i < m; i++) matrix[0][i] = 0;
+        }
+
+        if(col0 == 0)
+        {
+            for(int i = 0; i < n; i++) matrix[i][0] = 0;
+        }
+    }
+}
+
+
+
+
+
+
