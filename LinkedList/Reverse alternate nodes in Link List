@@ -1,0 +1,56 @@
+// Reverse alternate nodes in Link List
+// https://practice.geeksforgeeks.org/problems/given-a-linked-list-reverse-alternate-nodes-and-append-at-the-end/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution
+{
+    public static Node reverse(Node head)
+    {
+        Node prev = null;
+        Node curr = head;
+        while(curr!=null)
+        {
+            Node nextOfCurr = curr.next;
+            
+            curr.next = prev;
+            
+            prev = curr;
+            curr = nextOfCurr;
+        }
+        return prev;
+    }
+    public static void rearrange(Node head)
+    {
+        Node dummy1 = new Node(-1);
+        Node dummy2 = new Node(-2);
+        Node d1 = dummy1;
+        Node d2 = dummy2;
+        int count = 0;
+        Node curr = head;
+        while(curr!=null)
+        {
+            Node nextOfCurr = curr.next;
+            curr.next = null;
+            
+            if(count%2==0)
+            {
+                d1.next = curr;
+                d1 = d1.next;
+                curr = nextOfCurr;
+            }
+            else
+            {
+                d2.next = curr;
+                d2 = d2.next;
+                curr = nextOfCurr;
+            }
+            count++;
+        }
+        Node h1 = dummy1.next;
+        Node h2 = dummy2.next;
+        h2 = reverse(h2);
+        d1.next = h2;
+        head = h1;
+        
+    }
+}
+
