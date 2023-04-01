@@ -1,0 +1,75 @@
+// 148. Sort List
+// https://leetcode.com/problems/sort-list/description/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution 
+{
+    //function for merge two LL
+    public ListNode mergesort(ListNode l1, ListNode l2)
+    {
+        //create a dummy node for storing ans LL
+        ListNode dummy = new ListNode(-1); 
+        ListNode copyOfDummy = dummy; // save the copy of dummy for future ref
+
+        ListNode h1 = l1;
+        ListNode h2 = l2;
+        while(h1!=null && h2!=null)
+        {
+            if(h1.val<h2.val)
+            {
+                dummy.next = h1;
+                h1 = h1.next;
+            }
+            else
+            {
+                dummy.next = h2;
+                h2 = h2.next;
+            }
+            dummy = dummy.next;
+        }
+        //if any LL is over then connect the link with remaining LL
+        dummy.next = h1!=null ? h1 : h2;
+
+        return copyOfDummy.next;
+    }
+    //function -> getMid
+    public ListNode getMid(ListNode head)
+    {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast.next!=null && fast.next.next!=null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+    public ListNode sortList(ListNode head)
+    {
+        //base case
+        //if there is no elements or there is only one element then it is sorted
+        if(head==null || head.next==null)
+        {
+            return head;
+        }
+        ListNode mid = getMid(head);
+        ListNode nextOfMid = mid.next; //now this is head of 2nd LL after dividation
+        mid.next = null; //breaking connection/link.
+
+        ListNode l1 = sortList(head); //head of 1st LL after dividation
+        ListNode l2 = sortList(nextOfMid); //head of 2nd LL
+
+        return mergesort(l1,l2);
+    }
+}
