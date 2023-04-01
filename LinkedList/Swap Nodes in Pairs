@@ -1,5 +1,5 @@
 // 24. Swap Nodes in Pairs
-// https://leetcode.com/problems/reverse-nodes-in-k-group/
+// https://leetcode.com/problems/swap-nodes-in-pairs/description/
 
 /**
  * Definition for singly-linked list.
@@ -13,29 +13,27 @@
  */
 class Solution 
 {
-    public ListNode reverseKGroup(ListNode head, int k) 
+    public ListNode swapPairs(ListNode head) 
     {
-        if(head == null || k == 0 || k == 1) return head;
-
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
-
-        ListNode curr = dummy;
         ListNode prev = dummy;
+        ListNode curr = dummy;
         ListNode nxt = dummy;
 
-        int count = 0;
-        while(curr.next != null)
+        int len = 0;
+        ListNode ptr = head;
+        while(ptr != null)
         {
-            curr = curr.next;
-            count++;
+            len++;
+            ptr = ptr.next;
         }
 
-        while(count >= k)
+        while(len >= 2)
         {
             curr = prev.next;
             nxt = curr.next;
-            for(int i = 1; i < k; i++)
+            for(int i = 1; i < 2; i++)
             {
                 curr.next = nxt.next;
                 nxt.next = prev.next;
@@ -43,13 +41,11 @@ class Solution
                 nxt = curr.next;
             }
             prev = curr;
-            count -= k;
+            len -= 2;
         }
         return dummy.next;
     }
 }
-
-
 
 
 
