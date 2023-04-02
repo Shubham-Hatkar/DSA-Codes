@@ -1,0 +1,32 @@
+// 826. Most Profit Assigning Work
+// https://leetcode.com/problems/most-profit-assigning-work/description/
+
+class Solution 
+{
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) 
+    {
+        ArrayList<int[]> list = new ArrayList<>();
+        for(int i = 0; i < profit.length; i++)
+        {
+            list.add(new int[]{difficulty[i], profit[i]});
+        }
+
+        Collections.sort(list, (a,b) -> Integer.compare(a[0],b[0]));
+        Arrays.sort(worker);
+
+        int total = 0;
+        for(int i = 0; i < worker.length; i++)
+        {
+            int currVal = worker[i];
+            int j = 0;
+            int ans = 0;
+            while(j < list.size() && currVal >= list.get(j)[0])
+            {
+                ans = Math.max(ans, list.get(j)[1]);
+                j++;
+            }
+            total += ans;
+        }
+        return total;
+    }
+}
