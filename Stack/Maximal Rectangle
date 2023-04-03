@@ -1,0 +1,75 @@
+// Maximal Rectangle
+// https://leetcode.com/problems/maximal-rectangle/description/
+
+class Solution 
+{
+     private int[] NextSmallerOnRight(int arr[])
+    {
+        int n = arr.length;
+        int ans[] = new int[n];
+        Stack<Integer> st = new Stack<>();
+
+        for(int i = 0; i < n; i++)
+        {
+            while(st.size() > 0 && arr[i] < arr[st.peek()])
+            {
+                ans[st.pop()] = i;
+            }
+            st.push(i);
+        }
+        while(st.size() > 0) ans[st.pop()] = n;
+        return ans;
+    }
+    private int[] NextSmallerOnLeft(int arr[])
+    {
+        int n = arr.length;
+        int ans[] = new int[n];
+        Stack<Integer> st = new Stack<>();
+
+        for(int i = n - 1; i >= 0; i--)
+        {
+            while(st.size() > 0 && arr[i] < arr[st.peek()])
+            {
+                ans[st.pop()] = i;
+            }
+            st.push(i);
+        }
+        while(st.size() > 0) ans[st.pop()] = -1;
+        return ans;
+    }
+    public int largestRectangleArea(int[] heights) 
+    {
+        int NSEL[] = NextSmallerOnLeft(heights);
+        for(int a  : NSEL) System.out.print(a);
+        int NSER[] = NextSmallerOnRight(heights);
+        for(int a  : NSER) System.out.print(a);
+
+        int max = 0;
+        for(int  i = 0; i < heights.length; i++)
+        {
+            int base = (NSER[i] - NSEL[i]) - 1;
+            int area = base * heights[i];
+            max = Math.max(max,area);
+        }
+        return max;
+    }
+    public int maximalRectangle(char[][] matrix) 
+    {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        int arr[] = new int[m];
+        int ans = 0;
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(matrix[i][j] == '1') arr[j] += 1;
+                else arr[j] = 0;
+            }
+            int curr = largestRectangleArea(arr);
+            ans = Math.max(ans, curr);
+        }
+        return ans;
+    }
+}
