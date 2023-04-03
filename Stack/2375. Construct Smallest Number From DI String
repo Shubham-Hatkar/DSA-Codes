@@ -1,0 +1,32 @@
+// 2375. Construct Smallest Number From DI String
+// https://leetcode.com/problems/construct-smallest-number-from-di-string/description/
+
+class Solution 
+{
+    public String smallestNumber(String pattern) 
+    {
+        int n = pattern.length();
+        Stack<Integer> st = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        int curr = 1;
+        for(int i = 0; i < n; i++)
+        {
+            char ch = pattern.charAt(i);
+
+            if(ch == 'D')
+            {
+                st.push(curr);
+                curr++;
+            }
+            else
+            {
+                sb.append(curr);
+                curr++;
+                while(st.size() > 0) sb.append(st.pop());
+            }
+        }
+        sb.append(curr);
+        while(st.size() > 0) sb.append(st.pop());
+        return sb.toString();
+    }
+}
