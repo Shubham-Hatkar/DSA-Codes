@@ -1,0 +1,45 @@
+// 2439.Minimize Maximum of Array
+// https://leetcode.com/problems/minimize-maximum-of-array/description/
+
+class Solution 
+{
+    private int FindMax(int arr[])
+    {
+        int n = arr.length;
+        int max = 0;
+        for(int nbr : arr)
+        {
+            max = Math.max(max, nbr);
+        }
+        return max;
+    }
+    private boolean isPossible(int mid, int nums[])
+    {
+        long sum = 0;
+        for(int i = 0; i < nums.length; i++)
+        {
+            sum += nums[i];
+            if(sum > (long) mid * (i + 1)) return false;
+        }
+        return true;
+    }
+    public int minimizeArrayValue(int[] nums) 
+    {
+        int n = nums.length;
+
+        int start = 0;
+        int end = FindMax(nums);
+        int ans = 0;
+        while(start <= end)
+        {
+            int mid = start + ((end - start) / 2);
+            if(isPossible(mid, nums))
+            {
+                ans = mid;
+                end = mid - 1;
+            }
+            else start = mid + 1;
+        }
+        return ans;
+    }
+}
