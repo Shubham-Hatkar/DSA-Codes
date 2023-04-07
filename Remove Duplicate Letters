@@ -1,0 +1,44 @@
+316. Remove Duplicate Letters
+https://leetcode.com/problems/remove-duplicate-letters/description/
+
+
+class Solution 
+{
+    public String removeDuplicateLetters(String s) 
+    {
+        HashMap<Character,Integer> freq = new HashMap<>();
+        HashMap<Character,Integer> isPresentInStack = new HashMap<>();
+        Stack<Character> st = new Stack<>();
+        int n = s.length();
+
+        for(int i = 0; i < n; i++)
+        {
+            char ch = s.charAt(i);
+            freq.put(ch, freq.getOrDefault(ch,0) + 1);
+        }
+
+        for(int i = 0; i < n; i++)
+        {
+            char ch = s.charAt(i);
+
+            if(isPresentInStack.containsKey(ch))
+            {
+                freq.put(ch, freq.get(ch) - 1);
+                continue;
+            }
+
+            while(st.size() > 0 && st.peek() > ch && freq.get(st.peek()) >= 1)
+            {
+                isPresentInStack.remove(st.peek());
+                st.pop();
+            }
+
+            st.push(ch);
+            isPresentInStack.put(ch,1);
+            freq.put(ch, freq.getOrDefault(ch,0) - 1);
+        }
+        StringBuilder sb = new StringBuilder();
+        while(st.size() > 0) sb.insert(0, st.pop());
+        return sb.toString();
+    }
+}
