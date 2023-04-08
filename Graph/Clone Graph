@@ -1,0 +1,63 @@
+// 133. Clone Graph
+// https://leetcode.com/problems/clone-graph/description/
+
+
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+class Solution 
+{
+    public Node cloneGraph(Node node) 
+    {
+        if(node == null) return null;
+
+        Queue<Node> q = new LinkedList<>();
+        q.add(node);
+        
+        HashMap<Node, Node> hm = new HashMap<>();
+        hm.put(node, new Node(node.val));
+
+        while(!q.isEmpty())
+        {
+            Node temp = q.remove();
+
+            for(Node nbr : temp.neighbors)
+            {
+                if(!hm.containsKey(nbr))
+                {
+                    hm.put(nbr, new Node(nbr.val));
+                    q.add(nbr);
+                }
+                hm.get(temp).neighbors.add(hm.get(nbr));
+            }
+        }
+        return hm.get(node);
+    }
+}
+
+
+
+
+
+
+
+
+
