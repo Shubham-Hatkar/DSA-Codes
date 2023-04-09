@@ -1,0 +1,40 @@
+// 1814. Count Nice Pairs in an Array
+// https://leetcode.com/problems/count-nice-pairs-in-an-array/description/
+
+class Solution 
+{
+    private int reverse(int i)
+    {
+        int res = 0;
+        while(i > 0)
+        {
+            int d = i % 10;
+            res = res * 10 + d;
+            i = i / 10;
+        }
+        return res;
+    }
+    public int countNicePairs(int[] nums) 
+    {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        int mod = (int)1e9 + 7;
+        int count = 0;
+        for(int i = 0; i < nums.length; i++)
+        {
+            int reminder = (nums[i] - reverse(nums[i])) % mod;
+            if(!hm.containsKey(reminder))
+            {
+                hm.put(reminder, 1);
+            }
+            else
+            {
+                int value = hm.get(reminder);
+                hm.put(reminder, value + 1);
+                count = (count + value) % mod;
+            }
+        }
+        return count % mod;
+    }
+}
+
+
