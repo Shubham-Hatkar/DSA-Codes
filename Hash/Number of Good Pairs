@@ -1,0 +1,19 @@
+// 1512. Number of Good Pairs
+// https://leetcode.com/problems/number-of-good-pairs/submissions/930612838/
+
+class Solution 
+{
+    public int numIdenticalPairs(int[] nums) 
+    {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int n : nums) hm.put(n, hm.getOrDefault(n, 0) + 1);
+
+        int ans = 0;
+        for(int key : hm.keySet())
+        {
+            int count = hm.get(key);
+            ans += (count * (count - 1)) / 2;
+        }
+        return ans;
+    }
+}
