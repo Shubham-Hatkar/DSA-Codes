@@ -1,0 +1,37 @@
+// 2176. Count Equal and Divisible Pairs in an Array
+// https://leetcode.com/problems/count-equal-and-divisible-pairs-in-an-array/description/
+
+class Solution 
+{
+    public int countPairs(int[] nums, int k) 
+    {
+        int n = nums.length;
+        HashMap<Integer, ArrayList<Integer>> hm = new HashMap<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(hm.containsKey(nums[i]))
+            {
+                ArrayList<Integer> old = hm.get(nums[i]);
+                old.add(i);
+                hm.put(nums[i], old);
+            }
+            else 
+            {
+                ArrayList<Integer> newlist = new ArrayList<>();
+                newlist.add(i);
+                hm.put(nums[i], newlist);
+            }
+        }
+        int count = 0;
+        for(int i = 0; i < n; i++)
+        {
+            ArrayList<Integer> list = hm.get(nums[i]);
+
+            for(int j = 0; j < list.size(); j++)
+            {
+                if(list.get(j) > i && (list.get(j) * i) % k == 0) count++; 
+            }
+        }
+        return count;
+    }
+}
