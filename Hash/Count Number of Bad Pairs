@@ -1,0 +1,29 @@
+// 2364. Count Number of Bad Pairs
+// https://leetcode.com/problems/count-number-of-bad-pairs/description/
+
+class Solution 
+{
+    public long countBadPairs(int[] nums) 
+    {
+        int n = nums.length;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int i = 0; i < n; i++)
+        {
+            int val = i - nums[i];
+            hm.put(val, hm.getOrDefault(val, 0) + 1);
+        }
+
+        long totalPairs = ((long)n * ((long)n - 1)) / 2;
+        // find out good pairs and subtract from total pairs
+        long goodPairs = 0l; 
+        for(int key : hm.keySet())
+        {
+            if(hm.get(key) > 1)
+            {
+                long count = hm.get(key);
+                goodPairs += (count * (count - 1)) / 2;
+            }
+        }
+        return totalPairs - goodPairs;
+    }
+}
