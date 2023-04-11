@@ -1,0 +1,46 @@
+// 2389. Longest Subsequence With Limited Sum
+// https://leetcode.com/problems/longest-subsequence-with-limited-sum/description/
+
+class Solution
+{
+    private int BS(int arr[], int bound)
+    {
+        int n = arr.length;
+        int ans = -1;
+        int start = 0;
+        int end = n - 1;
+
+        while(start <= end)
+        {
+            int mid = (start + end) / 2;
+            if(arr[mid] == bound) return mid;
+            if(arr[mid] < bound)
+            {
+                ans = mid;
+                start = mid + 1;
+            }
+            else end = mid - 1;
+        }
+        return ans;
+    }
+    public int[] answerQueries(int[] nums, int[] queries) 
+    {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int prefix[] = new int[n];
+        prefix[0] = nums[0];
+        for(int i = 1; i < n; i++)
+        {
+            prefix[i] = prefix[i-1] + nums[i];
+        }
+
+        int ans[] = new int[queries.length];
+        for(int i = 0; i < queries.length; i++)
+        {
+            int maxSubsequence = BS(prefix, queries[i]);
+            if(maxSubsequence != -1)
+            ans[i] = maxSubsequence + 1;
+        } 
+        return ans;                 
+    }
+}
