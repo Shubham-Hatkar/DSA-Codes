@@ -1,0 +1,20 @@
+// Nearest Perfect Square
+// https://practice.geeksforgeeks.org/problems/are-you-perfect4926/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+class Solution 
+{
+    int[] nearestPerfectSquare(int N) 
+    {
+        int ans[] = new int[2];
+        
+        int num = (int) Math.sqrt(N);
+        if(num * num == N) return new int[]{N, 0};
+        
+        int lessThanN = num * num;
+        int greaterThanN = (num+1) * (num+1);
+        
+        if(Math.abs(lessThanN - N) < Math.abs(greaterThanN - N)) 
+        return new int[]{lessThanN, Math.abs(lessThanN - N)};
+        return new int[]{greaterThanN, Math.abs(greaterThanN - N)};
+    }
+}
