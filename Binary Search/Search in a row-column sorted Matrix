@@ -1,0 +1,30 @@
+// Search in a row-column sorted Matrix
+// https://practice.geeksforgeeks.org/problems/search-in-a-matrix-1587115621/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+
+class Solution 
+{ 
+    //Function to search a given number in row-column sorted matrix.
+	static boolean search(int matrix[][], int n, int m, int x) 
+	{  
+	    int r = matrix.length;
+	    int c = matrix[0].length;
+	    
+	    int row = -1;
+	    while(++row < r)
+	    {
+	        if(matrix[row][c-1] < x) continue;
+	        if(matrix[row][0] > x) return false;
+	        int start = 0;
+	        int end = c - 1;
+	        while(start <= end)
+	        {
+	            int mid = (start + end) / 2;
+	            if(matrix[row][mid] == x) return true;
+	            if(matrix[row][mid] < x) start = mid + 1;
+	            else end = mid - 1;
+	        }
+	    }
+	    return false;
+	} 
+} 
