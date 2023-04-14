@@ -1,0 +1,79 @@
+// 2326. Spiral Matrix IV
+// https://leetcode.com/problems/spiral-matrix-iv/description/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution 
+{
+    public int[][] spiralMatrix(int m, int n, ListNode head) 
+    {
+        int ans[][] = new int[m][n];
+        ListNode curr = head;
+        int rowStart = 0;
+		int rowEnd = m - 1;
+		int colStart = 0;
+		int colEnd = n - 1;
+
+		while(rowStart <= rowEnd && colStart <= colEnd)
+        {
+            for(int i = colStart; i <= colEnd; i++)
+            {
+                if(curr != null)
+                {
+                    ans[rowStart][i] = curr.val;
+                    curr = curr.next;
+                }
+                else ans[rowStart][i] = -1;
+            }
+            rowStart++;
+
+            for(int i = rowStart; i <= rowEnd; i++)
+            {
+                if(curr != null)
+                {
+                    ans[i][colEnd] = curr.val;
+                    curr = curr.next;
+                }
+                else ans[i][colEnd] = -1;
+            }
+            colEnd--;
+
+            if(rowStart <= rowEnd) 
+            {
+               for(int i = colEnd; i >= colStart; i--)
+                {
+                    if(curr != null)
+                    {
+                        ans[rowEnd][i] = curr.val;
+                        curr = curr.next;
+                    }
+                    else ans[rowEnd][i] = -1;
+                }
+            }
+            rowEnd--;
+
+            if(colStart <= colEnd)
+            {
+                for(int i = rowEnd; i >= rowStart; i--)
+                {
+                    if(curr != null)
+                    {
+                        ans[i][colStart] = curr.val;
+                        curr = curr.next;
+                    }
+                    else ans[i][colStart] = -1;
+                }
+            }
+            colStart++;
+        }
+        return ans;
+    }
+}
