@@ -1,0 +1,44 @@
+// 350. Intersection of Two Arrays II
+// https://leetcode.com/problems/intersection-of-two-arrays-ii/description//
+
+class Solution 
+{
+    public int[] intersect(int[] nums1, int[] nums2) 
+    {
+        HashMap<Integer,Integer> hm1 = new HashMap<>();
+        for(int n : nums1)
+        {
+            hm1.put(n, hm1.getOrDefault(n, 0) + 1);
+        }
+
+        HashMap<Integer,Integer> hm2 = new HashMap<>();
+        for(int n : nums2)
+        {
+            hm2.put(n, hm2.getOrDefault(n, 0) + 1);
+        }
+
+        HashMap<Integer,Integer> freq = new HashMap<>();
+        int size = 0;
+        for(int key : hm1.keySet())
+        {
+            if(hm2.containsKey(key))
+            {
+                freq.put(key, Math.min(hm1.get(key), hm2.get(key)));
+                size += freq.get(key);
+            }
+        }
+
+        int ans[] = new int[size];
+        int i = 0;
+        for(int key : freq.keySet())
+        {
+            int k = freq.get(key);
+            while(k-- > 0)
+            {
+                ans[i] = key;
+                i++;
+            }
+        }
+        return ans;
+    }
+}
