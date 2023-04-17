@@ -1,0 +1,38 @@
+// 1302. Deepest Leaves Sum
+// https://leetcode.com/problems/deepest-leaves-sum/description/
+
+class Solution 
+{
+    int height(TreeNode root)
+    {
+        if(root == null) return 0;
+        int left = height(root.left);
+        int right = height(root.right);
+        return Math.max(left, right) + 1;
+    }
+    public int deepestLeavesSum(TreeNode root) 
+    {
+        int last = height(root);
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        int sum = 0;
+        int level = 0;
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                TreeNode temp = q.remove();
+
+                if(level == last - 1) sum += temp.val;
+
+                if(temp.left != null) q.add(temp.left);
+                if(temp.right != null) q.add(temp.right);
+            }
+            level++;
+        }
+        return sum;
+    }
+}
