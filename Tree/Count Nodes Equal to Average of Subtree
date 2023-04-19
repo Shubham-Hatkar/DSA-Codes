@@ -1,0 +1,25 @@
+// 2265. Count Nodes Equal to Average of Subtree
+// https://leetcode.com/problems/count-nodes-equal-to-average-of-subtree/description/
+
+class Solution 
+{
+    int ans;
+    private int[] solve(TreeNode root)
+    {
+        if(root == null) return new int[]{0,0}; // sum : no. of nodes (childs)
+        int left[] = solve(root.left);
+        int right[] = solve(root.right);
+        int currSum = root.val + left[0] + right[0];
+        int currChilds = 1 + left[1] + right[1];
+        if(currSum / currChilds == root.val) ans++;
+        int info[] = {currSum, currChilds};
+        return info;
+    }
+    public int averageOfSubtree(TreeNode root) 
+    {
+        ans = 0;
+        solve(root);
+        return ans;
+    }
+}
+
