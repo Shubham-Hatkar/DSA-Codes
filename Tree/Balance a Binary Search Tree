@@ -1,0 +1,41 @@
+// 1382. Balance a Binary Search Tree
+// https://leetcode.com/problems/balance-a-binary-search-tree/description/
+
+class Solution 
+{
+    private TreeNode BST(int arr[], int start, int end)
+    {
+        if(start > end) return null;
+        int mid = (start + end) / 2;
+        TreeNode nn = new TreeNode(arr[mid]);
+        nn.left = BST(arr, start, mid-1);
+        nn.right = BST(arr, mid+1, end);
+        return nn;
+    }
+    private TreeNode sortedArrayToBST(int[] nums) 
+    {
+        return BST(nums, 0, nums.length - 1);
+    }
+    private void preorder(TreeNode root, ArrayList<Integer> list)
+    {
+        if(root == null) return;
+        list.add(root.val);
+        preorder(root.left, list);
+        preorder(root.right, list);
+    }
+    public TreeNode balanceBST(TreeNode root) 
+    {
+        ArrayList<Integer> list = new ArrayList<>();
+        preorder(root, list);
+
+        int arr[] = new int[list.size()];
+        for(int i = 0; i < list.size(); i++)
+        {
+            arr[i] = list.get(i);
+        }
+
+        Arrays.sort(arr);
+
+        return sortedArrayToBST(arr);
+    }
+}
