@@ -1,0 +1,31 @@
+// 771. Jewels and Stones
+// https://leetcode.com/problems/jewels-and-stones/description/
+
+class Solution 
+{
+    public int numJewelsInStones(String jewels, String stones) 
+    {
+        int n = jewels.length();
+        int m = stones.length();
+        HashMap<Character, Integer> hm1 = new HashMap<>();
+        for(int i = 0; i < n; i++)
+        {
+            char ch = jewels.charAt(i);
+            hm1.put(ch, hm1.getOrDefault(ch, 0) + 1);
+        }   
+
+        HashMap<Character, Integer> hm2 = new HashMap<>();
+        for(int i = 0; i < m; i++)
+        {
+            char ch = stones.charAt(i);
+            hm2.put(ch, hm2.getOrDefault(ch, 0) + 1);
+        }  
+
+        int count = 0;
+        for(char key : hm1.keySet())
+        {
+            if(hm2.containsKey(key)) count += hm2.get(key);
+        } 
+        return count;
+    }
+}
