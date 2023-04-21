@@ -1,0 +1,45 @@
+// Merge Similar Items
+// https://leetcode.com/problems/merge-similar-items/description/
+
+class Solution {
+    public List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) 
+    {
+        List<List<Integer>> ans = new ArrayList<>();
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int row[] : items2)
+        {
+            hm.put(row[0], row[1]);
+        }
+
+        for(int row[] : items1)
+        {
+            if(hm.containsKey(row[0]))
+            {
+                List<Integer> list = new ArrayList<>();
+                list.add(row[0]);
+                list.add(hm.get(row[0]) + row[1]);
+                ans.add(list);
+                hm.remove(row[0]);
+            }
+            else 
+            {
+                List<Integer> list = new ArrayList<>();
+                list.add(row[0]);
+                list.add(row[1]);
+                ans.add(list);
+            }
+        }
+        if(hm.size() > 0)
+        {
+            for(int key : hm.keySet())
+            {
+                List<Integer> list = new ArrayList<>();
+                list.add(key);
+                list.add(hm.get(key));
+                ans.add(list);
+            }
+        }
+        Collections.sort(ans, (a,b) -> Integer.compare(a.get(0), b.get(0)));
+        return ans;
+    }
+}
