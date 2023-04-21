@@ -1,0 +1,31 @@
+// 1684. Count the Number of Consistent Strings
+// https://leetcode.com/problems/count-the-number-of-consistent-strings/description/
+
+class Solution 
+{
+    public int countConsistentStrings(String allowed, String[] words) 
+    {
+        HashSet<Character> set = new HashSet<>();
+        int n = allowed.length();
+
+        for(int i = 0; i < n; i++)
+        {
+            set.add(allowed.charAt(i));
+        }
+        int count = 0; 
+        for(String w : words)
+        {
+            boolean found = false;
+            for(int i = 0; i < w.length(); i++)
+            {
+                if(!set.contains(w.charAt(i))) 
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if(found == false) count++;
+        }
+        return count;
+    }
+}
