@@ -1,0 +1,35 @@
+// 2351. First Letter to Appear Twice
+// https://leetcode.com/problems/first-letter-to-appear-twice/description/
+
+class Solution 
+{
+    public char repeatedCharacter(String s) 
+    {
+        HashMap<Character, ArrayList<Integer>> hm = new HashMap<>();
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            if(hm.containsKey(ch))
+            {
+                ArrayList<Integer> oldlist = hm.get(ch);
+                oldlist.add(i);
+                hm.put(ch, oldlist);
+            }
+            else
+            {
+                ArrayList<Integer> newlist = new ArrayList<>();
+                newlist.add(i);
+                hm.put(ch, newlist);
+            }
+        }
+
+        int ans = Integer.MAX_VALUE;
+        for(char key : hm.keySet())
+        {
+            ArrayList<Integer> list = hm.get(key);
+            if(hm.get(key).size() < 2) continue;
+            ans = Math.min(ans, hm.get(key).get(1));
+        }
+        return s.charAt(ans);
+    }
+}
