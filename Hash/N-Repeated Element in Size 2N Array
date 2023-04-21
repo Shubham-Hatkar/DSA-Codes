@@ -1,0 +1,19 @@
+// 961. N-Repeated Element in Size 2N Array
+// https://leetcode.com/problems/n-repeated-element-in-size-2n-array/description/
+
+class Solution 
+{
+    public int repeatedNTimes(int[] nums) 
+    {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int n : nums) hm.put(n, hm.getOrDefault(n, 0) + 1);
+        int len = nums.length;
+
+        int ans = 0;
+        for(int key : hm.keySet())
+        {
+            if(hm.get(key) == len / 2) return key;
+        }
+        return ans;
+    }
+}
