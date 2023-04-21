@@ -1,0 +1,36 @@
+// 2103. Rings and Rods
+// https://leetcode.com/problems/rings-and-rods/description/
+
+class Solution 
+{
+    public int countPoints(String rings) 
+    {
+        HashMap<Integer,HashSet<Character>> hm = new HashMap<>();
+        int i = 0;
+        while(i < rings.length() - 1)
+        {
+            char ch = rings.charAt(i++);
+            int num = rings.charAt(i++) - '0';
+
+            if(hm.containsKey(num))
+            {
+                HashSet<Character> oldset = hm.get(num);
+                oldset.add(ch);
+                hm.put(num, oldset);
+            }
+            else
+            {
+                HashSet<Character> newset = new HashSet<>();
+                newset.add(ch);
+                hm.put(num, newset);
+            }
+        }
+        
+        int count = 0;
+        for(int key : hm.keySet())
+        {
+            if(hm.get(key).size() > 2) count++;
+        }
+        return count;
+    }
+}
