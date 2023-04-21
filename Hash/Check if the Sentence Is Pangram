@@ -1,0 +1,23 @@
+//  1832. Check if the Sentence Is Pangram
+// https://leetcode.com/problems/check-if-the-sentence-is-pangram/description/
+
+class Solution 
+{
+    public boolean checkIfPangram(String sentence) 
+    {
+        HashSet<Character> set = new HashSet<>();
+        for(int i = 0; i < 26; i++)
+        {
+            set.add((char)('a' + i));
+        }
+
+        HashSet<Character> set2 = new HashSet<>();
+        for(int i = 0; i < sentence.length(); i++) set2.add(sentence.charAt(i));
+
+        for(char key : set)
+        {
+            if(!set2.contains(key)) return false;
+        }
+        return true;
+    }
+}
