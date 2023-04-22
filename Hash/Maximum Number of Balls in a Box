@@ -1,0 +1,31 @@
+// 1742. Maximum Number of Balls in a Box
+// https://leetcode.com/problems/maximum-number-of-balls-in-a-box/description/
+
+class Solution 
+{
+    private int sum(String s)
+    {
+        int sum = 0;
+        for(int i = 0; i < s.length(); i++)
+        {
+            sum += (s.charAt(i) - '0');
+        }
+        return sum;
+    }
+    public int countBalls(int lowLimit, int highLimit) 
+    {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int i = lowLimit; i <= highLimit; i++)
+        {
+            int sumOfDigits = sum(String.valueOf(i));
+            hm.put(sumOfDigits, hm.getOrDefault(sumOfDigits, 0) + 1);
+        }
+
+        int max = Integer.MIN_VALUE;
+        for(int key : hm.keySet())
+        {
+            max = Math.max(max, hm.get(key));
+        }
+        return max;
+    }
+}
