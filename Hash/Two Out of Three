@@ -1,0 +1,42 @@
+// 2032. Two Out of Three
+// https://leetcode.com/problems/two-out-of-three/description/
+
+class Solution 
+{
+    public List<Integer> twoOutOfThree(int[] nums1, int[] nums2, int[] nums3) 
+    {
+        Set<Integer> set = new HashSet<>();
+
+        HashSet<Integer> first = new HashSet<>();
+        for(int n : nums1) first.add(n);
+
+        HashSet<Integer> second = new HashSet<>();
+        for(int n : nums2) second.add(n);
+
+        HashSet<Integer> third = new HashSet<>();
+        for(int n : nums3) third.add(n);
+
+        
+        for(int key : first)
+        {
+            if(second.contains(key)) set.add(key);
+            else if(third.contains(key)) set.add(key);
+        }
+
+        for(int key : second)
+        {
+            if(third.contains(key)) set.add(key);
+            else if(first.contains(key)) set.add(key);
+        }
+
+        for(int key : third)
+        {
+            if(second.contains(key)) set.add(key);
+            else if(first.contains(key)) set.add(key);
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for(int key : set) ans.add(key);
+        return ans;
+    }
+}
