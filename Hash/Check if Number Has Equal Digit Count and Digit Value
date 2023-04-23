@@ -1,0 +1,23 @@
+// 2283. Check if Number Has Equal Digit Count and Digit Value
+// https://leetcode.com/problems/check-if-number-has-equal-digit-count-and-digit-value/description/
+
+class Solution 
+{
+    public boolean digitCount(String num) 
+    {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int i = 0; i < num.length(); i++)
+        {
+            int digit = (num.charAt(i) - '0');
+            hm.put(digit, hm.getOrDefault(digit, 0) + 1);
+        }
+
+       for(int i = 0; i < num.length(); i++)
+       {
+           int digit = (num.charAt(i) - '0');
+           int value = (hm.containsKey(i)) ? hm.get(i) : 0;
+           if(value != digit) return false;
+       }
+       return true;
+    }
+}
