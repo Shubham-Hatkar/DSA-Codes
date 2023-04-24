@@ -1,0 +1,25 @@
+// 2399. Check Distances Between Same Letters
+// https://leetcode.com/problems/check-distances-between-same-letters/description/
+
+class Solution 
+{
+    public boolean checkDistances(String s, int[] distance) 
+    {
+        int n = s.length();
+        HashMap<Character, Integer> hm = new HashMap<>();
+
+        for(int i = 0; i < n; i++)
+        {
+            char ch = s.charAt(i);
+            if(!hm.containsKey(ch)) hm.put(ch, i);
+
+            else
+            {
+                int prevIndex = hm.get(ch);
+                int Index = ch - 'a';
+                if(distance[Index] != i - prevIndex - 1) return false;
+            }
+        }
+        return true;
+    }
+}
