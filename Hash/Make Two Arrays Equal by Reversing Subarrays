@@ -1,0 +1,27 @@
+// 1460. Make Two Arrays Equal by Reversing Subarrays
+// https://leetcode.com/problems/make-two-arrays-equal-by-reversing-subarrays/description/
+
+class Solution 
+{
+    public boolean canBeEqual(int[] target, int[] arr) 
+    {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int num : arr)
+        {
+            hm.put(num, hm.getOrDefault(num, 0) + 1);
+        }
+
+        HashMap<Integer, Integer> hm2 = new HashMap<>();
+        for(int num : target)
+        {
+            hm2.put(num, hm2.getOrDefault(num, 0) + 1);
+        }
+
+        for(int key : hm.keySet())
+        {
+            if(hm2.get(key) == null) return false;
+            if(hm.get(key) != hm2.get(key)) return false;
+        }
+        return true;
+    }
+}
