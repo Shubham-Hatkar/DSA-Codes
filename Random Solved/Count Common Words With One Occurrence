@@ -1,0 +1,22 @@
+// 2085. Count Common Words With One Occurrence
+// https://leetcode.com/problems/count-common-words-with-one-occurrence/description/
+
+class Solution 
+{
+    public int countWords(String[] words1, String[] words2) 
+    {
+        HashMap<String, Integer> hm = new HashMap<>();
+        for(String s : words1) hm.put(s, hm.getOrDefault(s, 0) + 1);
+
+        HashMap<String, Integer> hm2 = new HashMap<>();
+        for(String s : words2) hm2.put(s, hm2.getOrDefault(s, 0) + 1);
+
+        int count = 0;
+        for(String key : hm.keySet())
+        {
+            if(hm2.containsKey(key) && hm.get(key) == 1 && hm.get(key) == hm2.get(key))
+                 count++;
+        }
+        return count;
+    }
+}
