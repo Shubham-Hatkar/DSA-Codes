@@ -1,0 +1,21 @@
+// 1046. Last Stone Weight
+// https://leetcode.com/problems/last-stone-weight/description/
+
+class Solution 
+{
+    public int lastStoneWeight(int[] stones) 
+    {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(int st : stones) pq.add(st);
+
+        while(pq.size() > 1)
+        {
+            int x = pq.remove();
+            int y = pq.remove();
+            if(x == y) continue;
+            pq.add(x-y);
+        }
+        if(pq.isEmpty()) return 0;
+        return pq.peek();
+    }
+}
