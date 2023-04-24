@@ -1,0 +1,40 @@
+// 1038. Binary Search Tree to Greater Sum Tree
+// https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/description/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution 
+{
+    int sum;
+    private int solve(TreeNode root)
+    {
+        if(root == null) return 0;
+        int right = solve(root.right);
+        sum += root.val;
+        root.val = sum;
+        int left = solve(root.left);
+        return sum;
+    }
+    public TreeNode bstToGst(TreeNode root) 
+    {
+        sum = 0;
+        solve(root);
+        return root;
+    }
+}
+
+
+
