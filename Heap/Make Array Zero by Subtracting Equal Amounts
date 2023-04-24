@@ -1,0 +1,44 @@
+// 2357. Make Array Zero by Subtracting Equal Amounts
+// https://leetcode.com/problems/make-array-zero-by-subtracting-equal-amounts/description/
+
+class Solution 
+{
+    public int minimumOperations(int[] nums) 
+    {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int n : nums)
+        {
+            // if(n > 0) pq.add(n);
+            pq.add(n);
+        }
+
+        int count = 0;
+        // while(pq.size() > 0)
+        // {
+        //     int min = pq.remove();
+        //     boolean flag = false;
+        //     PriorityQueue<Integer> second = new PriorityQueue<>();
+        //     while(pq.size() > 0)
+        //     {
+        //         flag = true;
+        //         int sub = pq.remove() - min;
+        //         if(sub > 0) second.add(sub);
+        //     }
+        //     if(flag = true) 
+        //     {
+        //         pq = second;
+        //         count++;
+        //     }
+        // }
+
+        int temp = -1;
+        for(int i = 0; i < nums.length; i++)
+        {
+            int removed = pq.remove();
+            if(removed == 0 || removed == temp) continue;
+            temp = removed;
+            count++;
+        }
+        return count;
+    }
+}
