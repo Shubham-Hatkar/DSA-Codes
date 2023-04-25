@@ -1,0 +1,40 @@
+// 1160. Find Words That Can Be Formed by Characters
+// https://leetcode.com/problems/find-words-that-can-be-formed-by-characters/description/
+
+class Solution {
+    public int countCharacters(String[] words, String chars) 
+    {
+        HashMap<Character, Integer> hm = new HashMap<>();
+        for(int i = 0; i < chars.length(); i++)
+        {
+            char ch = chars.charAt(i);
+            hm.put(ch, hm.getOrDefault(ch, 0) + 1);
+        }
+        int ans = 0;
+        for(String s : words)
+        {
+            HashMap<Character, Integer> temp = new HashMap<>();
+            for(int i = 0; i < s.length(); i++)
+            {
+                char ch = s.charAt(i);
+                temp.put(ch, temp.getOrDefault(ch, 0) + 1);
+            }
+            boolean flag = true;
+            for(char key : temp.keySet())
+            {
+                if(!hm.containsKey(key))
+                {
+                    flag = false;
+                    break;
+                }
+                if(temp.get(key) > hm.get(key))
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag == true) ans += s.length();
+        }
+        return ans;
+    }
+}
