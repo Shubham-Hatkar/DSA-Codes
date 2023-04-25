@@ -1,0 +1,33 @@
+// 2336. Smallest Number in Infinite Set
+// https://leetcode.com/problems/smallest-number-in-infinite-set/description/
+
+class SmallestInfiniteSet 
+{
+    PriorityQueue<Integer> pq;
+    int min;
+    public SmallestInfiniteSet() 
+    {
+        pq = new PriorityQueue<>();
+        min = 1;
+    }
+    
+    public int popSmallest() 
+    {
+        if(!pq.isEmpty()) return pq.remove();
+
+        min++;
+        return min - 1;
+    }
+    
+    public void addBack(int num) 
+    {
+        if(min > num && !pq.contains(num)) pq.add(num);
+    }
+}
+
+/**
+ * Your SmallestInfiniteSet object will be instantiated and called as such:
+ * SmallestInfiniteSet obj = new SmallestInfiniteSet();
+ * int param_1 = obj.popSmallest();
+ * obj.addBack(num);
+ */
