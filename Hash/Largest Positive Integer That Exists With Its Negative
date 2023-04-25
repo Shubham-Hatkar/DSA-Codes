@@ -1,0 +1,28 @@
+// 2441. Largest Positive Integer That Exists With Its Negative
+// https://leetcode.com/problems/largest-positive-integer-that-exists-with-its-negative/description/
+
+class Solution 
+{
+    public int findMaxK(int[] nums) 
+    {
+        HashSet<Integer> set = new HashSet<>();
+        for(int n : nums) 
+        {
+            if(n < 0 && !set.contains(n)) set.add(n);
+        }
+        int max = Integer.MIN_VALUE;
+        int ans = -1;
+        for(int i = 0; i < nums.length; i++)
+        {
+            if(nums[i] > 0 && nums[i] > max)
+            {
+                if(set.contains(-nums[i])) 
+                {
+                    ans = nums[i];
+                    max = nums[i];
+                }
+            }
+        }
+        return ans;
+    }
+}
