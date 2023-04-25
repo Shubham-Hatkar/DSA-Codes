@@ -1,0 +1,84 @@
+// 500. Keyboard Row
+// https://leetcode.com/problems/keyboard-row/description/
+
+
+class Solution 
+{
+    private void Assign(String s, HashSet<Character> set)
+    {
+        for(int i = 0; i < s.length(); i++)
+        {
+            set.add(s.charAt(i));
+        }
+    }
+    private boolean isPossible(String s, HashSet<Character> row1,
+    HashSet<Character> row2, HashSet<Character> row3)
+    {
+        int n = s.length();
+        boolean flag = true;
+        for(int i = 0; i < n; i++)
+        {
+            char ch = Character.toLowerCase(s.charAt(i));
+            if(!row1.contains(ch))
+            {
+                flag = false;
+                break;
+            }
+        }
+        if(flag == true) return true;
+
+        flag = true;
+        for(int i = 0; i < n; i++)
+        {
+            char ch = Character.toLowerCase(s.charAt(i));
+            if(!row2.contains(ch))
+            {
+                flag = false;
+                break;
+            }
+        }
+        if(flag == true) return true;
+
+        flag = true;
+        for(int i = 0; i < n; i++)
+        {
+            char ch = Character.toLowerCase(s.charAt(i));
+            if(!row3.contains(ch))
+            {
+                flag = false;
+                break;
+            }
+        }
+        if(flag == true) return true;
+
+        return flag;
+    }
+    public String[] findWords(String[] words) 
+    {
+        HashSet<Character> row1 = new HashSet<>();
+        HashSet<Character> row2 = new HashSet<>();
+        HashSet<Character> row3 = new HashSet<>();
+
+        Assign("qwertyuiop", row1);
+        Assign("asdfghjkl", row2);
+        Assign("zxcvbnm", row3);
+
+        ArrayList<String> ans = new ArrayList<>();
+        for(int i = 0; i < words.length; i++)
+        {
+            if(isPossible(words[i], row1, row2, row3))
+            {
+                ans.add(words[i]);
+            }
+        }
+
+        String res[] = new String[ans.size()];
+        int i = 0;
+        for(String s : ans)
+        {
+            res[i] = s;
+            i++;
+        }
+        return res;
+    }
+}
