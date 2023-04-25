@@ -1,0 +1,15 @@
+// 575. Distribute Candies
+// https://leetcode.com/problems/distribute-candies/description/
+
+class Solution 
+{
+    public int distributeCandies(int[] candyType) 
+    {
+        HashSet<Integer> set = new HashSet<>();
+        for(int n : candyType) set.add(n);
+
+        int n = candyType.length;
+        int can = n / 2;
+        return Math.min(can, set.size());
+    }
+}
