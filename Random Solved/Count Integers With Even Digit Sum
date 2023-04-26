@@ -1,0 +1,29 @@
+// 2180. Count Integers With Even Digit Sum
+// https://leetcode.com/problems/count-integers-with-even-digit-sum/description/
+
+
+class Solution 
+{
+    public int countEven(int num) 
+    {
+        int sum = 0;
+        for(int i = 1; i <= num; i++)
+        {
+            if(i < 10 && i % 2 == 0)
+            {
+                sum++;
+                continue;
+            }
+            if(i < 10) continue;
+            int currSum = 0;
+            int temp = i;
+            while(temp > 0)
+            {
+                currSum += (temp % 10);
+                temp = temp / 10;
+            }
+            if(currSum % 2 == 0) sum++;
+        }
+        return sum;
+    }
+}
