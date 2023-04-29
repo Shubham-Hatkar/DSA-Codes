@@ -1,0 +1,23 @@
+// 409. Longest Palindrome
+// https://leetcode.com/problems/longest-palindrome/description/
+
+class Solution 
+{
+    public int longestPalindrome(String s) 
+    {
+        HashMap<Character, Integer> hm = new HashMap<>();
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            hm.put(ch, hm.getOrDefault(ch, 0) + 1);
+        }
+
+        int odd = 0;
+        for(char key : hm.keySet())
+        {
+            if(hm.get(key) % 2 == 1) odd++;
+        }
+        if(odd > 1) return (s.length() - odd + 1);
+        return s.length();
+    }
+}
