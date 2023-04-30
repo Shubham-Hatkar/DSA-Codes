@@ -1,0 +1,20 @@
+// 1796. Second Largest Digit in a String
+// https://leetcode.com/problems/second-largest-digit-in-a-string/description/
+
+class Solution 
+{
+    public int secondHighest(String s) 
+    {
+        HashSet<Integer> set = new HashSet<>();  
+        for(int i = 0; i < s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            if(ch >= '0' && ch <= '9') set.add(ch - '0');
+        }
+        if(set.size() == 1 || set.size() == 0) return -1;
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int k : set) list.add(k);
+        Collections.sort(list);
+        return list.get(list.size() - 2);
+    }
+}
