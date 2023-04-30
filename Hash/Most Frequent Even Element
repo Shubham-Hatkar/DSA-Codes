@@ -1,0 +1,30 @@
+// 2404. Most Frequent Even Element
+// https://leetcode.com/problems/most-frequent-even-element/description/
+
+class Solution 
+{
+    public int mostFrequentEven(int[] nums) 
+    {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int n : nums) hm.put(n, hm.getOrDefault(n, 0) + 1);
+
+        int max = Integer.MIN_VALUE;
+        int ans = -1;
+        for(int n : nums)
+        {
+            if(n % 2 == 0 && hm.containsKey(n) && hm.get(n) >= max)
+            {
+                if(hm.get(n) == max)
+                {
+                    ans = Math.min(ans, n);
+                    hm.remove(n);
+                    continue;
+                }
+                max = hm.get(n);
+                ans = n;
+                hm.remove(n);
+            }
+        }
+        return ans;
+    }
+}
