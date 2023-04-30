@@ -1,0 +1,23 @@
+//1893. Check if All the Integers in a Range Are Covered
+// https://leetcode.com/problems/check-if-all-the-integers-in-a-range-are-covered/description/
+
+class Solution 
+{
+    public boolean isCovered(int[][] ranges, int left, int right) 
+    {
+        int n = ranges.length;
+        int m = ranges[0].length;
+
+        HashSet<Integer> set = new HashSet<>();
+        for(int row[] : ranges)
+        {
+            for(int i = row[0]; i <= row[m-1]; i++) set.add(i);
+        }
+
+        for(int i = left; i <= right; i++)
+        {
+            if(!set.contains(i)) return false;
+        }
+        return true;
+    }
+}
