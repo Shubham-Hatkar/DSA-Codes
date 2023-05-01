@@ -1,0 +1,35 @@
+// 841. Keys and Rooms 
+// https://leetcode.com/problems/keys-and-rooms/description/
+
+class Solution 
+{
+    private void DFS(int src, List<List<Integer>> rooms, HashSet<Integer> keys, boolean vis[])
+    {
+        vis[src] = true;
+
+        for(int k : rooms.get(src))
+        {
+            if(!keys.contains(k))
+            {
+                keys.add(k);
+                DFS(k, rooms, keys, vis);
+            }
+        }
+    }
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) 
+    {
+        HashSet<Integer> keys = new HashSet<>();
+        keys.add(0);
+
+        int n = rooms.size();
+        boolean vis[] = new boolean[n];
+        for(int i = 0; i < n; i++)
+        {
+            if(vis[i] == false && keys.contains(i))
+            {
+                DFS(i, rooms, keys, vis);
+            }
+        }
+        return keys.size() == n;
+    }
+}
