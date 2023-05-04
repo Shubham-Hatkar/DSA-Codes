@@ -1,0 +1,22 @@
+// 905. Sort Array By Parity
+// https://leetcode.com/problems/sort-array-by-parity/description/
+
+class Solution 
+{
+    public int[] sortArrayByParity(int[] nums) 
+    {
+        ArrayList<Integer> even = new ArrayList<>();
+        ArrayList<Integer> odd = new ArrayList<>();
+        for(int n : nums)
+        {
+            if(n % 2 == 0) even.add(n);
+            else odd.add(n);
+        }
+
+        int ans[] = new int[nums.length];
+        int idx = 0;
+        for(int n : even) ans[idx++] = n;
+        for(int n : odd) ans[idx++] = n;
+        return ans;
+    }
+}
