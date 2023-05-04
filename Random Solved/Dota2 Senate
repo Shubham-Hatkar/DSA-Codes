@@ -1,0 +1,27 @@
+// 649. Dota2 Senate
+// https://leetcode.com/problems/dota2-senate/description/
+
+class Solution 
+{
+    public String predictPartyVictory(String senate) 
+    {
+        int n = senate.length();
+        Queue<Integer> qr = new LinkedList<>();
+        Queue<Integer> qd = new LinkedList<>();
+        for(int i = 0; i < n; i++)
+        {
+            char ch = senate.charAt(i);
+            if(ch == 'R') qr.add(i);
+            else qd.add(i);
+        }
+
+        while(!qr.isEmpty() && !qd.isEmpty())
+        {
+            int r_idx = qr.remove();
+            int d_idx = qd.remove();
+            if(r_idx < d_idx) qr.add(r_idx + n);
+            else qd.add(d_idx + n);
+        }
+        return (qr.size() > qd.size()) ? "Radiant" : "Dire";
+    }
+}
