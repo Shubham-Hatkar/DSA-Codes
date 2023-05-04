@@ -1,0 +1,26 @@
+// 2643. Row With Maximum Ones
+// https://leetcode.com/problems/row-with-maximum-ones/description/
+
+class Solution 
+{
+    public int[] rowAndMaximumOnes(int[][] mat) 
+    {
+        int maxIdx = 0;
+        int maxOnes = 0;
+        for(int i = 0; i < mat.length; i++)
+        {
+            int ones = 0;
+            for(int j = 0; j < mat[0].length; j++)
+            {
+                if(mat[i][j] == 1) ones++;
+            }
+
+            if(ones > maxOnes) 
+            {
+                maxOnes = ones;
+                maxIdx = i;
+            }
+        }
+        return new int[]{maxIdx, maxOnes};
+    }
+}
