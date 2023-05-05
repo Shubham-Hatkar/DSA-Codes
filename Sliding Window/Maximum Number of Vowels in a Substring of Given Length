@@ -1,0 +1,43 @@
+// 1456. Maximum Number of Vowels in a Substring of Given Length
+// https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/description/
+
+class Solution 
+{
+    public int maxVowels(String s, int k) 
+    {
+        // Store the vowels in one datastructure.
+        HashSet<Character> set = new HashSet<>();
+        set.add('a');
+        set.add('e');
+        set.add('i');
+        set.add('o');
+        set.add('u');
+
+        // simple two pointer + sliding window approach
+        int n = s.length();
+        int start = 0;
+        int end = 0;
+        int vowels = 0;
+        int ans = 0;
+
+        while(end < n)
+        {
+            // 1. Expansion
+            char ch = s.charAt(end);
+            if(set.contains(ch)) vowels++;
+            end++;
+
+            // 2.Contraction
+            while(start < end && end - start > k)
+            {
+                if(set.contains(s.charAt(start))) vowels--;
+                start++;
+            }
+            
+            // 3.Calculation
+            if(end - start == k)
+                ans = Math.max(ans, vowels);
+        }
+        return ans;
+    }
+}
