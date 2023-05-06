@@ -1,0 +1,44 @@
+// 684. Redundant Connection
+// https://leetcode.com/problems/redundant-connection/description/
+
+class Solution 
+{
+    int parent[];
+    int rank[];
+    private int find(int p)
+    {
+        if(parent[p] == p) return p;
+        return find(parent[p]);
+    } 
+    private void union(int u, int v)
+    {
+        int parentOfU = find(u);
+        int parentOfV = find(v);
+
+        if(parentOfU == parentOfV) return;
+
+        if(rank[parentOfU] > rank[parentOfV]) parent[parentOfU] = parentOfV;
+        else if(rank[parentOfU] < rank[parentOfV]) parent[parentOfV] = parentOfU;
+        else
+        {
+            parent[parentOfV] = parentOfU;
+            rank[parentOfU]++;
+        }
+    }
+    public int[] findRedundantConnection(int[][] edges) 
+    {
+        int n = edges.length;
+
+        parent = new int[n+1];
+        for(int i = 0; i <= n; i++) parent[i] = i;
+        rank = new int[n+1];
+        for(int i = 0; i <= n; i++) rank[i] = 1;
+
+        for(int e[] : edges)
+        {
+            if(find(e[0]) == find(e[1])) return e;
+            union(e[0], e[1]);
+        }
+        return new int[]{-1, -1};
+    }
+}
