@@ -1,0 +1,31 @@
+// 1337. The K Weakest Rows in a Matrix
+// https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/description/
+
+class Solution 
+{
+    public int[] kWeakestRows(int[][] mat, int k) 
+    {
+        int rows = mat.length;
+        ArrayList<int[]> list = new ArrayList<>();
+        int i = 0;
+        for(int row[] : mat)
+        {
+            int count = 0;
+            for(int s : row)
+            {
+                if(s == 1) count++;
+            }
+            list.add(new int[]{i, count});
+            i++;
+        }
+        Collections.sort(list, (a,b) -> Integer.compare(a[1], b[1]));
+
+        int ans[] = new int[k];
+        i = 0;
+        for(; i < k; i++)
+        {
+            ans[i] = list.get(i)[0];
+        }
+        return ans;
+    }
+}
