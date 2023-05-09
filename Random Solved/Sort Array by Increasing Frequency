@@ -1,0 +1,40 @@
+// 1636. Sort Array by Increasing Frequency
+// https://leetcode.com/problems/sort-array-by-increasing-frequency/description/
+
+class Solution 
+{
+    public int[] frequencySort(int[] nums) 
+    {
+        HashMap<Integer,Integer> hm  = new HashMap<>();
+        for(int n : nums)
+        {
+            hm.put(n, hm.getOrDefault(n, 0) + 1);
+        }
+
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        for(int key : hm.keySet())
+        {
+            ArrayList<Integer> temp = new ArrayList<>();
+            temp.add(key);
+            temp.add(hm.get(key));
+            list.add(temp);
+        }
+
+        Collections.sort(list, (a,b) -> (a.get(1) == b.get(1)) ? b.get(0) - a.get(0) : 
+        a.get(1) - b.get(1));
+
+        int ans[] = new int[nums.length];
+        int i = 0;
+        for(ArrayList<Integer> temp : list)
+        {
+            int val = temp.get(0);
+            int repeat = hm.get(val);
+            while(repeat-- > 0)
+            {
+                ans[i] = val;
+                i++;
+            }
+        }
+        return ans;
+    }
+}
