@@ -1,0 +1,21 @@
+// 746. Min Cost Climbing Stairs
+// https://leetcode.com/problems/min-cost-climbing-stairs/description/
+
+class Solution 
+{
+    private int solve(int i, int cost[], int dp[])
+    {
+        if(i >= cost.length) return 0;
+        if(dp[i] != -1) return dp[i];
+        int take = cost[i] + solve(i + 1, cost, dp);
+        int notTake = cost[i] + solve(i + 2, cost, dp);
+        return dp[i] = Math.min(take, notTake);
+    }
+    public int minCostClimbingStairs(int[] cost) 
+    {
+        int n = cost.length;
+        int dp[] = new int[n];
+        Arrays.fill(dp, -1);
+        return Math.min(solve(0, cost, dp), solve(1, cost, dp));
+    }
+}
