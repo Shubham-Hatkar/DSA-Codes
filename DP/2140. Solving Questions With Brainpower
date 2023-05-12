@@ -1,0 +1,21 @@
+// 2140. Solving Questions With Brainpower
+// https://leetcode.com/problems/solving-questions-with-brainpower/description/
+
+class Solution 
+{
+    private long solve(int i, int questions[][], long dp[])
+    {
+        if(i >= questions.length) return 0;
+        if(dp[i] != -1) return dp[i];
+        long first = questions[i][0] + solve(i + questions[i][1] + 1, questions, dp);
+        long second = solve(i + 1, questions, dp);
+        dp[i] = Math.max(first, second);
+        return dp[i];
+    }
+    public long mostPoints(int[][] questions) 
+    {
+        long dp[] = new long[questions.length];
+        Arrays.fill(dp, -1);
+        return solve(0, questions, dp);
+    }
+}
