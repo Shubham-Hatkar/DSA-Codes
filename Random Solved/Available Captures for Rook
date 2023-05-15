@@ -1,0 +1,74 @@
+// 999. Available Captures for Rook
+// https://leetcode.com/problems/available-captures-for-rook/description/
+
+class Solution 
+{
+    public int numRookCaptures(char[][] board) 
+    {
+        int n = board.length;
+        int m = board[0].length;
+
+        int rookRow = 0;
+        int rookCol = 0;
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(board[i][j] == 'R')
+                {
+                    rookRow = i;
+                    rookCol = j;
+                }
+            }
+        }
+
+
+        int captured = 0;
+        
+        // check at above (top)
+        for(int i = rookRow; i >= 0; i--)
+        {
+            if(board[i][rookCol] == 'p') 
+            {
+                captured++;
+                break;
+            }
+            if(board[i][rookCol] == 'B') break;
+        }
+
+        // check at bottom
+        for(int i = rookRow; i < n; i++)
+        {
+            if(board[i][rookCol] == 'p') 
+            {
+                captured++;
+                break;
+            }
+            if(board[i][rookCol] == 'B') break;
+        }
+
+        // check at right side
+        for(int i = rookCol; i >= 0; i--)
+        {
+            if(board[rookRow][i] == 'p') 
+            {
+                captured++;
+                break;
+            }
+            if(board[rookRow][i] == 'B') break;
+        }
+
+        // check at left side
+         for(int i = rookCol; i < m; i++)
+        {
+            if(board[rookRow][i] == 'p') 
+            {
+                captured++;
+                break;
+            }
+            if(board[rookRow][i] == 'B') break;
+        }
+
+        return captured;
+    }
+}
