@@ -1,0 +1,24 @@
+// 2078. Two Furthest Houses With Different Colors
+// https://leetcode.com/problems/two-furthest-houses-with-different-colors/description/
+
+class Solution 
+{
+    public int maxDistance(int[] colors) 
+    {
+        int n = colors.length;
+
+        // compare first house with last different house
+        int start = 0;
+        int end = n - 1;
+        while(colors[start] == colors[end]) start++;
+        int firstMax = end - start;
+
+        // compare last house with first different house
+        start = 0;
+        end = n - 1;
+        while(colors[start] == colors[end]) end--;
+        int secondMax = end - start;
+
+        return Math.max(firstMax, secondMax);
+    }
+}
