@@ -1,0 +1,32 @@
+// 1221. Split a String in Balanced Strings
+// https://leetcode.com/problems/split-a-string-in-balanced-strings/description/
+
+class Solution 
+{
+    public int balancedStringSplit(String s) 
+    {
+        int n = s.length();
+        int end = 0;
+
+        int countOfR = 0;
+        int countOfL = 0;
+        int balancedString = 0;
+
+        while(end < n)
+        {
+            char ch = s.charAt(end);
+            end++;
+            if(ch == 'R') countOfR++;
+            else if(ch == 'L') countOfL++;
+            if(countOfR == countOfL)
+            {
+                balancedString++;
+                countOfL = 0;
+                countOfR = 0;
+            }
+        }
+        return balancedString;
+    }
+}
+
+
