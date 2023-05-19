@@ -1,0 +1,26 @@
+// 2194. Cells in a Range on an Excel Sheet
+// https://leetcode.com/problems/cells-in-a-range-on-an-excel-sheet/description/
+
+class Solution 
+{
+    public List<String> cellsInRange(String s) 
+    {
+        List<String> ans = new ArrayList<>();
+        String arr[] = s.split(":");
+        
+        char startChar = arr[0].charAt(0);
+        char endChar = arr[1].charAt(0);
+        int startIdx = arr[0].charAt(1) - '0';
+        int endIdx = arr[1].charAt(1) - '0';
+
+   
+        for(int i = (int)(startChar); i <= (int)(endChar); i++)
+        {
+            for(int j = startIdx; j <= endIdx; j++)
+            {
+                ans.add((char)(i) + "" + j);
+            }
+        }
+        return ans;
+    }
+}
