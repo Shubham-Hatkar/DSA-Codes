@@ -1,0 +1,36 @@
+// 1678. Goal Parser Interpretation
+// Goal Parser Interpretation
+
+
+class Solution 
+{
+    public String interpret(String command) 
+    {
+        int i = 0;
+        int j = 0;
+        int n = command.length();
+        String ans = "";
+        while(i < n)
+        {
+            char ch = command.charAt(i);
+            if(ch == '(')
+            {
+                while(j < n && command.charAt(j) != ')')
+                {
+                    j++;
+                }
+                if(j - i == 1) ans += 'o';
+                else if(j - i == 3) ans += "al";
+                j++;
+                i = j;
+            }
+            else
+            {
+                ans += ch;
+                i++;
+                j++;
+            }
+        }
+        return ans;
+    }
+}
