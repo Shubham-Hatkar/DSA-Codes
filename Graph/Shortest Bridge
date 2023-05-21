@@ -1,0 +1,98 @@
+// 934. Shortest Bridge
+// https://leetcode.com/problems/shortest-bridge/description/
+
+class Solution 
+{
+    private int dir[][] = {{1,0}, {0,1}, {-1,0}, {0,-1}};
+    private void DFS(int sr, int sc, int grid[][], boolean vis[][])
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+        vis[sr][sc] = true;
+
+        for(int i = 0; i < 4; i++)
+        {
+            int nr = sr + dir[i][0];
+            int nc = sc + dir[i][1];
+
+            if(nr >= 0 && nc >= 0 && nr < n && nc < m && grid[nr][nc] == 1 && vis[nr][nc] == false)
+            {
+                DFS(nr, nc, grid, vis);
+            }
+        }
+    }
+
+    private int[] findFirstLandIndex(int grid[][])
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+        int arr[] = new int[2];
+        for(int i = 0; i < n; i++)
+        {
+            boolean flag = false;
+            for(int j = 0; j < m; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    flag = true;
+                    arr[0] = i;
+                    arr[1] = j;
+                    break;
+                }
+            }
+            if(flag == true) break;
+        }
+        return arr;
+    }
+    public int shortestBridge(int[][] grid) 
+    {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        int indexOfFirstLand[] = findFirstLandIndex(grid);
+        int firstLandRow = indexOfFirstLand[0];
+        int firstLandCol = indexOfFirstLand[1];
+
+        boolean firstLand[][] = new boolean[n][m];
+        DFS(firstLandRow, firstLandCol, grid, firstLand);
+
+        // BFS
+        Queue<int[]> q = new LinkedList<>();
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < m; j++)
+            {
+                if(firstLand[i][j] == true) 
+                    q.add(new int[]{i, j});
+            }
+        }
+
+        int vis[][] = new int[n][m];
+        int level = 0;
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            for(int i = 0; i < size; i++)
+            {
+                int temp[] = q.remove();
+                int r = temp[0];
+                int c = temp[1];
+
+                for(int j = 0; j < 4; j++)
+                {
+                    int nr = r + dir[j][0];
+                    int nc = c + dir[j][1];
+
+                    if(nr < n && nc < m && nr >= 0 && nc >= 0 && firstLand[nr][nc] == false)
+                    {
+                        firstLand[nr][nc] = true;
+                        q.add(new int[]{nr, nc});
+                        if(grid[nr][nc] == 1) return level;
+                    }
+                }
+            }
+            level++;
+        }   
+        return level;
+    }
+}
