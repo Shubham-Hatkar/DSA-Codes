@@ -1,0 +1,31 @@
+// 2269. Find the K-Beauty of a Number
+// https://leetcode.com/problems/find-the-k-beauty-of-a-number/description/
+
+class Solution 
+{
+    public int divisorSubstrings(int num, int k) 
+    {
+        String s = String.valueOf(num);
+
+        int n = s.length();
+        int start = 0;
+        int end = 0;
+        int count = 0;
+        String curr = "";
+
+        while(end < n)
+        {
+            curr += s.charAt(end);
+            end++;
+
+            while(start < end && curr.length() > k)
+            {
+                curr = curr.substring(1);
+                start++;
+            }
+            int currValue = Integer.valueOf(curr);
+            if(currValue != 0 && curr.length() == k && num % currValue == 0) count++;
+        }
+        return count;
+    }
+}
