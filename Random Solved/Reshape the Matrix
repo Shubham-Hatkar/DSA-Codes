@@ -1,0 +1,25 @@
+// 566. Reshape the Matrix
+// https://leetcode.com/problems/reshape-the-matrix/description/
+
+class Solution 
+{
+    public int[][] matrixReshape(int[][] mat, int r, int c) 
+    {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        if(r * c != n * m) return mat;
+
+        int idx = 0;
+        int ans[][] = new int[r][c];
+        for(int i = 0; i < r; i++)
+        {
+            for(int j = 0; j < c; j++)
+            {
+                ans[i][j] = mat[idx/m][idx%m];
+                idx++;
+            }
+        }
+        return ans;
+    }
+}
