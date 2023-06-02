@@ -1,0 +1,46 @@
+// 997. Find the Town Judge
+// https://leetcode.com/problems/find-the-town-judge/description/
+
+class Solution 
+{
+    public int findJudge(int n, int[][] trust) 
+    {
+        HashMap<Integer, HashSet<Integer>> hm = new HashMap<>();
+        for(int row[] : trust)
+        {
+            if(hm.containsKey(row[0]))
+            {
+                HashSet<Integer> set = hm.get(row[0]);
+                set.add(row[1]);
+                hm.put(row[0], set);
+            }
+            else
+            {
+                HashSet<Integer> set = new HashSet<>();
+                set.add(row[1]);
+                hm.put(row[0], set);
+            }
+        }
+
+        int townJudge = -1;
+        for(int i = 0; i < n; i++)
+        {
+            if(!hm.containsKey(i + 1)) 
+            {
+                townJudge = i + 1;
+                break;
+            }
+        }
+
+        if(townJudge == -1) return -1;
+
+        int count = 0;
+        for(int i = 0; i < n; i++)
+        {
+            if(i + 1 != townJudge && hm.containsKey(i + 1) && hm.get(i + 1).contains(townJudge))
+             count++;
+        }
+        if(count == n - 1) return townJudge;
+        return -1;
+    }
+}
