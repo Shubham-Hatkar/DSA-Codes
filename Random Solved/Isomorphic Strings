@@ -1,0 +1,22 @@
+// 205. Isomorphic Strings
+// https://leetcode.com/problems/isomorphic-strings/description/
+
+class Solution 
+{
+    public boolean isIsomorphic(String s, String t) 
+    {
+        if(s.length() != t.length()) return false;
+
+        HashMap<Character, Character> hm = new HashMap<>();
+        HashSet<Character> set = new HashSet<>();
+        for(int i = 0; i < s.length(); i++)
+        {
+            if(!hm.containsKey(s.charAt(i))) 
+                hm.put(s.charAt(i), t.charAt(i));
+            else if(hm.get(s.charAt(i)) != t.charAt(i)) return false;
+            set.add(t.charAt(i));
+        }
+        if(hm.size() != set.size()) return false;
+        return true;
+    }
+}
