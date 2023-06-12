@@ -1,0 +1,24 @@
+// 228. Summary Ranges
+// https://leetcode.com/problems/summary-ranges/description/
+
+class Solution 
+{
+    public List<String> summaryRanges(int[] nums) 
+    {
+        List<String> ans = new ArrayList<>();
+        int start = 0;
+        int end = 0;
+        int n = nums.length;
+
+        while(start < n)
+        {
+            while(end + 1 < n && nums[end] + 1 == nums[end + 1]) end++;
+            if(nums[start] != nums[end])
+            ans.add(nums[start] + "->" + nums[end]);
+            else ans.add(nums[end] + "");
+            end++;
+            start = end;
+        }
+        return ans;
+    }
+}
