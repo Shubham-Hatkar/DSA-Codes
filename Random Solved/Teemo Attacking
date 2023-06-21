@@ -1,0 +1,15 @@
+// 495. Teemo Attacking
+// https://leetcode.com/problems/teemo-attacking/description/
+
+class Solution 
+{
+    public int findPoisonedDuration(int[] timeSeries, int duration) 
+    {
+        int poisonedDuration = duration;
+        for(int i = 1; i < timeSeries.length; i++)
+        {
+            poisonedDuration += Math.min(duration, timeSeries[i] - timeSeries[i-1]);
+        }
+        return poisonedDuration;
+    }
+}
