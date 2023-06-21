@@ -1,0 +1,22 @@
+// 2335. Minimum Amount of Time to Fill Cups
+// https://leetcode.com/problems/minimum-amount-of-time-to-fill-cups/description/
+
+class Solution 
+{
+    public int fillCups(int[] amount) 
+    {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(int num : amount) pq.add(num);
+
+        int totalSeconds = 0;   
+        while(pq.peek() > 0)
+        {
+            int first = pq.remove();
+            int second = pq.remove();
+            pq.add(first - 1);
+            pq.add(second - 1);
+            totalSeconds++;
+        }
+        return totalSeconds;
+    }
+}
