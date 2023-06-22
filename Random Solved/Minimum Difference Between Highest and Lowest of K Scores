@@ -1,0 +1,22 @@
+// 1984. Minimum Difference Between Highest and Lowest of K Scores
+// https://leetcode.com/problems/minimum-difference-between-highest-and-lowest-of-k-scores/description/
+
+class Solution 
+{
+    public int minimumDifference(int[] nums, int k) 
+    {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int start = 0;
+        int end = 0;
+        int min = Integer.MAX_VALUE;
+        k = k - 1;
+        while(end < n - k)
+        {
+            int curr = nums[end + k] - nums[end];
+            min = Math.min(min, curr);
+            end++;
+        }
+        return min;
+    }
+}
