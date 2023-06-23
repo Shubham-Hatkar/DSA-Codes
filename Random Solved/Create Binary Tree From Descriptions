@@ -1,0 +1,69 @@
+// 2196. Create Binary Tree From Descriptions
+// https://leetcode.com/problems/find-players-with-zero-or-one-losses/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution 
+{
+    public TreeNode createBinaryTree(int[][] descriptions) 
+    {
+        HashMap<Integer, TreeNode> parent = new HashMap<>();
+        HashSet<Integer> set = new HashSet<>();
+        for(int val[] : descriptions)
+        {
+            int p = val[0];
+            int child = val[1];
+            int isLeftChild = val[2];
+
+            TreeNode parentNode = null;
+            TreeNode childNode = null;
+
+            // parent node
+            if(parent.containsKey(p)) parentNode = parent.get(p);
+            else parentNode = new TreeNode(p);
+
+            // child node
+            if(parent.containsKey(child)) childNode = parent.get(child);
+            else childNode = new TreeNode(child);
+
+            // left or right
+            if(isLeftChild == 1) parentNode.left = childNode;
+            else parentNode.right = childNode;
+
+            parent.put(p, parentNode);
+            parent.put(child, childNode);
+            set.add(child);
+        }
+
+        TreeNode root = null;
+        for(int val[] : descriptions)
+        {
+            if(set.contains(val[0]) == false)
+            {
+                root = parent.get(val[0]);
+                break;
+            }
+        }
+        return root;
+    }
+}
+
+
+
+
+
+
+
