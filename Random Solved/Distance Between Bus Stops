@@ -1,0 +1,25 @@
+// 1184. Distance Between Bus Stops
+// https://leetcode.com/problems/distance-between-bus-stops/description/
+
+class Solution 
+{
+    public int distanceBetweenBusStops(int[] distance, int start, int destination) 
+    {
+        int n = distance.length;
+        int totalSum = 0;
+        for(int num : distance) totalSum += num;
+
+        int currSum = 0;
+        if(start < destination)
+        {
+            for(int i = start; i < destination; i++)
+                currSum += distance[i];
+        }
+        else
+        {   
+            for(int i = destination; i < start; i++)
+                currSum += distance[i];
+        }
+        return Math.min(currSum, totalSum - currSum);
+    }
+}
