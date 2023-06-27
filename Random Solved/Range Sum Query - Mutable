@@ -1,0 +1,36 @@
+// 307. Range Sum Query - Mutable
+// https://leetcode.com/problems/range-sum-query-mutable/description/
+
+class NumArray 
+{
+    int arr[];
+    int totalSum = 0;
+    public NumArray(int[] nums) 
+    {
+        this.arr = nums;
+        for(int i = 0; i < arr.length; i++)
+            totalSum += arr[i];
+    }
+    
+    public void update(int index, int val) 
+    {
+        totalSum -= arr[index];
+        totalSum += val;
+        arr[index] = val;
+    }
+    
+    public int sumRange(int left, int right) 
+    {
+        int sum = totalSum;
+        for(int i = 0; i < left; i++) sum -= arr[i];
+        for(int i = arr.length - 1; i > right; i--) sum -= arr[i];
+        return sum;
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(index,val);
+ * int param_2 = obj.sumRange(left,right);
+ */
