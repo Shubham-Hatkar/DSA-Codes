@@ -1,0 +1,42 @@
+// 498. Diagonal Traverse
+// https://leetcode.com/problems/diagonal-traverse/description/
+
+
+class Solution 
+{
+    public int[] findDiagonalOrder(int[][] mat) 
+    {
+        HashMap<Integer, List<Integer>> hm = new HashMap<>();
+        int r = mat.length;
+        int c = mat[0].length;
+        for(int i = 0; i < r; i++)
+        {
+            for(int j = 0; j < c; j++)
+            {
+                if(hm.containsKey(i + j) == false)
+                {
+                    hm.put(i + j, new ArrayList<>());
+                }
+                hm.get(i + j).add(mat[i][j]);
+            }
+        }
+
+        int idx = 0;
+        int lastElement = (r + c) - 2;
+        int ans[] = new int[r * c]; // total elements will be r * c
+
+        for(int i = 0; i <= lastElement; i++)
+        {
+            List<Integer> list = hm.get(i);
+            if(i % 2 == 0) Collections.reverse(list);
+            for(int num : list)
+            {
+                ans[idx] = num;
+                idx++;
+            }
+        }
+        return ans;
+    }
+}
+
+
