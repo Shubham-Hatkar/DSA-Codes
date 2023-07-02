@@ -1,0 +1,33 @@
+// 931. Minimum Falling Path Sum
+// https://leetcode.com/problems/minimum-falling-path-sum/description/
+
+class Solution 
+{
+    int n, m;
+    private int solve(int sr, int sc, int matrix[][], int dp[][])
+    {
+        if(sr >= n || sr < 0 || sc >= m || sc < 0) return Integer.MAX_VALUE;
+        if(sr == n - 1) return matrix[sr][sc];
+        if(dp[sr][sc] != Integer.MIN_VALUE) return dp[sr][sc];
+        
+        int a = solve(sr + 1, sc, matrix, dp);
+        int b = solve(sr + 1, sc - 1, matrix, dp);
+        int c = solve(sr + 1, sc + 1, matrix, dp);
+        dp[sr][sc] = Math.min(a, Math.min(b, c)) + matrix[sr][sc];
+        return dp[sr][sc];
+    }
+    public int minFallingPathSum(int[][] matrix) 
+    {
+        n = matrix.length;
+        m = matrix[0].length;
+        int minPath = Integer.MAX_VALUE;
+        int dp[][] = new int[n][m];
+        for(int r[] : dp) Arrays.fill(r, Integer.MIN_VALUE);
+        for(int i = 0; i < m; i++)
+        {
+            int currSum = solve(0, i, matrix, dp);
+            minPath = Math.min(minPath, currSum);
+        }
+        return minPath;
+    }
+}
