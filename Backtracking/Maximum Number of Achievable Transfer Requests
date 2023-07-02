@@ -1,0 +1,43 @@
+// 1601. Maximum Number of Achievable Transfer Requests
+// https://leetcode.com/problems/maximum-number-of-achievable-transfer-requests/description/
+
+class Solution 
+{
+    int ans;
+    private void solve(int idx, int requests[][], int indegree[], int count)
+    {
+        if(idx == requests.length)
+        {
+            if(isPossible(indegree))
+            {
+                ans = Math.max(count, ans);
+            }
+            return;
+        }
+
+        // take
+        indegree[requests[idx][0]]--;
+        indegree[requests[idx][1]]++;
+        solve(idx + 1, requests, indegree, count + 1);
+
+        // not take
+        indegree[requests[idx][0]]++;
+        indegree[requests[idx][1]]--;
+        solve(idx + 1, requests, indegree, count);
+    }
+    private boolean isPossible(int indegree[])
+    {
+        for(int degree : indegree)
+        {
+            if(degree != 0) return false;
+        }
+        return true;
+    }
+    public int maximumRequests(int n, int[][] requests) 
+    {
+        ans = 0;
+        int indegree[] = new int[n];
+        solve(0, requests, indegree, 0);
+        return ans;
+    }
+}
