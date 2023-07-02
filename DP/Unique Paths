@@ -1,0 +1,26 @@
+// 62. Unique Paths
+// https://leetcode.com/problems/unique-paths/description/
+
+class Solution 
+{
+    private int memo(int r, int c, int dp[][])
+    {
+        if(r < 0 || c < 0) return 0;
+        if(r == 0 && c == 0) return 1;
+        if(dp[r][c] != -1) return dp[r][c];
+
+        int row = memo(r - 1, c, dp);
+        int col = memo(r, c - 1, dp);
+        dp[r][c] = row + col;
+        return dp[r][c];
+    }
+    public int uniquePaths(int m, int n) 
+    {
+        int dp[][] = new int[m][n];
+        for(int row[] : dp)
+        {
+            Arrays.fill(row, -1);
+        }
+        return memo(m - 1, n - 1, dp);
+    }
+}
