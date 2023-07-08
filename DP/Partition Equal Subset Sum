@@ -1,0 +1,30 @@
+// 416. Partition Equal Subset Sum
+// https://leetcode.com/problems/partition-equal-subset-sum/description/
+
+class Solution 
+{
+    private int solve(int idx, int k, int arr[], int dp[][])
+    {
+        if(k < 0) return 0;
+        if(k == 0) return 1;
+        if(idx <= 0) return 0;
+        if(dp[idx][k] != -1) return dp[idx][k];
+        dp[idx][k] = 0;
+        if(solve(idx - 1, k - arr[idx], arr, dp) == 1 || solve(idx - 1, k, arr, dp) == 1)
+        dp[idx][k] = 1;   
+        return dp[idx][k];
+    }
+    public boolean canPartition(int[] nums) 
+    {
+        int n = nums.length;
+        int totalSum = 0;
+        for(int num : nums) totalSum += num;
+        if(totalSum % 2 != 0) return false; // if sum is odd we cant divide into two equal parts
+
+        // if sum is even
+        int target = totalSum / 2;
+        int dp[][] = new int[n+1][target+1];
+        for(int r[] : dp) Arrays.fill(r, -1);
+        return (solve(n - 1, target, nums, dp) == 1) ? true : false;
+    }
+}
