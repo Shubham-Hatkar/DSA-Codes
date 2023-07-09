@@ -1,0 +1,43 @@
+// 506. Relative Ranks
+// https://leetcode.com/problems/relative-ranks/description/
+
+class Solution 
+{
+    public String[] findRelativeRanks(int[] score) 
+    {
+        int n = score.length;
+        HashMap<Integer, String> hm = new HashMap<>();
+        int temp[] = new int[n];
+        for(int i = 0; i < n; i++)
+        {
+            temp[i] = score[i];
+        }
+
+        Arrays.sort(temp);
+        int count = 1;
+        for(int i = n - 1; i >= 0; i--)
+        {
+            if(count == 1)
+            {
+                hm.put(temp[i], "Gold Medal");
+            }
+            else if(count == 2)
+            {
+                hm.put(temp[i], "Silver Medal");
+            }
+            else if(count == 3)
+            {
+                hm.put(temp[i], "Bronze Medal");
+            }
+            else hm.put(temp[i], String.valueOf(count));
+            count++;
+        }
+
+        String ans[] = new String[n];
+        for(int i = 0; i < n; i++)
+        {
+            ans[i] = hm.get(score[i]);
+        }
+        return ans;
+    }
+}
