@@ -1,0 +1,24 @@
+// 1218. Longest Arithmetic Subsequence of Given Difference
+// https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/description/
+
+class Solution {
+    public int longestSubsequence(int[] arr, int diff) 
+    {
+        Map<Integer, Integer> hm = new HashMap<>();
+        int ans = Integer.MIN_VALUE;
+
+        for(int num : arr)
+        {
+            if(hm.containsKey(num - diff))
+            {
+                hm.put(num, hm.get(num - diff) + 1);
+            }
+            else
+            {
+                hm.put(num, 1);
+            }
+            ans = Math.max(ans, hm.get(num));
+        }
+        return ans;
+    }
+}
