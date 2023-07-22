@@ -1,0 +1,30 @@
+// 1629. Slowest Key
+// https://leetcode.com/problems/slowest-key/description/
+
+class Solution 
+{
+    public char slowestKey(int[] releaseTimes, String keysPressed) 
+    {
+        int n = keysPressed.length();
+        char ans = keysPressed.charAt(0);
+        int max = releaseTimes[0];
+
+        for(int i = 1; i < n; i++)
+        {
+            int diff = Math.abs(releaseTimes[i] - releaseTimes[i-1]);
+
+            if(max < diff)
+            {
+                max = diff;
+                ans = keysPressed.charAt(i);
+            }
+            else if(diff == max && ans < keysPressed.charAt(i))
+            {
+                max = diff;
+                ans = keysPressed.charAt(i);
+            }
+        }
+        return ans;
+    }
+}
+
