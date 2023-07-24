@@ -1,0 +1,28 @@
+2744. Find Maximum Number of String Pairs
+https://leetcode.com/problems/minimum-time-visiting-all-points/
+
+class Solution 
+{
+    private String reverseStr(String s)
+    {
+        int n = s.length();
+        String ans = "";
+        for(int i = n - 1; i >= 0; i--)
+        {
+            ans += (s.charAt(i) + "");
+        }
+        return ans;
+    }
+    public int maximumNumberOfStringPairs(String[] words) 
+    {
+        HashMap<String, Integer> hm = new HashMap<>();
+        int count = 0;
+        for(String s : words)
+        {
+            String str = reverseStr(s);
+            if(hm.containsKey(s)) count++;
+            else hm.put(str, 1);
+        }
+        return count;
+    }
+}
