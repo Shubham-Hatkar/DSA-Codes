@@ -1,0 +1,27 @@
+2341. Maximum Number of Pairs in Array
+https://leetcode.com/problems/maximum-number-of-pairs-in-array/description/
+
+class Solution 
+{
+    public int[] numberOfPairs(int[] nums) 
+    {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int num : nums) hm.put(num, hm.getOrDefault(num, 0) + 1);
+        int countOfPair = 0;
+        int remaining = 0;
+
+        for(int key : hm.keySet())
+        {
+            if(hm.get(key) % 2 == 0) 
+            {
+                countOfPair += (hm.get(key) / 2);
+            }
+            else
+            {
+                countOfPair += ((int)(hm.get(key) / 2));
+                remaining++;
+            }
+        }
+        return new int[]{countOfPair, remaining};
+    }
+}
