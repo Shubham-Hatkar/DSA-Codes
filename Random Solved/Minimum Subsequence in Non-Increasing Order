@@ -1,0 +1,25 @@
+// 1403. Minimum Subsequence in Non-Increasing Order
+// https://leetcode.com/problems/minimum-subsequence-in-non-increasing-order/description/
+
+class Solution 
+{
+    public List<Integer> minSubsequence(int[] nums) 
+    {
+        int sum = 0;
+        for(int num : nums) sum += num;
+
+        Arrays.sort(nums);
+        List<Integer> ans = new ArrayList<>();
+        int currSum = 0;
+        int n = nums.length;
+        for(int i = n - 1; i >= 0; i--)
+        {
+            int num = nums[i];
+            sum -= num;
+            currSum += num;
+            ans.add(num);
+            if(currSum > sum) return ans;
+        }
+        return ans;
+    }
+}
