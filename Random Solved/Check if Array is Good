@@ -1,0 +1,22 @@
+2784. Check if Array is Good
+https://leetcode.com/problems/check-if-array-is-good/description/
+
+
+class Solution 
+{
+    public boolean isGood(int[] nums) 
+    {
+        int n = nums.length;
+        Arrays.sort(nums);
+        int large = nums[n-1];
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int num : nums) hm.put(num, hm.getOrDefault(num, 0) + 1);
+        if(hm.get(large) < 2) return false;
+        for(int i = 1; i < large; i++)
+        {
+            if(!hm.containsKey(i)) return false;
+        }
+        if(large + 1 < n || large + 1 > n) return false;
+        return true;
+    }
+}
