@@ -1,0 +1,43 @@
+// Divide a String Into Groups of Size k
+// https://leetcode.com/problems/divide-a-string-into-groups-of-size-k/
+
+class Solution 
+{
+    public String[] divideString(String s, int k, char fill) 
+    {
+        List<String> list = new ArrayList<>();
+        int n = s.length();
+        
+        int i = 0;
+        while(i < n)
+        {
+            if(i + k < n)
+            {
+                list.add(s.substring(i, i + k));
+                i += k;
+            }
+            else
+            {
+                String temp = "";
+                while(i < n)
+                {
+                    temp += (s.charAt(i) + "");
+                    i++;
+                }
+                while(temp.length() < k)
+                {
+                    temp += (fill + "");
+                }
+                list.add(temp);
+            }
+        }
+        String ans[] = new String[list.size()];
+        int idx = 0;
+        for(String str : list)
+        {
+            ans[idx] = str;
+            idx++;
+        }
+        return ans;
+    }
+}
