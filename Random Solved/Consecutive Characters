@@ -1,0 +1,28 @@
+// Consecutive Characters
+// https://leetcode.com/problems/consecutive-characters/description/
+
+class Solution 
+{
+    public int maxPower(String s) 
+    {
+        int n = s.length();
+        int start = 0;
+        int end = 0;
+        int max = 1;
+
+        while(end < n)
+        {
+            char ch = s.charAt(end);
+            end++;
+
+            while(end < n && s.charAt(end) == ch)
+            {
+                end++;
+            }
+
+            max = Math.max(max, end - start);
+            start = end;
+        }
+        return max;
+    }
+}
