@@ -1,0 +1,48 @@
+// Reformat Date
+// https://leetcode.com/problems/reformat-date/description/
+
+class Solution 
+{
+    public String reformatDate(String date) 
+    {
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("Jan", "01");
+        hm.put("Feb", "02");
+        hm.put("Mar", "03");
+        hm.put("Apr", "04");
+        hm.put("May", "05");
+        hm.put("Jun", "06");
+        hm.put("Jul", "07");
+        hm.put("Aug", "08");
+        hm.put("Sep", "09");
+        hm.put("Oct", "10");
+        hm.put("Nov", "11");
+        hm.put("Dec", "12");
+
+        int n = date.length();
+        String currDate = "";
+        String month = "";
+        String year = "";
+        String arr[] = date.split(" ");
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(i == 0)
+            {
+                String currStr = arr[i];
+                int j = 0;
+                while((currStr.charAt(j) >= '0' && currStr.charAt(j) <= '9'))
+                {
+                    currDate = currDate + "" + (currStr.charAt(j) + "");
+                    j++;
+                }
+                if(currDate.length() == 1) currDate = '0' + currDate;
+            }
+            else if(i == 1)
+            {
+                month = hm.get(arr[i]);
+            }
+            else year = arr[i];
+        }
+        return year + "-" + month + "-" + currDate;
+    }
+}
