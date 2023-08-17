@@ -1,0 +1,48 @@
+// Maximum Number of Balloons
+// https://leetcode.com/problems/maximum-number-of-balloons/description/
+
+class Solution 
+{
+    private boolean isSatisfied(HashMap<Character, Integer> hm)
+    {
+        if(hm.get('b') > 0 && hm.get('a') > 0 && hm.get('l') >= 2 && hm.get('o') >= 2 && hm.get('n') > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    private void minusOne(HashMap<Character, Integer> hm)
+    {
+        hm.put('b', hm.get('b') - 1);
+        hm.put('a', hm.get('a') - 1);
+        hm.put('l', hm.get('l') - 2);
+        hm.put('o', hm.get('o') - 2);
+        hm.put('n', hm.get('n') - 1);
+    }
+    public int maxNumberOfBalloons(String text) 
+    {
+        int n = text.length();
+        HashMap<Character, Integer> hm = new HashMap<>();
+        hm.put('b', 0);
+        hm.put('a', 0);
+        hm.put('l', 0);
+        hm.put('o', 0);
+        hm.put('n', 0);
+       
+        int count = 0;
+        for(int i = 0; i < n; i++)
+        {
+            char ch = text.charAt(i);
+            if(hm.containsKey(ch))
+            {
+                hm.put(ch, hm.get(ch) + 1);
+            }
+            if(isSatisfied(hm))
+            {
+                count++;
+                minusOne(hm);
+            }
+        }
+        return count;
+    }
+}
