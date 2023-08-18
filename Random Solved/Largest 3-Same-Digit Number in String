@@ -1,0 +1,27 @@
+// Largest 3-Same-Digit Number in String
+// https://leetcode.com/problems/largest-3-same-digit-number-in-string/description/
+
+class Solution 
+{
+    public String largestGoodInteger(String num) 
+    {
+        int n = num.length();
+        int start = 0;
+        int end = 0;
+        int max = -1;
+
+        while(start < n)
+        {
+            while(end < n && num.charAt(end) == num.charAt(start) && end - start < 3)
+            {
+                end++;
+            }
+            if(end - start == 3)
+                max = Math.max(max, Integer.valueOf(num.substring(start, end)));
+            start = end;
+        }
+        if(max == -1) return "";
+        if(max == 0) return "000";
+        return String.valueOf(max);
+    }
+}
